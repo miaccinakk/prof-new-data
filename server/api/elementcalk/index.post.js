@@ -14,6 +14,10 @@ export default defineEventHandler(async (event) => {
       return result;
     }
   } catch (err) {
-    console.log(err);
+    return {
+      result: [],
+      count: 0,
+      error: true,
+    };
   }
 });

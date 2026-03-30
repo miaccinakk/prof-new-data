@@ -8,6 +8,10 @@ export default defineEventHandler(async (event) => {
     const result = await FilterModel.find(obj);
     return result;
   } catch (err) {
-    console.log(err);
+    return {
+      result: [],
+      count: 0,
+      error: true,
+    };
   }
 });
