@@ -120,6 +120,9 @@ export default defineNuxtConfig({
         changeOrigin: true,
       },
     },
+    externals: {
+      external: ["formidable"],
+    },
   },
   auth: {
     baseURL: process.env.AUTH_ORIGIN,
