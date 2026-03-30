@@ -11,14 +11,9 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else {
       const result = await GroupCalkModel.find();
-      return { result, count };
+      return result;
     }
   } catch (err) {
-    console.error(err);
-    return {
-      result: [],
-      count: 0,
-      error: true,
-    };
+    console.log(err);
   }
 });

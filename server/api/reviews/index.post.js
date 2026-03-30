@@ -11,17 +11,12 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else if (data == undefined) {
       const result = await ReviewsModel.find();
-      return { result, count };
+      return result;
     } else if (data.Project) {
       const result = await ReviewsModel.find({ project: data.Project });
-      return { result, count };
+      return result;
     }
   } catch (err) {
-    console.error(err);
-    return {
-      result: [],
-      count: 0,
-      error: true,
-    };
+    console.log(err);
   }
 });
