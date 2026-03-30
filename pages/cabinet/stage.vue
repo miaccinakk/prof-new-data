@@ -30,7 +30,10 @@ const {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  body: { sortPage, pageSize },
+  body: computed(() => ({
+    sortPage: sortPage.value,
+    pageSize: pageSize.value,
+  })),
   watch: false,
 });
 const addStage = async () => {
@@ -115,12 +118,12 @@ const drawerIn = (item) => {
     form.value.img = item.img;
     imfArr.value = item.img;
   }
-  (form.value._id = item._id),
+  ((form.value._id = item._id),
     (form.value.level = item.level),
     (form.value.title = item.title),
     (form.value.icon = item.icon),
     (form.value.description = item.description),
-    (drawer.value = true);
+    (drawer.value = true));
   buttonEdit.value = false;
   fileDelte.value = [];
 };

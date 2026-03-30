@@ -27,7 +27,10 @@ const {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  body: { sortPage, pageSize },
+  body: computed(() => ({
+    sortPage: sortPage.value,
+    pageSize: pageSize.value,
+  })),
 });
 
 const addGroupcalk = async () => {
@@ -57,7 +60,7 @@ const drawerDel = async (id) => {
         "Content-Type": "application/json; charset=UTF-8",
       },
       body: dell.value,
-    }
+    },
   );
   if (responseData) {
     refresh();
@@ -67,10 +70,10 @@ const drawerIn = (item) => {
   console.log(item);
   form.value._id = item._id;
 
-  (form.value.title = item.title),
+  ((form.value.title = item.title),
     (form.value.level = item.level),
     (form.value.icon = item.icon),
-    (drawer.value = true);
+    (drawer.value = true));
   buttonEdit.value = false;
 };
 
