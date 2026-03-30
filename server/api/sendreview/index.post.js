@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
 export default defineEventHandler(async (event) => {
   try {
     console.log("Starting to parse form...");
-    const formidable = (await import("formidable")).default;
-    const form = new formidable.IncomingForm({ multiples: true });
+    const { IncomingForm } = await import("formidable");
+    const form = new IncomingForm({ multiples: true });
 
     const body = await readBody(event);
 
