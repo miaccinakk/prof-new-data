@@ -1233,7 +1233,7 @@ button {
   padding: 0px 0% 0 10%;
   overflow: visible;
   float: left;
-  width: 65%;
+  /* width: 65%; */
 }
 .system-tabs video {
   height: auto;
