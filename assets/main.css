@@ -224,7 +224,9 @@ button {
 .cat-b:hover {
   background: #142637 !important;
   color: #fff !important;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  box-shadow:
+    0 2px 5px 0 rgb(0 0 0 / 16%),
+    0 2px 10px 0 rgb(0 0 0 / 12%);
 }
 .send-form {
   border: 1px solid #999999 !important;
@@ -1244,7 +1246,8 @@ button {
   margin: 0 0 90px;
   position: relative;
   top: 70px;
-  box-shadow: rgba(0, 12, 121, 0.1) 0px 30px 80px,
+  box-shadow:
+    rgba(0, 12, 121, 0.1) 0px 30px 80px,
     rgba(0, 12, 121, 0.1) 0px 12px 24px;
 }
 .footer .f-dev {
@@ -2612,7 +2615,8 @@ button {
   }
   .system-tabs-mobail video {
     border-radius: 12px;
-    box-shadow: 0 30px 80px rgba(0, 12, 121, 0.1),
+    box-shadow:
+      0 30px 80px rgba(0, 12, 121, 0.1),
       0 12px 24px rgba(0, 12, 121, 0.1);
     height: auto;
     height: 260px;
