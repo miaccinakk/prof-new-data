@@ -11,10 +11,10 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else if (data == undefined) {
       const result = await ReviewsModel.find();
-      return result;
+      return { result, count };
     } else if (data.Project) {
       const result = await ReviewsModel.find({ project: data.Project });
-      return result;
+      return { result, count };
     }
   } catch (err) {
     console.error(err);

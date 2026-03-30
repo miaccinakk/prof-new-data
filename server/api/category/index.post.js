@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else {
       const result = await CategoryModel.find();
-      return result;
+      return { result, count };
     }
   } catch (err) {
     console.error(err);

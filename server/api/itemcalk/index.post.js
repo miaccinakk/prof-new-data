@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else {
       const result = await ItemCalkModel.find();
-      return result;
+      return { result, count };
     }
   } catch (err) {
     return {

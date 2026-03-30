@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else {
       const result = await SystemModel.find();
-      return result;
+      return { result, count };
     }
   } catch (err) {
     return {

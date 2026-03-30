@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       return { result, count };
     } else {
       const result = await StageModel.find().sort({ level: 1 });
-      return result;
+      return { result, count };
     }
   } catch (err) {
     return {
