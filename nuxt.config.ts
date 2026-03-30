@@ -68,7 +68,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt-modules/cache",
     "nuxt-icons",
-    "formidable",
+    // "formidable",
     "@nuxtjs/seo",
     "nuxt-icon",
     "@nuxt/image-edge",
