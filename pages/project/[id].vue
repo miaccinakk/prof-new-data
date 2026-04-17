@@ -119,4 +119,108 @@ useSeoMeta({
     </div>
   </div>
 </template>
-<style></style>
+<style scoped lang="scss">
+.project-block {
+  &-city {
+    margin: 0 0 $spacing-xl;
+    @include float-full;
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  &-info {
+    @include float-full;
+    padding: 0 0px 0 0px;
+  }
+
+  &-desc {
+    @include float-full;
+    margin: 0px 0 70px;
+    font-size: 16px;
+  }
+}
+
+.project-item {
+  @include float-full;
+}
+
+.project-galeery {
+  height: 420px;
+  @include float-full;
+
+  &-mini {
+    height: 222px;
+    width: 50%;
+    float: left;
+    padding: 0.75rem;
+  }
+
+  img {
+    @include img-cover;
+    border-radius: $border-radius-lg;
+    cursor: pointer;
+  }
+}
+
+.project-video {
+  @include float-full;
+  margin: 80px 0 70px;
+  height: 550px;
+  border-radius: $border-radius-xxl;
+  overflow: hidden;
+
+  :deep(.plyr--video) {
+    height: 100%;
+  }
+}
+
+.h1-project {
+  margin: $spacing-xl 0 0 0;
+}
+
+.mobail-colums-gal {
+  max-height: 444px;
+  overflow: hidden;
+  padding: 0 4px;
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .h1-project {
+    margin: $spacing-sm 0 0 0;
+    font-size: 25px;
+  }
+
+  .project-block-desc {
+    margin: 0px 0 50px;
+    font-size: 15px;
+  }
+
+  .project-video {
+    margin: $spacing-xxl 0 $spacing-xxl;
+    height: 360px;
+  }
+
+  .project-galeery {
+    height: 240px;
+    margin: 0 0 7px;
+
+    &-mini {
+      height: 150px;
+      padding: 0.35rem;
+    }
+  }
+
+  .project-block-city {
+    margin: 0 0 $spacing-md;
+    font-size: 15px;
+  }
+
+  .mobail-colums-gal {
+    margin-left: -0.35rem;
+    margin-right: -0.35rem;
+    overflow: hidden;
+    padding: 0 4px;
+  }
+}
+</style>

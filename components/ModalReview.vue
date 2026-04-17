@@ -157,3 +157,65 @@ const addFilter = async () => {
     </Teleport>
   </div>
 </template>
+
+<style scoped lang="scss">
+.modal-succes {
+  background: $color-success;
+  padding: $spacing-xxl;
+  border-radius: 18px;
+  position: fixed;
+  z-index: 99999;
+  display: block;
+  float: left;
+  top: 80px;
+  left: 0;
+  right: 0;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+
+  strong {
+    @include float-full;
+    margin: 0 0 $spacing-sm;
+    font-size: 21px;
+  }
+
+  p {
+    @include float-full;
+    font-size: 15px;
+  }
+
+  .delete {
+    float: left;
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+.field-pm {
+  padding: $spacing-xl;
+  background: $color-bg-dark;
+  border-radius: 6px;
+  margin: $spacing-md 0 $spacing-md;
+
+  > span {
+    margin: 0px 0 $spacing-lg;
+    font-size: 12px;
+    font-weight: 500;
+    display: block;
+    color: $color-white;
+  }
+}
+
+.rev-b-modal {
+  background: #dfdfdf !important;
+  border-radius: $border-radius-md !important;
+  border-color: #a4a4a4 !important;
+  border: none !important;
+  padding: $spacing-xs $spacing-md !important;
+  color: #040404 !important;
+  margin: $spacing-md 0 $spacing-xs;
+  font-size: 15px !important;
+}
+</style>

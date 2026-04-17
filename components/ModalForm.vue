@@ -122,3 +122,79 @@ const addFilter = async () => {
     </Teleport>
   </div>
 </template>
+
+<style scoped lang="scss">
+.modal-succes {
+  background: $color-success;
+  padding: $spacing-xxl;
+  border-radius: 18px;
+  position: fixed;
+  z-index: 99999;
+  display: block;
+  float: left;
+  top: 80px;
+  left: 0;
+  right: 0;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+
+  strong {
+    @include float-full;
+    margin: 0 0 $spacing-sm;
+    font-size: 21px;
+  }
+
+  p {
+    @include float-full;
+    font-size: 15px;
+  }
+
+  .delete {
+    float: left;
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+:deep(.video-gal),
+:deep(.rev-dialog),
+:deep(.modal-form) {
+  border-radius: $border-radius-xxl !important;
+  padding: $spacing-xxl !important;
+
+  .el-icon {
+    height: 3em;
+    width: 3em;
+    color: $color-text-dark !important;
+
+    svg {
+      height: 3em;
+      width: 3em;
+    }
+  }
+
+  .el-dialog__headerbtn {
+    position: absolute;
+    top: $spacing-lg;
+    right: $spacing-lg;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  :deep(.video-gal),
+  :deep(.rev-dialog),
+  :deep(.modal-form) {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0px !important;
+    padding: 60px $spacing-sm !important;
+    bottom: 0;
+    height: 100%;
+    min-height: 100%;
+    display: inline-table;
+  }
+}
+</style>

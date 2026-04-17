@@ -133,4 +133,16 @@ export default defineNuxtConfig({
     },
   },
   // devtools: { enabled: true },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @use "@/assets/scss/_variables.scss" as *;
+            @use "@/assets/scss/_mixins.scss" as *;
+          `,
+        },
+      },
+    },
+  },
 });

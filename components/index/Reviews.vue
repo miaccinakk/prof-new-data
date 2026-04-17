@@ -213,7 +213,238 @@ const sortedReviews = computed(() => {
                             </button>
                           </nuxt-link>
                         </span>
-                      </template>
+</template>
+
+<style scoped lang="scss">
+.reviews-slide {
+  margin: 0 0 80px;
+
+  :deep(.swiper-slide) {
+    position: relative;
+    padding: 0px 0px 0px 0;
+    float: left;
+    margin: 0 0 0px;
+    height: 220px;
+  }
+
+  :deep(.swiper-button-next),
+  :deep(.swiper-button-prev) {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .index-rew-block-desc p {
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.index-rew {
+  &-block {
+    @include float-full;
+
+    &-img {
+      float: left;
+      width: 200px;
+      height: 220px;
+
+      img {
+        @include img-cover;
+        border-radius: $border-radius-lg;
+        cursor: pointer;
+      }
+    }
+
+    &-desc {
+      margin: 0 0 0 230px;
+      padding: 0 $spacing-lg 0 0;
+      height: 220px;
+      @include flex-column;
+      justify-content: space-between;
+
+      > strong {
+        font-size: 17px;
+        margin: 0 0 $spacing-md;
+        @include float-full;
+      }
+
+      > div {
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .is-light.button {
+        color: #0069ff;
+
+        &:hover {
+          color: #0069ff;
+        }
+      }
+    }
+  }
+
+  &-slider-img {
+    @include float-full;
+    height: 180px;
+
+    img {
+      @include img-cover;
+      border-radius: $border-radius-xxl;
+      cursor: pointer;
+    }
+  }
+}
+
+.nav-review {
+  margin: $spacing-xxl 0 0 0;
+}
+
+.publick-review {
+  // Default styles
+}
+
+.button-rew-index {
+  margin: $spacing-sm 0 0;
+  width: 170px !important;
+  color: #636363 !important;
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  padding: 7px 0px !important;
+  border: 0px solid #999999 !important;
+  background: $color-white !important;
+  @include transition;
+}
+
+.button-rew-modal {
+  border: 1px solid #999999 !important;
+  background: $color-white !important;
+}
+
+.button-rew-index,
+.button-rew-modal {
+  &:hover {
+    background: $color-white !important;
+    color: $color-black !important;
+  }
+}
+
+.rev-b-modal {
+  background: #dfdfdf !important;
+  border-radius: $border-radius-md !important;
+  border-color: #a4a4a4 !important;
+  border: none !important;
+  padding: $spacing-xs $spacing-md !important;
+  color: #040404 !important;
+  margin: $spacing-md 0 $spacing-xs;
+  font-size: 15px !important;
+}
+
+.slider-one-navigation {
+  position: relative;
+  @include float-full;
+  margin: $spacing-lg 0 0;
+  @include flex-between;
+  align-items: flex-end;
+
+  span {
+    font-family: $font-family-accent !important;
+    font-size: 27px;
+    color: $color-text-dark;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background: none !important;
+    box-shadow: none !important;
+    height: auto !important;
+    width: auto !important;
+    @include flex-between;
+    align-items: flex-end;
+    position: relative;
+    right: 0;
+    left: 0;
+
+    &:after {
+      display: none;
+    }
+
+    :deep(svg) {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+  }
+
+  .swiper-button-next :deep(svg) {
+    transform: scale(-1, 1);
+    float: left;
+  }
+}
+
+.slider-one-svg {
+  width: 67px;
+  height: 54px;
+  position: relative;
+  top: -3px;
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .rev-b-modal {
+    margin: $spacing-md 0 0;
+    font-size: 13px !important;
+  }
+
+  .index-rew-block {
+    &-img {
+      float: left;
+      width: 150px;
+      height: 210px;
+    }
+
+    &-desc {
+      margin: 0 0 0 165px;
+      padding: 0 0px 0 0;
+      height: 210px;
+
+      > strong {
+        font-size: 15px;
+        margin: 0 0 $spacing-xs;
+      }
+
+      > div {
+        font-size: 13px;
+        height: 83px;
+        overflow: hidden;
+        display: inline-block;
+      }
+    }
+  }
+
+  .button-rew-index {
+    margin: 3px 0 0;
+    font-size: 12px !important;
+  }
+
+  .reviews-slide {
+    margin: 0 0 0px;
+
+    :deep(.swiper-slide) {
+      height: 220px;
+    }
+  }
+
+  .publick-review {
+    font-size: 13px;
+    line-height: 1.2;
+    margin: $spacing-md 0 $spacing-xs;
+    display: block;
+  }
+
+  .nav-review {
+    margin: $spacing-sm 0 0 0;
+  }
+}
+</style>
                     </el-dialog>
                   </Teleport>
                 </ClientOnly>

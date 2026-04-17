@@ -62,3 +62,70 @@ const email = computed(() =>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.footer {
+  background-color: $color-bg-light !important;
+  color: $color-text-muted;
+  padding: $spacing-xl $spacing-xxl $spacing-lg !important;
+  border-radius: $border-radius-lg;
+  margin: 100px 0 $spacing-xl;
+  @include float-full;
+
+  p {
+    margin: 0 0 $spacing-sm !important;
+  }
+
+  .f-dev {
+    font-size: 15px;
+    margin: 0 0 0 0px !important;
+
+    span {
+      color: #637d5f;
+    }
+
+    a {
+      margin: 0 0 0 $spacing-xs;
+      font-weight: 600;
+      color: #637d5f;
+    }
+  }
+}
+
+.social-links {
+  margin: 0 0 $spacing-lg;
+
+  a {
+    margin: 0 $spacing-xs 0 0;
+    color: $color-text-gray;
+    display: inline-block;
+
+    &:hover {
+      opacity: 0.5;
+      @include transition(opacity);
+    }
+
+    .icon {
+      height: $spacing-xxl;
+      width: $spacing-xxl;
+    }
+  }
+}
+
+.f-phone {
+  color: $color-text-gray;
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .footer {
+    margin: 60px 0 1rem;
+    padding: $spacing-lg $spacing-lg 0px !important;
+    background-color: $color-bg-light !important;
+
+    p {
+      font-size: 13px;
+    }
+  }
+}
+</style>

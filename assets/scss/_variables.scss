@@ -1,0 +1,83 @@
+// ============================================
+// Color Palette
+// ============================================
+
+// Primary Colors
+$color-primary: #142637;
+$color-secondary: #3d5973;
+$color-accent: #ae2b2b;
+$color-accent-red: #df2222;
+
+// Text Colors
+$color-text-dark: #333;
+$color-text-medium: #535353;
+$color-text-light: #5b5b5b;
+$color-text-muted: #989898;
+$color-text-gray: #6e6e6e;
+
+// Base Colors
+$color-white: #fff;
+$color-black: #000;
+
+// Background Colors
+$color-bg-light: #f4f4f4;
+$color-bg-gray: #f9f9f9;
+$color-bg-dark: #505050;
+
+// Border Colors
+$color-border: #dbdbdb;
+$color-border-light: #e2e2e2;
+
+// State Colors
+$color-success: #b4e3a7;
+$color-shadow: rgba(0, 0, 0, 0.66);
+
+// ============================================
+// Typography
+// ============================================
+
+$font-family-main: Montserrat;
+$font-family-accent: Caveat;
+
+// ============================================
+// Spacing Scale
+// ============================================
+
+$spacing-xs: 5px;
+$spacing-sm: 10px;
+$spacing-md: 15px;
+$spacing-lg: 20px;
+$spacing-xl: 30px;
+$spacing-xxl: 40px;
+
+// ============================================
+// Border Radius
+// ============================================
+
+$border-radius-sm: 5px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 14px;
+$border-radius-xxl: 17px;
+
+// ============================================
+// Layout
+// ============================================
+
+$container-max-width: 1100px;
+
+// ============================================
+// Transitions
+// ============================================
+
+$transition-fast: 0.2s;
+$transition-medium: 0.4s;
+$transition-slow: 0.5s;
+
+// ============================================
+// Shadows
+// ============================================
+
+$shadow-sm: 0px 0px 16px -15px $color-black;
+$shadow-md: 0px 0px 26px -14px $color-shadow;
+$shadow-lg: rgba(8, 27, 75, 0.35) 0px 6px 20px -6px;

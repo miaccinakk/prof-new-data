@@ -58,3 +58,15 @@ useSeoMeta({
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.img-about {
+  width: 100%;
+  height: 360px;
+
+  img {
+    @include img-cover;
+    border-radius: 9px;
+  }
+}
+</style>
