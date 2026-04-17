@@ -147,24 +147,243 @@ mainData.fetchData();
   </div>
 </template>
 
-<style>
-.header {
-  /* float: left;
-  width: 100%; */
-  padding: 20px 0;
-  margin: 0 0 40px;
+<style scoped lang="scss">
+.navbar {
+  padding: $spacing-sm 0px 6.18px 0px;
+
+  &-start {
+    margin: 0 0 0 50px;
+    align-items: center;
+
+    a {
+      font-weight: 700;
+      color: $color-text-light;
+      border: 0px solid $color-border;
+      padding: 7px $spacing-lg $spacing-md;
+      border-radius: $border-radius-lg;
+      font-size: 12px;
+      text-transform: uppercase;
+      height: auto;
+
+      &:hover {
+        text-decoration: underline;
+        color: $color-accent;
+      }
+    }
+  }
+
+  &-brand-header {
+    img {
+      max-height: 100%;
+      width: 110px;
+    }
+  }
+
+  &-menu .navbar-start {
+    align-items: center;
+  }
+
+  &-phone {
+    padding: 7px 0px $spacing-md;
+
+    a {
+      color: $color-primary;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .icon {
+      color: $color-accent-red;
+      margin: 0 0px 0 $spacing-xs;
+      transform: scaleX(-1);
+      top: -1px;
+      position: relative;
+    }
+  }
+
+  &-phone-mobail {
+    .icon {
+      color: $color-accent-red;
+      transform: scaleX(-1);
+    }
+  }
 }
-.h-logo {
-  float: left;
+
+.fix-nav {
+  position: fixed;
+  top: 0;
+  z-index: 222;
+  background: $color-white;
+  left: 0;
+  right: 0;
 }
-.h-auth {
-  float: right;
+
+.meny-nav {
+  position: relative;
+
+  > button {
+    margin: 0 0 0 50px;
+  }
 }
-.h-auth a {
-  text-decoration: none;
-  margin: 0 10px;
+
+.meny-nav-cat {
+  position: absolute;
+  background: $color-white;
+  padding: $spacing-xl $spacing-xl $spacing-md;
+  border-radius: $border-radius-xl;
+  width: 430px;
+  margin: $spacing-sm 0 0 50px;
+  box-shadow: $shadow-sm;
+
+  a {
+    display: flex;
+    align-items: center;
+    margin: 0 0 $spacing-md;
+    color: $color-text-dark;
+    font-size: 16px;
+  }
 }
-.h-mongo {
-  margin: 0 0 0 20%;
+
+.meny-nav-img {
+  height: 70px;
+  width: 100px;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  margin: 0 $spacing-md 0 0;
+
+  img {
+    @include img-cover;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .navbar-start {
+    margin: 0 0 0 -5px;
+    position: absolute;
+    left: 70px;
+    top: $spacing-sm;
+
+    a {
+      font-weight: 500;
+      font-size: 11px;
+      padding: 0px 0px 3px $spacing-lg;
+      display: inline-block;
+      position: relative;
+      top: 0px;
+
+      &:first-child::after {
+        content: "|";
+        position: absolute;
+        right: -12px;
+      }
+    }
+  }
+
+  .navbar {
+    padding: $spacing-xs 0;
+    height: auto;
+    min-height: auto !important;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    &-menu {
+      display: block !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      margin: 0 0 0 0px !important;
+      padding: 0 0 0 0 !important;
+    }
+
+    &-end {
+      display: none;
+    }
+
+    &-brand {
+      float: left;
+      padding: $spacing-xs $spacing-md $spacing-md;
+      height: 15px;
+
+      &-header {
+        float: left;
+        padding: $spacing-xs 0 0px;
+
+        img {
+          height: 100%;
+          max-width: 70px;
+          height: 21px;
+        }
+      }
+    }
+
+    &-phone-mobail {
+      position: absolute;
+      right: 45px;
+
+      .el-tooltip__trigger {
+        border: none;
+        background: transparent;
+        height: auto;
+        padding: 0px $spacing-md;
+        transform: scaleX(-1);
+
+        .icon {
+          height: 36px;
+          width: 28px;
+        }
+      }
+    }
+  }
+
+  .hm-mobail {
+    background: transparent !important;
+    height: auto !important;
+    padding: 0px $spacing-xs 0px 18px !important;
+    border: none !important;
+
+    .icon {
+      height: 35px !important;
+      width: 36px !important;
+    }
+  }
+
+  .meny-nav-cat {
+    width: auto !important;
+    height: auto !important;
+    left: $spacing-xs !important;
+    right: $spacing-xs !important;
+    margin: 0;
+    top: $spacing-xs !important;
+    bottom: $spacing-xs !important;
+    background: #262626 !important;
+
+    a {
+      color: $color-white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: $spacing-xs $spacing-md;
+      margin: $spacing-sm 0;
+      @include transition;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 400;
+    }
+
+    :deep(.el-drawer__close-btn) {
+      padding: 0;
+
+      .el-icon {
+        height: 1em;
+        width: 1em;
+        font-size: 44px;
+        color: $color-white;
+      }
+    }
+
+    :deep(.el-drawer__header) {
+      padding: 0;
+    }
+  }
 }
 </style>

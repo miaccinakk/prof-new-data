@@ -158,4 +158,191 @@ const openGallery = () => {
     </ClientOnly>
   </div>
 </template>
-<style></style>
+<style scoped lang="scss">
+.article-top {
+  @include float-full;
+  height: 480px;
+  margin: $spacing-xl 0 0 0;
+
+  &-img {
+    width: 100%;
+    height: 100%;
+    float: left;
+    position: relative;
+
+    img {
+      @include img-cover;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &-desc {
+    position: absolute;
+    padding: $spacing-xxl 8%;
+    float: left;
+    height: 100%;
+    width: 100%;
+    @include absolute-fill;
+    display: flex;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    border-radius: $border-radius-lg;
+    @include flex-column;
+    justify-content: center;
+    align-items: flex-start;
+
+    strong {
+      color: $color-white;
+      font-weight: 500;
+      font-size: 19px;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+  }
+
+  h1 {
+    @include float-full;
+    margin: 0px 0 $spacing-lg;
+    font-size: 33px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: $color-white;
+    max-width: 600px;
+  }
+}
+
+.article-desc {
+  @include float-full;
+  margin: $spacing-xl 0 $spacing-xl;
+  font-size: 16px;
+
+  p {
+    margin-bottom: 0.4em !important;
+    line-height: 1.6;
+  }
+}
+
+.article-galeery {
+  height: 160px;
+  @include float-full;
+  background: $color-white;
+  border: 3px dashed #acacac;
+  border-radius: $border-radius-lg;
+
+  &-mini {
+    height: 100%;
+    width: 33.3333333%;
+    float: left;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+
+  img {
+    @include img-cover;
+    border-radius: $border-radius-lg;
+    cursor: pointer;
+  }
+
+  &-button {
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+    @include flex-column;
+    cursor: pointer;
+
+    span {
+      color: #2a2a2a;
+      font-weight: 500;
+      margin: 0 0 $spacing-xs;
+      font-size: 16px;
+    }
+
+    .icon {
+      height: $spacing-xxl;
+      width: $spacing-xxl;
+      color: #2a2a2a;
+    }
+  }
+}
+
+.article-video {
+  height: 160px;
+  @include float-full;
+  background: $color-white;
+  border: 3px dashed #acacac;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+
+  :deep(.plyr--video) {
+    height: 100%;
+  }
+}
+
+.book-share {
+  display: inline-block;
+  margin: $spacing-sm 0 0 0;
+
+  > strong {
+    margin: 0 0 $spacing-sm;
+    font-weight: 600;
+  }
+
+  &-right {
+    display: flex;
+    margin: $spacing-sm 0 0 0;
+
+    :deep(.button) {
+      width: $spacing-xxl;
+      height: $spacing-xxl;
+      background-color: #f5f8fc;
+      border-color: #f5f8fc;
+      @include transition;
+      color: #4d4d4d;
+      margin: 0 $spacing-sm 0 0px;
+    }
+  }
+}
+
+// Mobile Styles
+@media (max-width: 768px) {
+  .article-galeery,
+  .article-video {
+    height: 110px;
+    margin: 0 0 $spacing-lg;
+  }
+
+  .article-galeery-button .icon {
+    width: $spacing-xl;
+  }
+
+  .article-top {
+    height: 350px;
+    margin: 0px 0 0 0;
+
+    h1 {
+      @include float-full;
+      margin: 0px 0 $spacing-lg;
+      font-size: $spacing-lg;
+    }
+
+    &-desc {
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) -101%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+
+      strong {
+        color: $color-white;
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+  }
+}
+</style>

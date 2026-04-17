@@ -99,3 +99,72 @@ const visibleModalClose = (item) => {
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+.video-slide {
+  margin: 0 0 100px;
+
+  :deep(.swiper-slide) {
+    position: relative;
+    padding: 0px 0px 0px 0;
+    float: left;
+    border-radius: $border-radius-lg;
+    margin: 0 0 0px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      @include img-cover;
+      border-radius: $border-radius-lg;
+    }
+  }
+
+  &-bg {
+    @include absolute-fill;
+    background: rgba(51, 51, 51, 0.15);
+    color: rgba(255, 255, 255, 0.54);
+    @include flex-center;
+    cursor: pointer;
+
+    > .icon {
+      width: 45px;
+      height: $spacing-xxl;
+    }
+
+    &:hover {
+      @include transition;
+      background: rgba(0, 0, 0, 0.34);
+      box-shadow: $shadow-md;
+
+      .icon {
+        @include transition;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.video-all {
+  margin: $spacing-lg 0 0 0;
+
+  a {
+    color: $color-text-dark;
+    font-size: 23px;
+    font-family: $font-family-accent !important;
+    font-weight: 500;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .video-slide {
+    margin: 0 0 60px;
+
+    :deep(.swiper-slide) {
+      height: 190px;
+    }
+  }
+}
+</style>

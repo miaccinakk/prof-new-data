@@ -71,4 +71,170 @@ const iconSvg =
     </div>
   </div>
 </template>
-<style></style>
+<style scoped lang="scss">
+.work-svg {
+  width: 35px;
+  height: 50px;
+  display: inline-block;
+
+  :deep(svg) {
+    position: relative;
+    top: 31px;
+    left: 8px;
+    transform: rotate3d(1, 1.6, 0, 181deg);
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.diagonal {
+  position: relative;
+
+  &:before {
+    content: "";
+    z-index: -1;
+    @include absolute-fill;
+    background-image: url(/hatch-diagonal.svg);
+    opacity: 0.5;
+    width: 99vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  &:after {
+    content: "";
+    z-index: -1;
+    @include absolute-fill;
+    background: radial-gradient(
+      closest-side,
+      #3f87a600,
+      #ebf8e100,
+      $color-white
+    );
+    opacity: 0.8;
+    width: 99vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+}
+
+.stage-index {
+  margin: 0px 0 100px;
+
+  :deep(.el-collapse) {
+    border-top: 1px solid #f6f8f7;
+    border-bottom: 1px solid #f6f8f7;
+  }
+
+  :deep(.el-collapse-item) {
+    margin: 0 0 0px;
+
+    &__header {
+      background: transparent;
+      padding: 50px 45px;
+      height: auto;
+      border-bottom: 1px solid #d3d8df;
+      font-size: 21px;
+      font-weight: 700;
+      text-align: left;
+      line-height: 1.5;
+      border-radius: 0px;
+
+      .el-icon {
+        height: 1.5em;
+        width: 1.5em;
+        opacity: 0.4;
+
+        svg {
+          height: 1.5em;
+          width: 1.5em;
+        }
+      }
+
+      .icon {
+        margin: 0 $spacing-lg 0 0;
+      }
+    }
+
+    &__wrap {
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      padding: 0px 45px 0px;
+    }
+
+    &.is-active {
+      border-bottom: 1px solid #d3d8df;
+      margin: 0 0 $spacing-lg;
+    }
+
+    &:first-child .el-collapse-item__header {
+      border-top: 1px solid #d3d8df;
+    }
+  }
+
+  :deep(.el-collapse-item__header.is-active) {
+    border: 1px solid transparent;
+  }
+
+  &-desc {
+    font-size: 16px;
+    line-height: 1.4;
+
+    li {
+      margin: 0 0 $spacing-sm;
+      line-height: 1.4;
+    }
+  }
+
+  &-img {
+    @include float-full;
+    padding: $spacing-xxl 0 $spacing-xxl;
+
+    img {
+      float: left;
+      width: 180px;
+      height: 150px;
+      border-radius: $border-radius-xl;
+      margin: 0 25px $spacing-lg 0;
+    }
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .work-svg :deep(svg) {
+    width: 27px;
+    height: 50px;
+    position: relative;
+    top: 27px;
+    left: 1px;
+    transform: rotate3d(1, 1.6, 0, 202deg);
+  }
+
+  .stage-index {
+    margin: 0px 0 60px;
+
+    :deep(.el-collapse-item__header) {
+      padding: $spacing-xxl 0px;
+      font-size: 16px;
+    }
+
+    :deep(.el-collapse-item__wrap) {
+      padding: 0px 0px 0px 46px;
+    }
+  }
+
+  .stage-index-desc {
+    font-size: 14px;
+    line-height: 1.4;
+
+    ul {
+      margin-top: 0;
+    }
+  }
+}
+</style>

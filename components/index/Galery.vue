@@ -162,3 +162,173 @@ const onSlideChangeGal = (swiper) => {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.gall-slider {
+  margin: 60px 0 120px;
+  @include float-full;
+}
+
+.index-gall-desc {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-size: 17px;
+  line-height: 1.6;
+  padding: 0 50px 0 0;
+  margin: 0 0 $spacing-lg;
+}
+
+.slider {
+  @include float-full;
+  margin: 0px 0 0px;
+
+  &-one {
+    @include float-full;
+    position: relative;
+
+    &-navigation {
+      position: relative;
+      @include float-full;
+      margin: $spacing-lg 0 0;
+      @include flex-between;
+      align-items: flex-end;
+
+      span {
+        font-family: $font-family-accent !important;
+        font-size: 27px;
+        color: $color-text-dark;
+      }
+
+      .swiper-button-next,
+      .swiper-button-prev {
+        background: none !important;
+        box-shadow: none !important;
+        height: auto !important;
+        width: auto !important;
+        @include flex-between;
+        align-items: flex-end;
+        position: relative;
+        right: 0;
+        left: 0;
+
+        &:after {
+          display: none;
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+      }
+
+      .swiper-button-next svg {
+        transform: scale(-1, 1);
+        float: left;
+      }
+
+      .swiper-button-next-gal,
+      .swiper-button-prev-gal {
+        background: none !important;
+        box-shadow: none !important;
+        height: auto !important;
+        width: auto !important;
+        @include flex-between;
+        align-items: flex-end;
+        position: relative;
+        right: 0;
+        left: 0;
+        cursor: pointer;
+
+        &:after {
+          display: none;
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+      }
+
+      .swiper-button-next-gal svg {
+        transform: scale(-1, 1);
+        float: left;
+      }
+    }
+
+    &-svg {
+      width: 67px;
+      height: 54px;
+      position: relative;
+      top: -3px;
+    }
+
+    :deep(.swiper-pagination) {
+      bottom: $spacing-md !important;
+    }
+
+    :deep(.swiper-slide) {
+      position: relative;
+      padding: 0px 0px 0px 0;
+      margin: 0 0 0px;
+      @include flex-between;
+      flex-flow: column wrap;
+      max-height: 400px;
+      align-content: flex-start;
+
+      img {
+        @include img-cover;
+        border-radius: $border-radius-lg;
+        cursor: pointer;
+      }
+    }
+
+    :deep(.swiper-button-prev) {
+      left: 25px;
+      bottom: 0px !important;
+      top: auto;
+    }
+
+    :deep(.swiper-button-next) {
+      right: 25px;
+      bottom: 0px !important;
+      top: auto;
+    }
+
+    .image-grid {
+      object-fit: cover;
+      border-radius: 6px;
+      position: relative;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: $spacing-sm $spacing-sm;
+      width: 33.3333% !important;
+    }
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .index-gall-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 0 0px 0 0;
+    margin: 0 0 $spacing-lg;
+  }
+
+  .slider-one :deep(.swiper-slide) {
+    height: 400px;
+  }
+
+  .gall-slider {
+    margin: 0px 0 70px;
+  }
+
+  .sl-m {
+    margin: 0px 0 0 0;
+  }
+}
+</style>

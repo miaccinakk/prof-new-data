@@ -42,3 +42,52 @@ const { data: news } = await useFetch("/api/news", {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.article-all {
+  margin: $spacing-lg 0 0 0;
+
+  a {
+    color: $color-text-dark;
+    font-size: 23px;
+    font-family: $font-family-accent !important;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.article-index {
+  a {
+    color: #303030;
+    font-family: Caveat !important;
+    font-size: 23px;
+    font-weight: 500;
+    strong {
+      font-size: $spacing-lg;
+      color: #303030;
+    }
+  }
+}
+
+// Mobile Styles
+@media (max-width: 768px) {
+  .article-all {
+    margin: -10px 0 $spacing-md 0;
+  }
+
+  .article-index {
+    margin: 0 0 0px;
+    padding: 0 0 $spacing-md;
+    border-bottom: 1px solid $color-border-light;
+
+    a strong {
+      font-size: 16px;
+      color: #303030;
+    }
+  }
+
+  .border-none {
+    border: none;
+  }
+}
+</style>

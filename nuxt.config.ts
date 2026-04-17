@@ -52,8 +52,8 @@ export default defineNuxtConfig({
   },
   css: [
     "@/assets/main.scss",
-    "@/node_modules/bulma/css/bulma.css",
-    "@/node_modules/plyr/dist/plyr.css",
+    "bulma/css/bulma.css",
+    "plyr/dist/plyr.css",
     // "element-plus/dist/index.css",
   ],
   elementPlus: {
@@ -133,4 +133,16 @@ export default defineNuxtConfig({
     },
   },
   // devtools: { enabled: true },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @use "@/assets/scss/_variables.scss" as *;
+            @use "@/assets/scss/_mixins.scss" as *;
+          `,
+        },
+      },
+    },
+  },
 });

@@ -77,7 +77,273 @@ onMounted(() => {
                     <strong>{{ tab.title }}</strong>
                     <p v-if="tab.info" v-show="infoNone">{{ tab.info }}</p>
                   </span>
-                </template>
+</template>
+
+<style scoped lang="scss">
+.system-tabs {
+  @include float-full;
+  margin: -30px 0 100px;
+
+  :deep(.el-tabs__content) {
+    overflow: visible;
+  }
+
+  :deep(.el-tabs--left .el-tabs__active-bar.is-left) {
+    left: 0;
+    width: 4px;
+    border-radius: $border-radius-sm;
+    background: $color-border-light;
+  }
+
+  :deep(.el-tabs--left .el-tabs__nav-wrap.is-left::after) {
+    width: 0;
+  }
+
+  :deep(.el-tabs__header) {
+    width: 35%;
+    margin-right: 0px !important;
+  }
+
+  :deep(.el-tabs) {
+    overflow: visible;
+  }
+
+  :deep(.el-tabs__nav) {
+    width: 100%;
+  }
+
+  .custom-tabs-label {
+    > strong {
+      @include float-full;
+      font-size: 17px;
+      color: #a2a2a2;
+    }
+
+    > p {
+      @include float-full;
+      font-size: 15px;
+      margin: $spacing-sm 0;
+      line-height: 1.6;
+      color: #a2a2a2;
+    }
+  }
+
+  :deep(.is-active) strong,
+  :deep(.is-active) p {
+    color: $color-text-dark;
+  }
+
+  :deep(.el-tabs__item:hover) {
+    strong,
+    p {
+      @include transition;
+      color: $color-text-dark;
+    }
+  }
+
+  :deep(.el-tabs__item.is-left) {
+    text-align: left !important;
+    font-size: 19px;
+    padding: $spacing-sm 0px $spacing-sm $spacing-xl;
+    float: right;
+    width: 100%;
+    height: auto;
+    display: block;
+    white-space: break-spaces;
+    margin: 0 0 $spacing-sm;
+  }
+
+  :deep(.el-tabs--left .el-tabs__header.is-left) {
+    padding: 70px 0 0;
+  }
+
+  :deep(.el-tab-pane) {
+    padding: 0px 0% 0 10%;
+    overflow: visible;
+    float: left;
+    width: 65%;
+  }
+
+  video {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+    height: 400px;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 0 0 90px;
+    position: relative;
+    top: 70px;
+    box-shadow:
+      rgba(0, 12, 121, 0.1) 0px 30px 80px,
+      rgba(0, 12, 121, 0.1) 0px 12px 24px;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .system-tabs {
+    margin: $spacing-sm 0 $spacing-xxl;
+    display: flow-root;
+    width: auto;
+    float: none;
+    height: 100%;
+
+    :deep(.el-tab-pane) {
+      padding: $spacing-sm 0% 0 0%;
+      overflow: visible;
+      float: left;
+      width: 100%;
+    }
+
+    :deep(.el-tabs__header) {
+      width: auto;
+      margin-right: 0px !important;
+    }
+
+    :deep(.el-tabs__item.is-left) {
+      font-size: 16px;
+      padding: $spacing-sm $spacing-xs $spacing-xs $spacing-sm;
+      margin: 0 0 0px;
+      text-align: left !important;
+    }
+
+    video {
+      height: 260px;
+    }
+
+    .custom-tabs-label {
+      > p {
+        display: none;
+      }
+
+      > strong {
+        font-size: 14px;
+        text-align: left;
+      }
+    }
+
+    :deep(.el-tabs--left .el-tabs__active-bar.is-left) {
+      width: 2px;
+    }
+
+    &-mobail {
+      margin: -5px 0 75px;
+
+      video {
+        border-radius: $border-radius-lg;
+        box-shadow:
+          0 30px 80px rgba(0, 12, 121, 0.1),
+          0 12px 24px rgba(0, 12, 121, 0.1);
+        height: auto;
+        height: 260px;
+        margin: 0 0 $spacing-xxl;
+        max-width: 100%;
+        object-fit: cover;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      :deep(.el-tabs__header) {
+        padding: 0;
+        position: relative;
+        margin: 0 0 $spacing-sm;
+      }
+
+      :deep(.el-tabs__active-bar) {
+        background-color: transparent;
+
+        &.is-left {
+          width: 2px;
+        }
+      }
+
+      :deep(.el-tabs__item) {
+        padding: $spacing-xs $spacing-sm !important;
+        max-width: 150px;
+        float: left;
+        height: 50px;
+        word-wrap: break-word;
+        white-space: break-spaces;
+        line-height: 1.2;
+        border: 1px solid #d7d7d7;
+        border-radius: 7px;
+        margin: 0 $spacing-xs 0 0;
+
+        &.is-active {
+          color: $color-black;
+          border: 1px solid #545454;
+        }
+      }
+
+      .custom-tabs-label > strong {
+        font-size: 13px;
+        text-align: left;
+        font-weight: 500;
+      }
+
+      :deep(.el-tabs__nav-prev),
+      :deep(.el-tabs__nav-next) {
+        border-radius: 7px;
+        margin: 0 0 4px;
+        bottom: 16px;
+        background: #575757;
+        padding: 3px 4px;
+        width: auto;
+        text-align: center;
+      }
+
+      :deep(.el-tabs__header .el-icon) {
+        font-size: 19px;
+        top: 6px;
+        color: $color-white;
+      }
+
+      :deep(.el-tabs__nav-wrap) {
+        overflow: hidden;
+        margin-bottom: -1px;
+        position: relative;
+        padding: $spacing-sm $spacing-xl !important;
+      }
+
+      :deep(.el-tabs__nav-scroll) {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+
+        &::after {
+          content: "";
+          height: 0;
+        }
+      }
+    }
+  }
+
+  .system-tabs-mobail::-webkit-scrollbar {
+    display: none;
+  }
+
+  :deep(.el-tabs__nav-wrap::after) {
+    height: 0 !important;
+  }
+
+  :deep(.el-tabs__nav-scroll) {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    padding: 0px 0px $spacing-sm 0px;
+  }
+
+  :deep(.el-tabs__item) {
+    flex: 0 0 auto;
+  }
+
+  .mobail-tabs {
+    width: 100%;
+    padding: 0 $spacing-md;
+  }
+}
+</style>
 
                 <div v-if="loadedVideos['first' + idx]">
                   <video

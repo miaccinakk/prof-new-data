@@ -160,3 +160,231 @@ useSeoMeta({
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.main-article {
+  margin: 80px 0 0;
+}
+
+.article-block {
+  height: 180px;
+  @include float-full;
+  margin: 0 0 $spacing-xl;
+
+  a {
+    float: left;
+    width: 100%;
+    color: $color-black;
+    height: 100%;
+  }
+
+  &-img {
+    width: 250px;
+    height: 100%;
+    float: left;
+
+    img {
+      @include img-cover;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &-desc {
+    padding: 0 0 0 $spacing-md;
+    float: left;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    > strong {
+      @include float-full;
+      margin: $spacing-lg 0 $spacing-lg;
+      font-size: 21px;
+      padding: 0 0 0 $spacing-lg;
+      font-weight: 700;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    > span {
+      @include float-full;
+      height: 80px;
+      display: none;
+    }
+  }
+
+  &-top {
+    @include float-full;
+    height: 380px;
+
+    a {
+      float: left;
+      width: 100%;
+      color: $color-black;
+      height: 100%;
+    }
+
+    &-img {
+      width: 100%;
+      height: 100%;
+      float: left;
+      position: relative;
+
+      img {
+        @include img-cover;
+        border-radius: $border-radius-lg;
+        box-shadow: $shadow-md;
+      }
+    }
+
+    &-desc {
+      position: absolute;
+      padding: 60px 60px;
+      float: left;
+      height: 100%;
+      align-items: flex-end;
+      width: 100%;
+      @include absolute-fill;
+      display: flex;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+      border-radius: $border-radius-lg;
+
+      > strong {
+        @include float-full;
+        margin: 0px 0 0px;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.6;
+        color: $color-white;
+      }
+    }
+
+    &-right {
+      height: 180px;
+      @include float-full;
+      margin: 0px 0 $spacing-lg;
+
+      a {
+        float: left;
+        width: 100%;
+        color: $color-black;
+        height: 100%;
+      }
+
+      &-img {
+        width: 100%;
+        height: 100%;
+        float: left;
+        position: relative;
+
+        img {
+          @include img-cover;
+          border-radius: $border-radius-lg;
+          box-shadow: $shadow-md;
+        }
+      }
+
+      &-desc {
+        position: absolute;
+        padding: $spacing-lg $spacing-xxl;
+        float: left;
+        height: 100%;
+        align-items: flex-end;
+        width: 100%;
+        @include absolute-fill;
+        display: flex;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        border-radius: $border-radius-lg;
+
+        > strong {
+          @include float-full;
+          margin: $spacing-lg 0 0px;
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 1.5;
+          color: $color-white;
+        }
+      }
+    }
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .article-block-top {
+    margin: 0 0 $spacing-xl;
+  }
+
+  .h1-catalog {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    margin: 0 0 $spacing-lg !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-article {
+    margin: $spacing-lg 0 0;
+  }
+
+  .article-block {
+    height: auto;
+    @include float-full;
+    margin: 0 0 0px;
+    border-bottom: 1px solid #bcbcbc;
+
+    &-top {
+      @include float-full;
+      height: 280px;
+      margin: 0 0 $spacing-lg;
+
+      &-desc {
+        padding: $spacing-lg;
+
+        > strong {
+          font-size: 22px;
+        }
+      }
+    }
+
+    &-img {
+      display: none;
+    }
+
+    &-desc {
+      width: 100%;
+      height: auto;
+      padding: $spacing-lg 0;
+
+      > strong {
+        @include float-full;
+        margin: $spacing-sm 0 $spacing-sm;
+        font-size: 19px;
+        padding: 0 0 0 $spacing-sm;
+        font-weight: 700;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+    }
+
+    &-top-right {
+      height: 160px;
+
+      &-desc {
+        padding: $spacing-lg $spacing-lg;
+      }
+    }
+  }
+}
+</style>

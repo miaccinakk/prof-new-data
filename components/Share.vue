@@ -77,3 +77,15 @@ const getIconName = (networkName) => {
     </button>
   </div>
 </template>
+
+<style scoped lang="scss">
+.button.is-rounded {
+  width: $spacing-xxl;
+  height: $spacing-xxl;
+  background-color: #f5f8fc;
+  border-color: #f5f8fc;
+  @include transition;
+  color: #4d4d4d;
+  margin: 0 $spacing-sm 0 0px;
+}
+</style>

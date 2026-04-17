@@ -198,7 +198,7 @@ useSeoMeta({
 
         <div class="index-calk">
           <span
-            >Для определения стоимости работ Вы можете совершить предварительный
+            >Для определения стоимости работ Вы можете сов��ршить предварительный
             расчёт!</span
           >
           <nuxt-link to="/calculator">Перейти к расчёту</nuxt-link>
@@ -225,8 +225,139 @@ useSeoMeta({
 </template>
 
 <style lang="scss" scoped>
-$border-radius-md: 8px;
-$spacing-lg: 20px;
+.index-content {
+  h4 {
+    color: $color-text-medium !important;
+    font-size: 22px !important;
+    margin: 0 0 $spacing-lg !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+
+    .icon {
+      margin: -2px $spacing-sm 0 0%;
+      color: $color-secondary;
+      display: none;
+    }
+  }
+}
+
+.cover-video-index {
+  background: $color-white;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+}
+
+.video-index {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #e2e2e2;
+
+  > video {
+    @include img-cover;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  :deep(.index-b-modal) {
+    background-color: transparent !important;
+    color: $color-white !important;
+    box-shadow: $shadow-lg;
+    padding: 7px $border-radius-lg;
+    border-radius: $border-radius-md !important;
+    font-weight: 400;
+    height: auto;
+    font-size: 16px !important;
+    border: 1px solid $color-white !important;
+
+    &:hover {
+      background-color: $color-white !important;
+      border-color: $color-white !important;
+      box-shadow: rgba(8, 27, 75, 0.35) 0px 2px 0px;
+      @include transition;
+      color: $color-text-dark !important;
+    }
+  }
+}
+
+.cover-image-fon {
+  @include absolute-fill;
+  background: linear-gradient(-1deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+}
+
+.video-block-inf {
+  display: flex;
+  align-items: baseline;
+  padding: 210px 0 100px;
+  border-radius: 22px;
+  color: $color-white;
+  flex-flow: column;
+  justify-content: center;
+  z-index: 22;
+  position: relative;
+
+  > h1 {
+    color: $color-white;
+    width: 60%;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  > h2 {
+    width: 50%;
+    font-size: 17px;
+    font-weight: 500;
+    margin: $spacing-lg 0 80px;
+  }
+}
+
+.index-calk {
+  padding: $spacing-xxl;
+  margin: 70px 0 70px;
+  border: 3px dotted $color-border-light;
+  border-radius: $spacing-md;
+  @include flex-column;
+  gap: $spacing-lg;
+
+  span {
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 800px;
+    color: #757575;
+  }
+
+  a {
+    background-color: transparent;
+    color: #131313;
+    box-shadow: $shadow-lg;
+    padding: $spacing-sm $border-radius-lg;
+    border-radius: $border-radius-md;
+    height: auto;
+    font-size: 16px !important;
+    border: 1px solid #5d5d5d;
+    width: 210px;
+    text-align: center;
+    margin: $spacing-md 0 0;
+
+    &:hover {
+      @include transition;
+      box-shadow: rgba(8, 27, 75, 0.65) 0px 6px 20px -6px;
+      border: 1px solid $color-white;
+      color: $color-black;
+    }
+  }
+}
 
 .video-poster-fallback {
   position: absolute;
@@ -253,6 +384,79 @@ $spacing-lg: 20px;
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 1023px) {
+  .index-calk {
+    padding: $spacing-lg;
+    margin: $spacing-xxl 0 50px;
+
+    span {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 800px;
+      color: #757575;
+    }
+
+    a {
+      padding: $spacing-sm $border-radius-lg;
+      font-size: 15px !important;
+      width: 200px;
+      margin: $spacing-xs 0 0;
+    }
+  }
+
+  .cover-video-index {
+    height: auto;
+    overflow: visible;
+  }
+
+  .index-content {
+    h4 {
+      margin: 0 0 0px !important;
+      font-size: 17px !important;
+
+      &.rev-h4 {
+        margin: $spacing-xxl 0 0 0 !important;
+      }
+
+      &.stage-h4 {
+        margin: 0px 0 $spacing-sm 0 !important;
+      }
+    }
+  }
+
+  .video-index {
+    margin: 0 0 55px;
+    height: auto;
+    position: relative;
+    padding: 66px 0 $spacing-xxl;
+
+    :deep(.index-b-modal) {
+      font-size: 14px !important;
+      padding: 7px $border-radius-lg !important;
+      margin: 0 0 0px !important;
+    }
+  }
+
+  .video-block-inf {
+    padding: 35px 0px $spacing-md;
+
+    > h1 {
+      width: 100%;
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    > h2 {
+      width: 100%;
+      margin: 46px 0 42px;
+      font-size: 15px;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
   }
 }
 </style>
