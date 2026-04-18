@@ -12,7 +12,7 @@ const { data: news } = await useFetch("/api/news", {
 <template>
   <div class="columns is-multiline">
     <div class="column is-12">
-      <h4><icon name="solar:video-library-outline" />{{ h4Category }}</h4>
+      <h4 class="index-h4">{{ h4Category }}</h4>
     </div>
 
     <div class="column is-12">

@@ -50,7 +50,9 @@ const scrollToTop = () => {
     <div class="container">
       <div class="content">
         <nav-category @catDescription="catDescription" />
-        <div class="columns is-desktop is-multiline is-variable">
+        <div
+          class="columns is-desktop is-multiline is-variable mobail-variable"
+        >
           <div
             class="column is-4"
             v-for="item in project.result"
@@ -97,3 +99,80 @@ const scrollToTop = () => {
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
+
+.catalog-block {
+  display: flex;
+  height: 180px;
+  margin-bottom: $spacing-md;
+
+  a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: #000;
+    text-decoration: none;
+  }
+
+  &-img {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      @include img-cover;
+      border-radius: 12px;
+      box-shadow: 0 0 26px -14px #000000a8;
+      display: block;
+    }
+  }
+
+  &-desc {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+
+    > strong {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+  }
+}
+.dscription-cat {
+  float: left;
+  width: 100%;
+  margin: 100px 0 20px;
+  line-height: 1.6;
+}
+@media (max-width: 1023px) {
+  .mobail-variable {
+    float: left;
+  }
+  .dscription-cat {
+    margin: 60px 0 0;
+  }
+  .catalog-block {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 0px;
+
+    &-img {
+      height: 160px;
+      width: 45%;
+    }
+
+    &-desc {
+      height: 160px;
+      width: 55%;
+
+      > strong {
+        font-size: 14px;
+      }
+    }
+  }
+}
+</style>

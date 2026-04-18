@@ -120,6 +120,7 @@ useSeoMeta({
   </div>
 </template>
 <style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
 .project-block {
   &-city {
     margin: 0 0 $spacing-xl;
@@ -153,6 +154,10 @@ useSeoMeta({
     width: 50%;
     float: left;
     padding: 0.75rem;
+    img {
+      border-radius: 12px;
+      @include img-cover;
+    }
   }
 
   img {
@@ -190,7 +195,10 @@ useSeoMeta({
     margin: $spacing-sm 0 0 0;
     font-size: 25px;
   }
-
+  :deep(.item-rew > h2) {
+    font-size: 1.35em;
+    margin: 20px 0 30px;
+  }
   .project-block-desc {
     margin: 0px 0 50px;
     font-size: 15px;
@@ -198,7 +206,9 @@ useSeoMeta({
 
   .project-video {
     margin: $spacing-xxl 0 $spacing-xxl;
-    height: 360px;
+    max-height: 360px;
+    min-height: 200px;
+    height: auto;
   }
 
   .project-galeery {

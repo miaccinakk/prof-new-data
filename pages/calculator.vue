@@ -28,7 +28,7 @@ const { data: parentgroup } = await useFetch("/api/parentgroup/", {
 });
 if (parentgroup.value) {
   parentGrArr.value = parentgroup.value.result.sort(
-    (a, b) => a.level - b.level
+    (a, b) => a.level - b.level,
   );
 }
 
@@ -62,7 +62,7 @@ const { data: rawItemcalk } = await useFetch("/api/itemcalk/", {
 
 const nevStep = (id) => {
   const filteredArray = calkObject.value.filter(
-    (item) => item.parentgroup === id
+    (item) => item.parentgroup === id,
   );
   calkObject.value = filteredArray;
   visibleSteep.value = false;
@@ -273,7 +273,7 @@ watch(
     });
     previousSelectedValues.value = [...newValues];
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 );
 
 watch(
@@ -281,7 +281,7 @@ watch(
   (newValues) => {
     costWork();
   },
-  { deep: true }
+  { deep: true },
 );
 const calculateTotal = () => {
   let allFieldsFilled = true;
@@ -352,7 +352,7 @@ const generatePDF = () => {
 
       const selectedLabel = selectedValues.value[countIndex]
         ? elementcalk.value.find(
-            (el) => el._id === selectedValues.value[countIndex]
+            (el) => el._id === selectedValues.value[countIndex],
           )?.title || "Не выбрано"
         : "Не выбрано";
 
@@ -360,7 +360,7 @@ const generatePDF = () => {
       doc.text(
         `Тип работ ${countIndex + 1}: ${item.name || item.title}`,
         10,
-        y
+        y,
       );
       // doc.text(`Стоимость : ${finalCost} руб.`, 10, y + 20);
 
@@ -404,10 +404,74 @@ onUnmounted(() => {
 const openNotif = () => {
   ElNotification({
     title: "Ошибка",
-    message:
-      "Выберите и заполните все значения!<br/> <strong>Не нужные пункты отключите!</strong>",
+    message: `
+      <div>
+        Выберите и заполните все значения!<br/>
+        <strong>Не нужные пункты отключите!</strong>
+
+        <div style="margin-top:12px; display:flex; align-items:center; gap:10px;">
+          
+          <!-- Включено -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="
+              width:40px;
+              height:20px;
+              background:#13ce66;
+              border-radius:20px;
+              position:relative;
+            ">
+              <div style="
+                width:18px;
+                height:18px;
+                background:#fff;
+                border-radius:50%;
+                position:absolute;
+                right:1px;
+                top:1px;
+              "></div>
+            </div>
+            <span style="font-size:12px;">Вкл</span>
+          </div>
+
+          <!-- Стрелка -->
+          <div style="
+            font-size: 28px;
+            font-weight: 800;
+            color: #ff4d4f;
+            position: relative;
+            top: -15px;
+          ">
+            →
+          </div>
+
+          <!-- Выключено -->
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="
+              width:40px;
+              height:20px;
+              background:#ff4949;
+              border-radius:20px;
+              position:relative;
+            ">
+              <div style="
+                width:18px;
+                height:18px;
+                background:#fff;
+                border-radius:50%;
+                position:absolute;
+                left:1px;
+                top:1px;
+              "></div>
+            </div>
+            <span style="font-size:12px;">Выкл</span>
+          </div>
+
+        </div>
+      </div>
+    `,
     type: "error",
     dangerouslyUseHTMLString: true,
+    duration: 3000,
   });
 };
 const openNotifPdf = () => {
@@ -420,7 +484,7 @@ const openNotifPdf = () => {
 
 const title = ref("Калькулятор стоимости работ");
 const description = ref(
-  "С помощью этого калькулятора Вы сможете рассчитать стоимость работ компании Профитерм."
+  "С помощью этого калькулятора Вы сможете рассчитать стоимость работ компании Профитерм.",
 );
 const imgOg = ref("/profiterm.webp");
 
@@ -539,7 +603,7 @@ useSeoMeta({
                             <el-option
                               v-for="option in filteredElementOptions(
                                 item.groupArray,
-                                itemCalk.AllGroup
+                                itemCalk.AllGroup,
                               )"
                               :key="option.value"
                               :label="option.label"
@@ -614,3 +678,367 @@ useSeoMeta({
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
+
+.calk-block {
+  padding: $spacing-xl;
+  background: #f1f1f1;
+  cursor: pointer;
+  border-radius: $border-radius-md;
+  height: 200px;
+  @include flex-center;
+  @include flex-column;
+  @include transition;
+
+  .icon {
+    font-size: 28px;
+    height: $spacing-xxl;
+    width: $spacing-xxl;
+  }
+
+  strong {
+    margin: $spacing-sm;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background: #dcdcdc;
+  }
+
+  &-group {
+    margin: $spacing-lg 0 $spacing-lg;
+    padding: $spacing-xl;
+    border: 1px solid $color-border-light;
+    border-radius: $border-radius-md;
+    @include flex-column;
+
+    &-title {
+      font-weight: 600;
+      font-size: 19px;
+      margin: 0 0 $spacing-lg;
+      @include flex-column;
+      align-items: flex-start;
+    }
+
+    .el-select {
+      max-width: 340px !important;
+      width: 100% !important;
+    }
+  }
+
+  &-cost {
+    @include flex-between;
+    margin: $spacing-xl 0 0;
+
+    > div {
+      text-align: right;
+
+      > span {
+        margin: 0 $spacing-sm 0 0;
+      }
+
+      > strong {
+        font-size: 21px;
+
+        > span {
+          font-size: 14px;
+        }
+      }
+
+      > p {
+        max-width: 400px;
+        margin: $spacing-lg 0 0;
+        line-height: 1.3;
+        font-size: 13px;
+      }
+    }
+
+    &.reversed-order {
+      flex-direction: column-reverse;
+    }
+  }
+}
+
+.calk-collapse {
+  .el-collapse-item {
+    &:last-child {
+      margin-bottom: -2px;
+    }
+
+    &__header {
+      font-size: 17px;
+      font-weight: 500;
+      padding: $spacing-md 0;
+      height: auto;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    &__content {
+      padding-top: 0px !important;
+    }
+  }
+
+  .field-control {
+    max-width: 500px;
+  }
+
+  .field-label {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-left: 1.2rem;
+    text-align: left;
+    font-size: 16px;
+  }
+
+  &-item {
+    margin: 0 0 $spacing-md;
+    font-size: 16px;
+    background: #efefef;
+    display: inline-block;
+    padding: 0px $spacing-xs;
+    border-radius: 6px;
+
+    b {
+      font-weight: 500;
+      margin: 0 $spacing-sm;
+    }
+
+    > strong {
+      font-weight: 500;
+      margin: 0 $spacing-sm 0 0;
+      font-size: 12px;
+    }
+
+    &-cost {
+      align-items: center;
+      display: flex;
+
+      strong {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.fill-type-neme {
+  font-size: 15px;
+  margin: $spacing-md 0 $spacing-sm;
+}
+
+.desc-calk {
+  font-size: 14px;
+  margin: $spacing-sm 0 0px;
+  border-bottom: 2px dotted $color-border-light;
+  padding: 0 0 $spacing-sm;
+  width: auto !important;
+  max-width: 70% !important;
+}
+
+.back-step {
+  font-size: 13px !important;
+  padding-left: $spacing-xs !important;
+  margin: 0 0 $spacing-lg;
+}
+
+.h1-calk {
+  margin: 150px 0 $spacing-lg;
+}
+
+.disabled_cack_check .calk-block {
+  background: #f1f1f1 !important;
+  opacity: 0.4;
+}
+
+.index-calk {
+  padding: $spacing-xxl;
+  margin: 70px 0 70px;
+  border: 3px dotted $color-border-light;
+  border-radius: $spacing-md;
+  @include flex-column;
+  gap: $spacing-lg;
+
+  span {
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 800px;
+    color: #757575;
+  }
+
+  a {
+    background-color: transparent;
+    color: #131313;
+    box-shadow: $shadow-lg;
+    padding: $spacing-sm $border-radius-lg;
+    border-radius: $border-radius-md;
+    height: auto;
+    font-size: 16px !important;
+    border: 1px solid #5d5d5d;
+    width: 210px;
+    text-align: center;
+    margin: $spacing-md 0 0;
+
+    &:hover {
+      @include transition;
+      box-shadow: rgba(8, 27, 75, 0.65) 0px 6px 20px -6px;
+      border: 1px solid $color-white;
+      color: $color-black;
+    }
+  }
+}
+.switch-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+
+  .arrow {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ff4d4f;
+    position: relative;
+    top: -18px;
+  }
+}
+.full-width {
+  width: 100%;
+  max-width: 100%;
+}
+@media (max-width: 1023px) {
+  .index-calk {
+    padding: $spacing-lg;
+    margin: $spacing-xxl 0 50px;
+
+    span {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 800px;
+      color: #757575;
+    }
+
+    a {
+      padding: $spacing-sm $border-radius-lg;
+      font-size: 15px !important;
+      width: 200px;
+      margin: $spacing-xs 0 0;
+    }
+  }
+
+  .calk-block {
+    height: 150px;
+
+    strong {
+      font-size: 16px;
+    }
+  }
+
+  .h1-calk {
+    margin: 80px 0 $spacing-xl !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+  }
+
+  .calk-collapse {
+    .el-collapse-item__header {
+      font-size: 16px;
+      font-weight: 700;
+      height: auto !important;
+      line-height: 1.5;
+      padding: $spacing-md 0 $spacing-md;
+      text-align: left;
+    }
+
+    .field-label {
+      line-height: 3 !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    .field-control {
+      max-width: 200px;
+    }
+
+    .el-collapse-item__content {
+      padding-bottom: $spacing-sm !important;
+    }
+
+    .field:not(:last-child) {
+      margin-bottom: 0rem;
+      display: flex;
+    }
+  }
+
+  .calk-block-group {
+    margin: $spacing-lg 0 $spacing-lg;
+    padding: $spacing-sm;
+    border: 1px solid #ededed;
+
+    .el-select {
+      width: 200px !important;
+    }
+  }
+
+  .calk-block-cost {
+    flex-direction: column;
+    .button {
+      width: 100%;
+    }
+    > div {
+      margin: $spacing-lg 0 0;
+    }
+
+    .button:first-child {
+      margin: $spacing-lg 0 0px;
+    }
+  }
+
+  .fill-type-neme {
+    font-size: 15px;
+    margin: $spacing-md 0 $spacing-sm;
+    line-height: 1.4;
+  }
+
+  .back-step {
+    font-size: 13px !important;
+    margin: $spacing-sm 0 0px;
+    padding-left: $spacing-xs !important;
+  }
+
+  .desc-calk {
+    font-size: 14px;
+    margin: $spacing-sm 0 0px;
+    padding: 0 0 $spacing-sm;
+    border-bottom: 2px dotted $color-border-light;
+    max-width: 100% !important;
+  }
+
+  .button-back {
+    margin: 0 3px 0 0;
+
+    .icon {
+      margin-right: 3px !important;
+      height: $spacing-lg !important;
+      width: $spacing-lg !important;
+    }
+
+    > strong {
+      margin: 0 0 0 0px;
+      font-size: 13px;
+    }
+
+    > span {
+      margin: 0 0 0 3px;
+    }
+  }
+}
+</style>

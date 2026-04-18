@@ -79,9 +79,7 @@ const onSlideChangeGal = (swiper) => {
     <div class="gall-slider">
       <div class="columns is-multiline">
         <div class="column is-12 m-none">
-          <h4 class="mt-6 mb-6">
-            <icon name="solar:gallery-wide-broken" /> Галерея
-          </h4>
+          <h4 class="mt-6 mb-6 index-h4">Галерея</h4>
         </div>
         <div class="column is-6">
           <div class="index-gall-desc">
@@ -89,9 +87,7 @@ const onSlideChangeGal = (swiper) => {
           </div>
         </div>
         <div class="column is-12 m-block">
-          <h4 class="mt-6 mb-6">
-            <icon name="solar:gallery-wide-broken" /> Галерея
-          </h4>
+          <h4 class="mt-6 mb-6 index-h4">Галерея</h4>
         </div>
         <div class="column is-6 p-0">
           <div class="slider">
@@ -249,11 +245,12 @@ const onSlideChangeGal = (swiper) => {
           width: 100%;
           height: 100%;
           position: relative;
+          transform: scaleX(1);
         }
       }
 
-      .swiper-button-next-gal svg {
-        transform: scale(-1, 1);
+      .swiper-button-next-gal :deep(svg) {
+        transform: scaleX(-1);
         float: left;
       }
     }
@@ -263,6 +260,11 @@ const onSlideChangeGal = (swiper) => {
       height: 54px;
       position: relative;
       top: -3px;
+      :deep(svg) {
+        height: 100%;
+        position: relative;
+        width: 100%;
+      }
     }
 
     :deep(.swiper-pagination) {

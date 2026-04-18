@@ -81,9 +81,7 @@ const sortedReviews = computed(() => {
 <template>
   <div class="columns is-multiline">
     <div class="column is-12">
-      <h4 class="rev-h4">
-        <icon name="solar:chat-line-broken" />Отзывы наших клиентов
-      </h4>
+      <h4 class="rev-h4 index-h4">Отзывы наших клиентов</h4>
       <span class="publick-review"
         >Если Вы были нашим клиентом, отправьте свой отзыв, мы его обязательно
         опубликуем.</span
@@ -213,6 +211,31 @@ const sortedReviews = computed(() => {
                             </button>
                           </nuxt-link>
                         </span>
+                      </template>
+                    </el-dialog>
+                  </Teleport>
+                </ClientOnly>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+        <div class="slider-one-navigation nav-review">
+          <div
+            class="swiper-button-next"
+            :class="{ opacitynull: currentIndex === 0 }"
+          >
+            <div v-html="iconSvg" class="slider-one-svg"></div>
+            <span>Предыдущие</span>
+          </div>
+
+          <div class="swiper-button-prev">
+            <span>Ещё</span>
+            <div v-html="iconSvg" class="slider-one-svg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -445,28 +468,3 @@ const sortedReviews = computed(() => {
   }
 }
 </style>
-                    </el-dialog>
-                  </Teleport>
-                </ClientOnly>
-              </div>
-            </div>
-          </SwiperSlide>
-        </Swiper>
-        <div class="slider-one-navigation nav-review">
-          <div
-            class="swiper-button-next"
-            :class="{ opacitynull: currentIndex === 0 }"
-          >
-            <div v-html="iconSvg" class="slider-one-svg"></div>
-            <span>Предыдущие</span>
-          </div>
-
-          <div class="swiper-button-prev">
-            <span>Ещё</span>
-            <div v-html="iconSvg" class="slider-one-svg"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>

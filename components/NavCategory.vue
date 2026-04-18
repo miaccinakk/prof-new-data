@@ -18,7 +18,7 @@ const category = await $fetch("/api/category/", {
 
 if (route.params.id && category && category.length > 0) {
   const foundCategory = category.find(
-    (cat) => cat.kirilica === route.params.id
+    (cat) => cat.kirilica === route.params.id,
   );
 
   if (foundCategory) {
@@ -78,3 +78,61 @@ useSeoMeta({
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+@use "@/assets/scss/mixins" as *;
+.nav-cat {
+  @include float-full;
+  display: flex;
+  align-items: center;
+  padding: 0px 0 0 $spacing-xs;
+  border-radius: 11px;
+  line-height: 1.3;
+  font-size: 13px;
+  height: 60px;
+  font-weight: 600;
+  color: $color-text-dark;
+
+  &.router-link-exact-active {
+    background: $color-primary;
+    color: $color-white;
+  }
+
+  > .icon {
+    margin: 0 $spacing-sm 0 0;
+    width: 35px;
+  }
+}
+
+.m-cat-nav {
+  margin: $spacing-xxl 0 $spacing-xl;
+  @include float-full;
+}
+@media (max-width: 1023px) {
+  .h1-catalog {
+    font-size: 18px !important;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 20px !important;
+  }
+  .nav-cat {
+    padding: 0px 0 0 $spacing-sm;
+    font-size: 13px;
+    height: 50px;
+    min-width: 190px;
+  }
+
+  .m-flex {
+    display: flex !important;
+  }
+
+  .mobail-tabs {
+    width: 100%;
+    padding: 0 $spacing-md;
+  }
+
+  .m-cat-nav {
+    margin: 0px 0 $spacing-lg;
+    @include float-full;
+  }
+}
+</style>

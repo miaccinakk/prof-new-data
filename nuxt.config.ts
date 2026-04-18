@@ -52,8 +52,8 @@ export default defineNuxtConfig({
   },
   css: [
     "@/assets/main.scss",
-    "bulma/css/bulma.css",
-    "plyr/dist/plyr.css",
+    "@/node_modules/bulma/css/bulma.css",
+    "@/node_modules/plyr/dist/plyr.css",
     // "element-plus/dist/index.css",
   ],
   elementPlus: {

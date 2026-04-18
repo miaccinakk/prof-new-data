@@ -25,7 +25,7 @@ const visibleModalClose = (item) => {
 <template>
   <div class="columns is-multiline">
     <div class="column is-12">
-      <h4><icon name="solar:video-library-outline" />Видеообзоры наши работ</h4>
+      <h4 class="index-h4">Видеообзоры наши работ</h4>
     </div>
     <div class="column is-12">
       <div class="video-slide">

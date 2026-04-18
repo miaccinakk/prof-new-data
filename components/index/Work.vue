@@ -34,7 +34,7 @@ const iconSvg =
   <div>
     <div class="columns is-multiline diagonal">
       <div class="column is-12">
-        <h4 class="stage-h4">
+        <h4 class="stage-h4 index-h4">
           Работать с нами просто
           <div v-html="iconSvg" class="work-svg"></div>
         </h4>
@@ -132,48 +132,48 @@ const iconSvg =
 
   :deep(.el-collapse-item) {
     margin: 0 0 0px;
+  }
 
-    &__header {
-      background: transparent;
-      padding: 50px 45px;
-      height: auto;
-      border-bottom: 1px solid #d3d8df;
-      font-size: 21px;
-      font-weight: 700;
-      text-align: left;
-      line-height: 1.5;
-      border-radius: 0px;
+  :deep(.el-collapse-item__header) {
+    background: transparent;
+    padding: 50px 45px;
+    height: auto;
+    border-bottom: 1px solid #d3d8df;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 1.5;
+    border-radius: 0px;
 
-      .el-icon {
+    .el-icon {
+      height: 1.5em;
+      width: 1.5em;
+      opacity: 0.4;
+
+      svg {
         height: 1.5em;
         width: 1.5em;
-        opacity: 0.4;
-
-        svg {
-          height: 1.5em;
-          width: 1.5em;
-        }
-      }
-
-      .icon {
-        margin: 0 $spacing-lg 0 0;
       }
     }
 
-    &__wrap {
-      background: transparent;
-      border-bottom: 1px solid transparent;
-      padding: 0px 45px 0px;
+    .icon {
+      margin: 0 $spacing-lg 0 0;
     }
+  }
 
-    &.is-active {
-      border-bottom: 1px solid #d3d8df;
-      margin: 0 0 $spacing-lg;
-    }
+  :deep(.el-collapse-item__wrap) {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    padding: 0px 45px 0px;
+  }
 
-    &:first-child .el-collapse-item__header {
-      border-top: 1px solid #d3d8df;
-    }
+  :deep(.el-collapse-item.is-active) {
+    border-bottom: 1px solid #d3d8df;
+    margin: 0 0 $spacing-lg;
+  }
+
+  :deep(.el-collapse-item:first-child .el-collapse-item__header) {
+    border-top: 1px solid #d3d8df;
   }
 
   :deep(.el-collapse-item__header.is-active) {

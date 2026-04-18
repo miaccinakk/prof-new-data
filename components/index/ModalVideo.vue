@@ -17,7 +17,7 @@ watch(
   (item) => {
     plyr();
     visible.value = item;
-  }
+  },
 );
 const emit = defineEmits(["visibleModalClose"]);
 watch(visible, (input) => {
@@ -41,9 +41,6 @@ const plyr = async () => {
           ></div>
           <div v-html="objectVideo.description" class="video-gal-desc"></div>
         </div>
-        <!-- <div class="dialog-footer">
-          <button class="button" @click="visible = false">Cancel</button>
-        </div> -->
       </el-dialog>
     </ClientOnly>
   </div>

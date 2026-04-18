@@ -57,7 +57,7 @@ onMounted(() => {
   <div>
     <div class="columns is-multiline">
       <div class="column is-12">
-        <h4><icon name="solar:document-broken" />Инженерные Системы</h4>
+        <h4 class="index-h4">Инженерные Системы</h4>
       </div>
       <div class="column is-12">
         <ClientOnly>
@@ -77,6 +77,33 @@ onMounted(() => {
                     <strong>{{ tab.title }}</strong>
                     <p v-if="tab.info" v-show="infoNone">{{ tab.info }}</p>
                   </span>
+                </template>
+
+                <div v-if="loadedVideos['first' + idx]">
+                  <video
+                    v-for="itemvideo in tab.video"
+                    :key="itemvideo.url"
+                    class="lazy-video"
+                    muted
+                    autoplay
+                    loop
+                    webkit-playsinline
+                    playsinline
+                    :poster="itemvideo.img"
+                    type="video/webm"
+                    :src="itemvideo.url"
+                  >
+                    <source class="video-source" src="" type="video/mp4" />
+                  </video>
+                  <div v-html="tab.description" class="mobail-tabs"></div>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+        </ClientOnly>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -344,30 +371,3 @@ onMounted(() => {
   }
 }
 </style>
-
-                <div v-if="loadedVideos['first' + idx]">
-                  <video
-                    v-for="itemvideo in tab.video"
-                    :key="itemvideo.url"
-                    class="lazy-video"
-                    muted
-                    autoplay
-                    loop
-                    webkit-playsinline
-                    playsinline
-                    :poster="itemvideo.img"
-                    type="video/webm"
-                    :src="itemvideo.url"
-                  >
-                    <source class="video-source" src="" type="video/mp4" />
-                  </video>
-                  <div v-html="tab.description" class="mobail-tabs"></div>
-                </div>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </ClientOnly>
-      </div>
-    </div>
-  </div>
-</template>

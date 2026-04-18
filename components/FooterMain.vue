@@ -9,13 +9,13 @@ await mainData.fetchData();
 monDataNav.value = mainData.getMain;
 
 const phone = computed(() =>
-  monDataNav.value.length > 0 ? monDataNav.value[0]?.phone : ""
+  monDataNav.value.length > 0 ? monDataNav.value[0]?.phone : "",
 );
 const dopphone = computed(() =>
-  monDataNav.value.length > 0 ? monDataNav.value[0]?.dopphone : ""
+  monDataNav.value.length > 0 ? monDataNav.value[0]?.dopphone : "",
 );
 const email = computed(() =>
-  monDataNav.value.length > 0 ? monDataNav.value[0]?.email : ""
+  monDataNav.value.length > 0 ? monDataNav.value[0]?.email : "",
 );
 </script>
 
@@ -51,12 +51,12 @@ const email = computed(() =>
             </a>
           </div>
           <p><span>© 2024 «ПРОФИТЕРМ»</span></p>
-          <p class="f-dev">
+          <!-- <p class="f-dev">
             <span>Разработка -</span
             ><nuxt-link target="_blank" to="https://fastsite.tech"
               >fastsite.tech</nuxt-link
             >
-          </p>
+          </p> -->
         </div>
       </footer>
     </div>
