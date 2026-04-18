@@ -118,9 +118,32 @@ useSeoMeta({
   ogTitle: seoTitle.value,
   description: seoDescription.value,
   ogDescription: seoDescription.value,
-  ogImage: "/profiterm.webp",
+  ogImage: "https://profiterm.by/profiterm.webp",
   twitterCard: "summary_large_image",
   canonical: "https://profiterm.by/",
+});
+
+// JSON-LD structured data for Organization
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Профитерм",
+        url: "https://profiterm.by",
+        logo: "https://profiterm.by/profiterm.webp",
+        description:
+          "Проектирование, монтаж систем отопления, водоснабжения, канализации",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "BY",
+        },
+        sameAs: [],
+      }),
+    },
+  ],
 });
 </script>
 

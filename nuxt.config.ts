@@ -121,6 +121,43 @@ export default defineNuxtConfig({
       },
     },
   },
+  // Cache headers for static assets - using routeRules for proper caching
+  routeRules: {
+    // Long cache for static images with immutable flag
+    "/assets/images/**": {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    },
+    // Cache for public folder assets
+    "/_nuxt/**": {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    },
+    // Cache for favicon and static public files
+    "/favicon.png": {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    },
+    "/profiterm.webp": {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    },
+    // ISR for public pages - cache for 1 hour, revalidate in background
+    "/": { isr: 3600 },
+    "/about": { isr: 3600 },
+    "/contacts": { isr: 3600 },
+    "/installment": { isr: 3600 },
+    "/calculator": { isr: 3600 },
+    "/articles": { isr: 3600 },
+    "/article/**": { isr: 3600 },
+    "/catalog": { isr: 3600 },
+    "/catalog/**": { isr: 3600 },
+    "/project/**": { isr: 3600 },
+  },
   auth: {
     baseURL: process.env.AUTH_ORIGIN,
     provider: {

@@ -28,6 +28,16 @@ useSeoMeta({
   ogImage: imgOg.value,
   twitterCard: "summary_large_image",
 });
+
+// Add canonical URL
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: "https://profiterm.by/about",
+    },
+  ],
+});
 </script>
 <template>
   <div>
