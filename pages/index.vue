@@ -83,21 +83,17 @@ watchEffect(() => {
 
 const videos = computed(() => {
   if (!main.value?.one) return [];
+
   return main.value.one.map((item) => {
     const isDesktop = windowWidth.value >= 700;
+
     return {
       ...item,
       videos: isDesktop ? item.video : item.video_mobail,
-      poster:
-        isDesktop && item.img?.[0]
-          ? item.img[0].url
-          : item.img?.[1]
-            ? item.img[1].url
-            : null,
+      poster: item.img?.[0]?.url || item.img?.[1]?.url || null,
     };
   });
 });
-
 onMounted(() => {
   // Показываем контент быстрее
   requestAnimationFrame(() => {
@@ -196,6 +192,7 @@ useHead({
           rel: "preload",
           as: "image",
           href: main.value.one[0].img[0].url,
+          fetchpriority: "high",
         },
       ]
     : [],
@@ -213,30 +210,25 @@ useHead({
           class="video-poster-fallback"
           :style="{ backgroundImage: `url(${item.poster})` }"
         ></div> -->
-        <img
-          v-if="item.poster && !isVideoLoaded"
-          :src="item.poster"
-          alt="Проектирование и монтаж систем"
-          class="video-poster-img"
-          decoding="async"
-          fetchpriority="high"
-          width="1920"
-          height="1080"
-        />
-        <ClientOnly>
-          <video
-            v-if="isVideoLoaded && item.videos?.[0]?.url"
-            muted
-            autoplay
-            loop
-            webkit-playsinline
-            playsinline
-            preload="auto"
-            :poster="item.poster"
-          >
-            <source :src="item.videos[0].url" type="video/mp4" />
-          </video>
-        </ClientOnly>
+        <picture v-if="!isVideoLoaded">
+          <source media="(max-width: 700px)" :srcset="item.img?.[1]?.url" />
+          <img
+            :src="item.img?.[0]?.url"
+            class="video-poster-img"
+            fetchpriority="high"
+          />
+        </picture>
+
+        <video
+          v-if="isVideoLoaded && item.videos?.[0]?.url"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source :src="item.videos[0].url" type="video/mp4" />
+        </video>
         <div class="container">
           <div class="video-block-inf">
             <h1>{{ item.title }}</h1>
