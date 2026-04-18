@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import formidable from "formidable";
 import fs from "fs";
 
 const config = useRuntimeConfig();
@@ -16,7 +15,8 @@ const transporter = nodemailer.createTransport({
 export default defineEventHandler(async (event) => {
   try {
     console.log("Starting to parse form...");
-    const form = formidable({ multiples: true });
+    const { IncomingForm } = await import("formidable");
+    const form = new IncomingForm({ multiples: true });
 
     const body = await readBody(event);
 
@@ -92,7 +92,7 @@ export default defineEventHandler(async (event) => {
       createError({
         statusCode: 400,
         statusMessage: error.message,
-      })
+      }),
     );
   }
 });

@@ -29,10 +29,22 @@ export default defineNuxtConfig({
         { rel: "canonical", href: "https://profiterm.by/" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
         // Preconnect for external domains - improves loading performance
-        { rel: "preconnect", href: "https://disk.profiterm.by", crossorigin: "anonymous" },
+        {
+          rel: "preconnect",
+          href: "https://disk.profiterm.by",
+          crossorigin: "anonymous",
+        },
         { rel: "dns-prefetch", href: "https://disk.profiterm.by" },
-        { rel: "preconnect", href: "https://mc.yandex.ru", crossorigin: "anonymous" },
-        { rel: "preconnect", href: "https://www.googletagmanager.com", crossorigin: "anonymous" },
+        {
+          rel: "preconnect",
+          href: "https://mc.yandex.ru",
+          crossorigin: "anonymous",
+        },
+        {
+          rel: "preconnect",
+          href: "https://www.googletagmanager.com",
+          crossorigin: "anonymous",
+        },
       ],
     },
   },
@@ -73,7 +85,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt-modules/cache",
     "nuxt-icons",
-    "formidable",
+    // "formidable",
     "@nuxtjs/seo",
     "nuxt-icon",
     "@nuxt/image-edge",
@@ -125,6 +137,9 @@ export default defineNuxtConfig({
         changeOrigin: true,
       },
     },
+    // externals: {
+    //   external: ["formidable"],
+    // },
   },
   // Cache headers for static assets - using routeRules for proper caching
   routeRules: {

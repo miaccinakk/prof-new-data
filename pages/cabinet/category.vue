@@ -20,16 +20,12 @@ const form = ref({
   img: "",
   description: "",
 });
-const {
-  data: category,
-  error,
-  refresh,
-} = await useFetch("/api/category/", {
+const { data: category, refresh } = await useFetch("/api/category/", {
   method: "POST",
-  headers: {
-    "Content-Type": "application/json; charset=UTF-8",
-  },
-  body: { sortPage, pageSize },
+  body: () => ({
+    sortPage: sortPage.value,
+    pageSize: pageSize.value,
+  }),
 });
 const addCategory = async () => {
   let updatecat = "api/update/updatecategory";
@@ -63,14 +59,14 @@ const drawerDel = async (id) => {
 };
 const drawerIn = (item) => {
   form.value._id = item._id;
-  (form.value.id_category = item.id_category),
+  ((form.value.id_category = item.id_category),
     (form.value.name = item.name),
     (form.value.kirilica = item.kirilica),
     (form.value.img = item.img),
     (form.value.seo_description = item.seo_description),
     (form.value.seo_title = item.seo_title),
     (form.value.description = item.description),
-    (drawer.value = true);
+    (drawer.value = true));
   buttonEdit.value = false;
 };
 
