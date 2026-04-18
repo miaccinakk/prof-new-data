@@ -69,7 +69,7 @@ const scrollToTop = () => {
                     :key="imgurl"
                     :src="imgurl.url"
                     preload
-                    format="wepb"
+                    format="webp"
                     :alt="item.title"
                   />
                 </div>
