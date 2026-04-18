@@ -26,8 +26,13 @@ export default defineNuxtConfig({
         { hid: "color-scheme", name: "color-scheme", content: "light only" },
       ],
       link: [
-        { rel: "canonical", href: "https://profiterm.by" }, // Без завершающего слэша
+        { rel: "canonical", href: "https://profiterm.by/" },
         { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
+        // Preconnect for external domains - improves loading performance
+        { rel: "preconnect", href: "https://disk.profiterm.by", crossorigin: "anonymous" },
+        { rel: "dns-prefetch", href: "https://disk.profiterm.by" },
+        { rel: "preconnect", href: "https://mc.yandex.ru", crossorigin: "anonymous" },
+        { rel: "preconnect", href: "https://www.googletagmanager.com", crossorigin: "anonymous" },
       ],
     },
   },

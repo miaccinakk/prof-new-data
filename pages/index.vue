@@ -123,7 +123,7 @@ useSeoMeta({
   canonical: "https://profiterm.by/",
 });
 
-// JSON-LD structured data for Organization
+// JSON-LD structured data for Organization and WebSite
 useHead({
   script: [
     {
@@ -139,8 +139,53 @@ useHead({
         address: {
           "@type": "PostalAddress",
           addressCountry: "BY",
+          addressLocality: "Минск",
+        },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          availableLanguage: ["Russian"],
         },
         sameAs: [],
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Профитерм",
+        url: "https://profiterm.by",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://profiterm.by/catalog?search={search_term_string}",
+          },
+          "query-input": "required name=search_term_string",
+        },
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: "Профитерм",
+        image: "https://profiterm.by/profiterm.webp",
+        url: "https://profiterm.by",
+        description:
+          "Проектирование, монтаж систем отопления, водоснабжения, канализации в Беларуси",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "BY",
+          addressLocality: "Минск",
+        },
+        priceRange: "$$",
+        areaServed: {
+          "@type": "Country",
+          name: "Беларусь",
+        },
       }),
     },
   ],

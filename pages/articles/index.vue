@@ -72,12 +72,49 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
-// Add canonical URL
+// Add canonical URL and JSON-LD structured data
 useHead({
   link: [
     {
       rel: "canonical",
       href: "https://profiterm.by/articles",
+    },
+  ],
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: seoTitle.value,
+        description: seoDescription.value,
+        url: "https://profiterm.by/articles",
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: [],
+        },
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Главная",
+            item: "https://profiterm.by/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Статьи",
+            item: "https://profiterm.by/articles",
+          },
+        ],
+      }),
     },
   ],
 });

@@ -41,12 +41,68 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
-// Add canonical URL
+// Add canonical URL and JSON-LD structured data
 useHead({
   link: [
     {
       rel: "canonical",
       href: `https://profiterm.by/article/${route.params.id}`,
+    },
+  ],
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: article?.title,
+        description: article?.seo_description || article?.subtitle,
+        image: article?.img?.[0]?.url,
+        author: {
+          "@type": "Organization",
+          name: "Профитерм",
+          url: "https://profiterm.by",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Профитерм",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://profiterm.by/profiterm.webp",
+          },
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://profiterm.by/article/${route.params.id}`,
+        },
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Главная",
+            item: "https://profiterm.by/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Статьи",
+            item: "https://profiterm.by/articles/",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: article?.title,
+            item: `https://profiterm.by/article/${route.params.id}`,
+          },
+        ],
+      }),
     },
   ],
 });
