@@ -1,5 +1,27 @@
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow: /cabinet/
-Disallow: /login/
-Disallow: /registration/
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /admin
+Disallow: /api/
+Disallow: /_nuxt/
+
+# Sitemap location
 Sitemap: https://profiterm.by/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Yandex specific
+User-agent: Yandex
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 2
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /api/

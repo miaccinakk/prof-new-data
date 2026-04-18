@@ -105,7 +105,8 @@ button {
     font-size: 19px;
   }
   .rev-dialog,
-  .video-gal {
+  .video-gal,
+  .modal-form {
     border-radius: 0 !important;
     bottom: 0;
     display: inline-table;
@@ -114,6 +115,9 @@ button {
     min-height: 100%;
     padding: 80px 10px !important;
     width: 100% !important;
+  }
+  .modal-form .el-dialog__header {
+    padding-left: 0 !important;
   }
   .rev-dialog {
     border-radius: 17px;
