@@ -27,12 +27,50 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
-// Add canonical URL
+// Add canonical URL and JSON-LD structured data
 useHead({
   link: [
     {
       rel: "canonical",
       href: "https://profiterm.by/installment",
+    },
+  ],
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title.value,
+        description: description.value,
+        url: "https://profiterm.by/installment",
+        mainEntity: {
+          "@type": "Organization",
+          name: "Профитерм",
+          url: "https://profiterm.by",
+        },
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Главная",
+            item: "https://profiterm.by/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Рассрочка платежа",
+            item: "https://profiterm.by/installment",
+          },
+        ],
+      }),
     },
   ],
 });

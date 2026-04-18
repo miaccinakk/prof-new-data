@@ -27,12 +27,50 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
-// Add canonical URL
+// Add canonical URL and JSON-LD structured data
 useHead({
   link: [
     {
       rel: "canonical",
       href: "https://profiterm.by/contacts",
+    },
+  ],
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        name: "Контакты Профитерм",
+        description: description.value,
+        url: "https://profiterm.by/contacts",
+        mainEntity: {
+          "@type": "Organization",
+          name: "Профитерм",
+          url: "https://profiterm.by",
+        },
+      }),
+    },
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Главная",
+            item: "https://profiterm.by/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Контакты",
+            item: "https://profiterm.by/contacts",
+          },
+        ],
+      }),
     },
   ],
 });
