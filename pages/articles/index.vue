@@ -26,8 +26,6 @@ const { data: news, refresh } = await useFetch("/api/news", {
   },
   body: { sortPage, pageSize, selectFields: true },
 });
-
-console.log(news.value);
 // Создаём отсортированные массивы
 const level1 = computed(
   () => news.value?.result.filter((item) => item.level === 1) || []
@@ -99,7 +97,7 @@ useHead({
                     v-for="imgurl in item.img"
                     :key="imgurl"
                     :src="imgurl.url"
-                    format="wepb"
+                    format="webp"
                     :alt="item.title"
                   />
                   <div class="article-block-top-desc">
@@ -124,7 +122,7 @@ useHead({
                     :key="imgurl"
                     :src="imgurl.url"
                     loading="lazy"
-                    format="wepb"
+                    format="webp"
                     :alt="item.title"
                   />
                   <div class="article-block-top-right-desc">
@@ -150,7 +148,7 @@ useHead({
                     :key="imgurl"
                     :src="imgurl.url"
                     loading="lazy"
-                    format="wepb"
+                    format="webp"
                     :alt="item.title"
                   />
                 </div>

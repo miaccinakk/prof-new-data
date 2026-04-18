@@ -91,7 +91,7 @@ const openGallery = () => {
                   :key="imgurl"
                   :src="imgurl.url"
                   loading="lazy"
-                  format="wepb"
+                  format="webp"
                   :alt="article.title"
                 />
                 <div class="article-top-desc">
