@@ -160,7 +160,8 @@ useHead({
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: "https://profiterm.by/catalog?search={search_term_string}",
+            urlTemplate:
+              "https://profiterm.by/catalog?search={search_term_string}",
           },
           "query-input": "required name=search_term_string",
         },
@@ -189,6 +190,15 @@ useHead({
       }),
     },
   ],
+  link: main.value?.one?.[0]?.img?.[0]?.url
+    ? [
+        {
+          rel: "preload",
+          as: "image",
+          href: main.value.one[0].img[0].url,
+        },
+      ]
+    : [],
 });
 </script>
 
@@ -198,12 +208,21 @@ useHead({
     <div class="cover-video-index">
       <div class="video-index" v-for="(item, index) in videos" :key="index">
         <!-- Показываем постер как фон пока видео загружается -->
-        <div
+        <!-- <div
           v-if="item.poster && !isVideoLoaded"
           class="video-poster-fallback"
           :style="{ backgroundImage: `url(${item.poster})` }"
-        ></div>
-
+        ></div> -->
+        <img
+          v-if="item.poster && !isVideoLoaded"
+          :src="item.poster"
+          alt="Проектирование и монтаж систем"
+          class="video-poster-img"
+          decoding="async"
+          fetchpriority="high"
+          width="1920"
+          height="1080"
+        />
         <ClientOnly>
           <video
             v-if="isVideoLoaded && item.videos?.[0]?.url"
@@ -212,7 +231,7 @@ useHead({
             loop
             webkit-playsinline
             playsinline
-            preload="none"
+            preload="auto"
             :poster="item.poster"
           >
             <source :src="item.videos[0].url" type="video/mp4" />
@@ -437,7 +456,15 @@ useHead({
   background-position: center;
   z-index: 0;
 }
-
+.video-poster-img {
+  position: absolute;
+  aspect-ratio: 16 / 9;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
 .skeleton-loader {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
