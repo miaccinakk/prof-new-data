@@ -16,7 +16,7 @@ const title = ref("Контакты компании Профитерм");
 const description = ref(
   "На этой странице вы сможете найти контакты для связи с нами."
 );
-const imgOg = ref("/profiterm.webp");
+const imgOg = ref("https://profiterm.by/profiterm.webp");
 
 useSeoMeta({
   title: title.value,
@@ -25,6 +25,16 @@ useSeoMeta({
   ogDescription: description.value,
   ogImage: imgOg.value,
   twitterCard: "summary_large_image",
+});
+
+// Add canonical URL
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: "https://profiterm.by/contacts",
+    },
+  ],
 });
 </script>
 <template>

@@ -73,6 +73,16 @@ useSeoMeta({
   ogImage: seoTImg.value,
   twitterCard: "summary_large_image",
 });
+
+// Add canonical URL
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: "https://profiterm.by/articles",
+    },
+  ],
+});
 </script>
 <template>
   <div class="bd-docs-main main-article">

@@ -26,7 +26,7 @@ if (route.params.id && category && category.length > 0) {
     seoTitle.value = foundCategory.seo_title;
     seoDescription.value = foundCategory.seo_description;
     description.value = foundCategory.description;
-    seoTImg.value = foundCategory.seo_image || "/profiterm.webp"; // Убедитесь, что `seo_image` есть в данных категории
+    seoTImg.value = foundCategory.seo_image || "https://profiterm.by/profiterm.webp"; // Ensure seo_image exists in category data
   }
   emit("catDescription", description.value);
 } else {
@@ -35,7 +35,7 @@ if (route.params.id && category && category.length > 0) {
     seoTitle.value = foundCategory.seo_title;
     seoDescription.value = foundCategory.seo_description;
     description.value = foundCategory.description;
-    seoTImg.value = "/profiterm.webp";
+    seoTImg.value = "https://profiterm.by/profiterm.webp";
   }
   emit("catDescription", description.value);
 }
@@ -59,6 +59,21 @@ useSeoMeta({
   ogDescription: seoDescription.value,
   ogImage: seoTImg.value,
   twitterCard: "summary_large_image",
+});
+
+// Add canonical URL for catalog pages
+const canonicalUrl = computed(() => {
+  const basePath = route.params.id ? `/catalog/${route.params.id}` : "/catalog";
+  return `https://profiterm.by${basePath}`;
+});
+
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: canonicalUrl.value,
+    },
+  ],
 });
 </script>
 <template>

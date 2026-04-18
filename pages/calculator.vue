@@ -239,7 +239,7 @@ const costWork = () => {
     });
   });
 
-  // Убираем нулевые значения из suumItem
+  // ��бираем нулевые значения из suumItem
   suumItem.value = suumItem.value.filter((value) => value !== 0);
 
   // Обновляем статус расчета
@@ -486,7 +486,7 @@ const title = ref("Калькулятор стоимости работ");
 const description = ref(
   "С помощью этого калькулятора Вы сможете рассчитать стоимость работ компании Профитерм.",
 );
-const imgOg = ref("/profiterm.webp");
+const imgOg = ref("https://profiterm.by/profiterm.webp");
 
 useSeoMeta({
   title: title.value,
@@ -495,6 +495,16 @@ useSeoMeta({
   ogDescription: description.value,
   ogImage: imgOg.value,
   twitterCard: "summary_large_image",
+});
+
+// Add canonical URL
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: "https://profiterm.by/calculator",
+    },
+  ],
 });
 </script>
 

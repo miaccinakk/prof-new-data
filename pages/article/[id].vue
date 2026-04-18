@@ -40,6 +40,16 @@ useSeoMeta({
   ogImage: seoTImg.value,
   twitterCard: "summary_large_image",
 });
+
+// Add canonical URL
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: `https://profiterm.by/article/${route.params.id}`,
+    },
+  ],
+});
 const plyr = async () => {
   const Plyr = await import("plyr");
   new Plyr.default("#y" + objectVideo.value);
