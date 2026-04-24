@@ -141,6 +141,9 @@ export default defineNuxtConfig({
         changeOrigin: true,
       },
     },
+    prerender: {
+      failOnError: false,
+    },
     // externals: {
     //   external: ["formidable"],
     // },
@@ -197,12 +200,12 @@ export default defineNuxtConfig({
   },
   image: {
     // Используем IPX для оптимизации изображений на лету
-    provider: 'ipx',
+    provider: "ipx",
     // Разрешаем внешние домены для оптимизации
-    domains: ['disk.profiterm.by'],
+    domains: ["disk.profiterm.by"],
     // Настройки качества и форматов
     quality: 80,
-    format: ['webp', 'avif'],
+    format: ["webp", "avif"],
     // Предустановленные размеры для оптимизации
     screens: {
       xs: 320,
@@ -213,7 +216,7 @@ export default defineNuxtConfig({
     },
     // Алиас для удобства
     alias: {
-      disk: 'https://disk.profiterm.by/images',
+      disk: "https://disk.profiterm.by/images",
     },
   },
   // devtools: { enabled: true },
