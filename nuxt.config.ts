@@ -85,36 +85,36 @@ export default defineNuxtConfig({
     // "element-plus/dist/index.css",
   ],
   elementPlus: {
-    importStyle: "scss",
+    importStyle: "css",
     // Включаем только используемые компоненты
     components: [
-      'ElBreadcrumb',
-      'ElBreadcrumbItem', 
-      'ElButton',
-      'ElCheckbox',
-      'ElCollapse',
-      'ElCollapseItem',
-      'ElColorPicker',
-      'ElDialog',
-      'ElDrawer',
-      'ElOption',
-      'ElPageHeader',
-      'ElPagination',
-      'ElSelect',
-      'ElTabs',
-      'ElTabPane',
-      'ElUpload',
-      'ElInput',
-      'ElForm',
-      'ElFormItem',
-      'ElMessage',
-      'ElNotification',
+      "ElBreadcrumb",
+      "ElBreadcrumbItem",
+      "ElButton",
+      "ElCheckbox",
+      "ElCollapse",
+      "ElCollapseItem",
+      "ElColorPicker",
+      "ElDialog",
+      "ElDrawer",
+      "ElOption",
+      "ElPageHeader",
+      "ElPagination",
+      "ElSelect",
+      "ElTabs",
+      "ElTabPane",
+      "ElUpload",
+      "ElInput",
+      "ElForm",
+      "ElFormItem",
+      "ElMessage",
+      "ElNotification",
     ],
   },
   // Настройки Swiper - импортируем только нужные модули
   swiper: {
-    modules: ['autoplay', 'navigation', 'pagination', 'effect-creative'],
-    styleLang: 'css',
+    modules: ["autoplay", "navigation", "pagination", "effect-creative"],
+    styleLang: "css",
   },
   modules: [
     "nuxt-server-utils",
@@ -267,26 +267,30 @@ export default defineNuxtConfig({
     },
     build: {
       // Оптимизация размера бандлов
-      target: 'esnext', // Современный JS для меньшего размера
+      target: "esnext", // Современный JS для меньшего размера
       rollupOptions: {
         output: {
           manualChunks(id) {
             // Более гранулярное разбиение чанков
-            if (id.includes('node_modules')) {
-              if (id.includes('element-plus')) {
-                return 'vendor-element';
+            if (id.includes("node_modules")) {
+              if (id.includes("element-plus")) {
+                return "vendor-element";
               }
-              if (id.includes('swiper')) {
-                return 'vendor-swiper';
+              if (id.includes("swiper")) {
+                return "vendor-swiper";
               }
-              if (id.includes('vue') || id.includes('pinia') || id.includes('@vue')) {
-                return 'vendor-vue';
+              if (
+                id.includes("vue") ||
+                id.includes("pinia") ||
+                id.includes("@vue")
+              ) {
+                return "vendor-vue";
               }
-              if (id.includes('plyr')) {
-                return 'vendor-plyr';
+              if (id.includes("plyr")) {
+                return "vendor-plyr";
               }
               // Остальные зависимости в общий vendor
-              return 'vendor';
+              return "vendor";
             }
           },
         },
@@ -296,13 +300,13 @@ export default defineNuxtConfig({
     },
     // Оптимизация зависимостей
     optimizeDeps: {
-      include: ['vue', 'vue-router', 'pinia'],
-      exclude: ['@element-plus/icons-vue'], // Исключаем неиспользуемые иконки
+      include: ["vue", "vue-router", "pinia"],
+      exclude: ["@element-plus/icons-vue"], // Исключаем неиспользуемые иконки
     },
     // Удаляем неиспользуемые локали Element Plus
     resolve: {
       alias: {
-        'element-plus/dist/locale': 'element-plus/dist/locale/ru.mjs',
+        "element-plus/dist/locale": "element-plus/dist/locale/ru.mjs",
       },
     },
   },
