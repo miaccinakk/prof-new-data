@@ -13,8 +13,10 @@ export default defineEventHandler(async (event) => {
       let query = NewsModel.find(filter).sort({ level: 1 });
 
       if (data.selectFields) {
-        // Минимальные поля для списка статей (без description, galery и других тяжёлых данных)
-        query = query.select("title kirilica");
+        // Поля для списка статей (без description, galery и других тяжёлых данных)
+        // level и level_index нужны для фильтрации на странице /articles
+        // img нужен для превью, preview для описания
+        query = query.select("title kirilica level level_index img preview");
       }
 
       // Применяем пагинацию

@@ -24,7 +24,7 @@ const { data: news, refresh } = await useFetch("/api/news", {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  body: { sortPage, pageSize, selectFields: true },
+  body: { sortPage, pageSize },
 });
 // Создаём отсортированные массивы
 const level1 = computed(
