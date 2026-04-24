@@ -13,13 +13,17 @@ export default defineEventHandler(async (event) => {
       let query = NewsModel.find(filter).sort({ level: 1 });
 
       if (data.selectFields) {
-        query = query.select(
-          "level level_index title title_index subtitle kirilica img"
-        );
+        // Минимальные поля для списка статей (без description, galery и других тяжёлых данных)
+        query = query.select("title kirilica");
       }
 
-      if (data.sortPage !== undefined && data.pageSize !== undefined) {
-        query = query.skip(data.sortPage).limit(data.pageSize);
+      // Применяем пагинацию
+      if (data.sortPage !== undefined) {
+        query = query.skip(data.sortPage);
+      }
+      // Применяем лимит если указан pageSize
+      if (data.pageSize !== undefined) {
+        query = query.limit(data.pageSize);
       }
 
       const result = await query;

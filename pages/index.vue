@@ -1,6 +1,5 @@
 <script setup>
 import { useWindowSize } from "@vueuse/core";
-import { useMainStore } from "~/store/maindata";
 
 definePageMeta({
   title: "My index page",
@@ -27,12 +26,8 @@ const LazyIndexReviews = defineAsyncComponent(
   () => import("~/components/index/Reviews.vue"),
 );
 
-const mainData = useMainStore();
+// Убрали дублирующий вызов mainData.fetchData() - данные загружаются через useLazyFetch ниже
 const monDataNav = ref([]);
-
-// Non-blocking data fetch using lazy
-mainData.fetchData();
-monDataNav.value = mainData.getMain;
 
 const seoTitle = computed(() =>
   monDataNav.value.length > 0
@@ -57,8 +52,8 @@ const { data: main, pending } = await useLazyFetch("/api/main/", {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  // server: true,
-  transform: (data) => data, // Кэширование данных
+  key: 'index-main',  // Уникальный ключ для дедупликации запросов
+  getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
 });
 
 // Watch for data changes to set descGal
@@ -100,13 +95,22 @@ onMounted(() => {
     isContentVisible.value = true;
   });
 
-  // Отложенная загрузка видео после первого рендера
-  requestIdleCallback?.(() => {
+  // Отложенная загрузка видео - ждём пока страница полностью отрисуется и станет интерактивной
+  // Используем более длительную задержку, чтобы видео не блокировало LCP и FCP
+  const loadVideo = () => {
     isVideoLoaded.value = true;
-  }) ||
-    setTimeout(() => {
-      isVideoLoaded.value = true;
-    }, 800);
+  };
+  
+  // Загружаем видео только после события load (все ресурсы загружены)
+  if (document.readyState === 'complete') {
+    // Если страница уже загружена, ждём 2 секунды
+    setTimeout(loadVideo, 2000);
+  } else {
+    // Ждём полной загрузки страницы + 1 секунда
+    window.addEventListener('load', () => {
+      setTimeout(loadVideo, 1000);
+    }, { once: true });
+  }
 });
 
 useSeoMeta({
