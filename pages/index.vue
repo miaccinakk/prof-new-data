@@ -53,6 +53,7 @@ const { data: main, pending } = await useLazyFetch("/api/main/", {
     "Content-Type": "application/json; charset=UTF-8",
   },
   key: 'index-main',  // Уникальный ключ для дедупликации запросов
+  dedupe: 'defer',    // Предотвращает дублирование запросов при hydration
 });
 
 // Watch for data changes to set descGal
@@ -94,22 +95,36 @@ onMounted(() => {
     isContentVisible.value = true;
   });
 
-  // Отложенная загрузка видео - ждём пока страница полностью отрисуется и станет интерактивной
-  // Используем более длительную задержку, чтобы видео не блокировало LCP и FCP
+  // Загружаем видео только при взаимодействии пользователя (клик, скролл, тач)
+  // Это предотвращает загрузку 4MB видео до необходимости
   const loadVideo = () => {
-    isVideoLoaded.value = true;
+    if (!isVideoLoaded.value) {
+      isVideoLoaded.value = true;
+      // Удаляем слушатели после загрузки
+      window.removeEventListener('scroll', loadVideo);
+      window.removeEventListener('click', loadVideo);
+      window.removeEventListener('touchstart', loadVideo);
+      window.removeEventListener('mousemove', loadVideoDelayed);
+    }
   };
   
-  // Загружаем видео только после события load (все ресурсы загружены)
-  if (document.readyState === 'complete') {
-    // Если страница уже загружена, ждём 2 секунды
-    setTimeout(loadVideo, 2000);
-  } else {
-    // Ждём полной загрузки страницы + 1 секунда
-    window.addEventListener('load', () => {
-      setTimeout(loadVideo, 1000);
-    }, { once: true });
-  }
+  // Для mousemove добавляем небольшую задержку
+  let mouseMoveTimer: ReturnType<typeof setTimeout>;
+  const loadVideoDelayed = () => {
+    clearTimeout(mouseMoveTimer);
+    mouseMoveTimer = setTimeout(loadVideo, 500);
+  };
+  
+  // Слушаем взаимодействие пользователя
+  window.addEventListener('scroll', loadVideo, { once: true, passive: true });
+  window.addEventListener('click', loadVideo, { once: true });
+  window.addEventListener('touchstart', loadVideo, { once: true, passive: true });
+  window.addEventListener('mousemove', loadVideoDelayed, { passive: true });
+  
+  // Fallback: загружаем видео через 5 секунд если пользователь не взаимодействует
+  setTimeout(() => {
+    loadVideo();
+  }, 5000);
 });
 
 useSeoMeta({

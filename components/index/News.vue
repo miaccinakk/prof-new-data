@@ -12,6 +12,7 @@ const { data: news } = await useFetch("/api/news", {
   }),
   lazy: true,
   key: 'index-news',     // Уникальный ключ для дедупликации
+  dedupe: 'defer',       // Предотвращает дублирование при hydration
 });
 </script>
 <template>
