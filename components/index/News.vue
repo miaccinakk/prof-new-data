@@ -21,7 +21,7 @@ const { data: news } = await useFetch("/api/news", {
       <h4 class="index-h4">{{ h4Category }}</h4>
     </div>
 
-    <div class="column is-12">
+    <div class="column is-12" v-if="news?.result">
       <div class="columns is-multiline">
         <div
           class="column is-4"
