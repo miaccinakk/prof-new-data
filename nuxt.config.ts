@@ -134,9 +134,12 @@ export default defineNuxtConfig({
       "@nuxtjs/google-fonts",
       {
         families: {
-          Montserrat: [100, 300, 400, 500, 600, 700, 800],
-          Caveat: [100, 300, 400, 500, 600, 700, 800],
+          Montserrat: [400, 500, 600, 700],  // Только используемые веса
+          Caveat: [400, 700],                 // Только используемые веса
         },
+        display: 'swap',      // Показываем fallback шрифт пока загружается
+        preconnect: true,
+        preload: true,
         download: true,
         inject: true,
       },
@@ -146,11 +149,18 @@ export default defineNuxtConfig({
       {
         id: "74350936",
         webvisor: true,
+        defer: true,           // Отложенная загрузка
+        clickmap: false,       // Отключаем карту кликов (уменьшает нагрузку)
+        trackLinks: true,
+        accurateTrackBounce: true,
       },
     ],
   ],
   gtm: {
     id: "GTM-MBLWTCQ",
+    defer: true,           // Отложенная загрузка GTM
+    compatibility: false,  // Отключаем совместимость со старыми браузерами
+    loadScript: true,
   },
   site: {
     url: "https://profiterm.by",
