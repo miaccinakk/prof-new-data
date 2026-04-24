@@ -123,9 +123,13 @@ const sortedReviews = computed(() => {
                   v-for="(slideurl, idx) in slide.img"
                   :key="idx"
                   :src="slideurl.url"
-                  sizes="sm:350px md:350px lg:350px"
+                  width="220"
+                  height="220"
+                  sizes="150px md:200px lg:220px"
                   loading="lazy"
-                  format="wepb"
+                  format="webp"
+                  fit="cover"
+                  quality="75"
                   :alt="`Отзыв ${idx + 1} - ${slide.name}`"
                 />
               </div>

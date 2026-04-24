@@ -74,9 +74,13 @@ const visibleModalClose = (item) => {
               v-for="(img, idx) in slide.img"
               :key="idx"
               :src="img.url"
-              sizes="sm:300px md:300px lg:300px"
+              width="340"
+              height="190"
+              sizes="250px md:300px lg:340px"
               loading="lazy"
-              format="wepb"
+              format="webp"
+              fit="cover"
+              quality="75"
               :alt="`Видео обзор проекта ${idx + 1} - ${slide.title}`"
             />
             <div class="video-slide-bg" @click="OpenModal(slide)">
