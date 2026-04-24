@@ -1,10 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // Оптимизация payload - отключаем извлечение payload в отдельный файл
-  // Это предотвращает двойную загрузку _payload.json
-  experimental: {
-    payloadExtraction: false,
-  },
   app: {
     head: {
       htmlAttrs: {
@@ -180,8 +175,7 @@ export default defineNuxtConfig({
       },
     },
     // ISR for public pages - cache for 1 hour, revalidate in background
-    // Добавляем payloadExtraction: false чтобы избежать двойной загрузки payload
-    "/": { isr: 3600, prerender: true },
+    "/": { isr: 3600 },
     "/about": { isr: 3600 },
     "/contacts": { isr: 3600 },
     "/installment": { isr: 3600 },
