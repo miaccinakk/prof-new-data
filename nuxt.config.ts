@@ -81,11 +81,40 @@ export default defineNuxtConfig({
   css: [
     "@/assets/main.scss",
     "@/node_modules/bulma/css/bulma.css",
-    "@/node_modules/plyr/dist/plyr.css",
+    // Plyr CSS загружается динамически в ModalVideo.vue
     // "element-plus/dist/index.css",
   ],
   elementPlus: {
-    importStyle: "css",
+    importStyle: "scss",
+    // Включаем только используемые компоненты
+    components: [
+      'ElBreadcrumb',
+      'ElBreadcrumbItem', 
+      'ElButton',
+      'ElCheckbox',
+      'ElCollapse',
+      'ElCollapseItem',
+      'ElColorPicker',
+      'ElDialog',
+      'ElDrawer',
+      'ElOption',
+      'ElPageHeader',
+      'ElPagination',
+      'ElSelect',
+      'ElTabs',
+      'ElTabPane',
+      'ElUpload',
+      'ElInput',
+      'ElForm',
+      'ElFormItem',
+      'ElMessage',
+      'ElNotification',
+    ],
+  },
+  // Настройки Swiper - импортируем только нужные модули
+  swiper: {
+    modules: ['autoplay', 'navigation', 'pagination', 'effect-creative'],
+    styleLang: 'css',
   },
   modules: [
     "nuxt-server-utils",
@@ -268,6 +297,13 @@ export default defineNuxtConfig({
     // Оптимизация зависимостей
     optimizeDeps: {
       include: ['vue', 'vue-router', 'pinia'],
+      exclude: ['@element-plus/icons-vue'], // Исключаем неиспользуемые иконки
+    },
+    // Удаляем неиспользуемые локали Element Plus
+    resolve: {
+      alias: {
+        'element-plus/dist/locale': 'element-plus/dist/locale/ru.mjs',
+      },
     },
   },
 });

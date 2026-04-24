@@ -25,6 +25,13 @@ watch(visible, (input) => {
   emit("visibleModalClose", input);
 });
 const plyr = async () => {
+  // Динамически загружаем CSS для Plyr только когда нужно
+  if (!document.querySelector('link[href*="plyr"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
+    document.head.appendChild(link);
+  }
   const Plyr = await import("plyr");
   const newPlayer = new Plyr.default("#y" + objectVideo.value.yootube);
 };
