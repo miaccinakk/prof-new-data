@@ -93,7 +93,6 @@ export default defineNuxtConfig({
     // "formidable",
     "@nuxtjs/seo",
     "nuxt-icon",
-    "@nuxt/image-edge",
     "@zadigetvoltaire/nuxt-gtm",
     "@nuxt/image",
     [
@@ -154,6 +153,12 @@ export default defineNuxtConfig({
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     },
+    // Cache for IPX optimized images
+    "/_ipx/**": {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    },
     // Cache for public folder assets
     "/_nuxt/**": {
       headers: {
@@ -191,8 +196,24 @@ export default defineNuxtConfig({
     },
   },
   image: {
-    aliyun: {
-      baseURL: "https://disk.profiterm.by/images/",
+    // Используем IPX для оптимизации изображений на лету
+    provider: 'ipx',
+    // Разрешаем внешние домены для оптимизации
+    domains: ['disk.profiterm.by'],
+    // Настройки качества и форматов
+    quality: 80,
+    format: ['webp', 'avif'],
+    // Предустановленные размеры для оптимизации
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+    // Алиас для удобства
+    alias: {
+      disk: 'https://disk.profiterm.by/images',
     },
   },
   // devtools: { enabled: true },

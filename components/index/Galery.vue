@@ -128,10 +128,14 @@ const onSlideChangeGal = (swiper) => {
                         :src="img.url"
                         :alt="`Фото галереи ${index * 6 + idx + 1}`"
                         data-fancybox="galery project"
-                        sizes="sm:300px md:300px lg:300px"
+                        width="170"
+                        height="200"
+                        sizes="170px"
                         loading="lazy"
                         decoding="async"
                         format="webp"
+                        fit="cover"
+                        quality="75"
                       />
                     </div>
                   </SwiperSlide>
