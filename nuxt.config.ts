@@ -141,9 +141,9 @@ export default defineNuxtConfig({
         changeOrigin: true,
       },
     },
-    prerender: {
-      failOnError: false,
-    },
+    // prerender: {
+    //   failOnError: false,
+    // },
     // externals: {
     //   external: ["formidable"],
     // },
