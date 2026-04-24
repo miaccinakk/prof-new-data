@@ -5,8 +5,13 @@ const { data: news } = await useFetch("/api/news", {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  body: JSON.stringify({ levelFilter: true }),
+  body: JSON.stringify({ 
+    levelFilter: true,
+    selectFields: true,  // Запрашиваем только нужные поля
+    pageSize: 3          // Ограничиваем до 3 статей
+  }),
   lazy: true,
+  key: 'index-news',     // Уникальный ключ для дедупликации
 });
 </script>
 <template>
