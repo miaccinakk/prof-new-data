@@ -109,7 +109,7 @@ onMounted(() => {
   };
   
   // Для mousemove добавляем небольшую задержку
-  let mouseMoveTimer: ReturnType<typeof setTimeout>;
+  let mouseMoveTimer = null;
   const loadVideoDelayed = () => {
     clearTimeout(mouseMoveTimer);
     mouseMoveTimer = setTimeout(loadVideo, 500);
