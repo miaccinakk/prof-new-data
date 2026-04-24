@@ -225,5 +225,20 @@ export default defineNuxtConfig({
         },
       },
     },
+    build: {
+      // Оптимизация размера бандлов
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Выделяем тяжёлые библиотеки в отдельные чанки
+            'vendor-vue': ['vue', 'vue-router', 'pinia'],
+            'vendor-swiper': ['swiper'],
+            'vendor-element': ['element-plus'],
+          },
+        },
+      },
+      // Увеличиваем лимит для предупреждений о размере чанков
+      chunkSizeWarningLimit: 500,
+    },
   },
 });
