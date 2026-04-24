@@ -57,7 +57,7 @@ const { data: main, pending } = await useLazyFetch("/api/main/", {
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
-  server: true,
+  // server: true,
   transform: (data) => data, // Кэширование данных
 });
 
