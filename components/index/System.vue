@@ -50,7 +50,10 @@ const loadVideo = async (tabKey) => {
 };
 
 // Загружаем первое видео только когда компонент становится видимым
-onMounted(() => {
+onMounted(async () => {
+  // Ждём nextTick чтобы ref был доступен после ClientOnly
+  await nextTick();
+  
   // Используем IntersectionObserver для ленивой загрузки
   if (typeof IntersectionObserver !== 'undefined' && systemRef.value) {
     const observer = new IntersectionObserver(
@@ -63,12 +66,14 @@ onMounted(() => {
           }
         });
       },
-      { rootMargin: '200px' } // Начинаем загрузку за 200px до появления
+      { rootMargin: '50px', threshold: 0.1 } // Загружаем когда 10% компонента видно
     );
     observer.observe(systemRef.value);
   } else {
-    // Fallback для SSR или старых браузеров
-    loadedVideos.value["first0"] = true;
+    // Fallback для SSR или старых браузеров - загружаем с задержкой
+    setTimeout(() => {
+      loadedVideos.value["first0"] = true;
+    }, 3000);
   }
 });
 </script>
