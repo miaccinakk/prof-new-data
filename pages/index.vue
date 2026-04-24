@@ -29,6 +29,16 @@ const LazyIndexReviews = defineAsyncComponent(
 // Убрали дублирующий вызов mainData.fetchData() - данные загружаются через useLazyFetch ниже
 const monDataNav = ref([]);
 
+// Отслеживание видимости секций для отложенной загрузки компонентов
+const sectionsVisible = ref({
+  galery: false,
+  video: false,
+  system: false,
+  news: false,
+  work: false,
+  reviews: false,
+});
+
 const seoTitle = computed(() =>
   monDataNav.value.length > 0
     ? monDataNav.value[0]?.seo_title
@@ -89,11 +99,32 @@ const videos = computed(() => {
     };
   });
 });
+// Функция для создания IntersectionObserver для секции
+const observeSection = (sectionName) => {
+  return (el) => {
+    if (!el || sectionsVisible.value[sectionName]) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          sectionsVisible.value[sectionName] = true;
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px', threshold: 0.01 }
+    );
+    observer.observe(el);
+  };
+};
+
 onMounted(() => {
   // Показываем контент быстрее
   requestAnimationFrame(() => {
     isContentVisible.value = true;
   });
+  
+  // Галерея видна сразу (первый компонент после hero)
+  sectionsVisible.value.galery = true;
 
   // Загружаем видео только при взаимодействии пользователя (клик, скролл, тач)
   // Это предотвращает загрузку 4MB видео до необходимости
@@ -261,9 +292,10 @@ useHead({
     <!-- Main content with lazy loaded components -->
     <div class="container">
       <div class="content index-content">
+        <!-- Galery - загружается сразу (первый видимый компонент) -->
         <Suspense>
           <LazyIndexGalery
-            v-if="main?.two"
+            v-if="main?.two && sectionsVisible.galery"
             v-model:galery="main.two"
             v-model:description="descGal"
           />
@@ -272,26 +304,38 @@ useHead({
           </template>
         </Suspense>
 
-        <Suspense>
-          <LazyIndexVideo v-if="main?.three" v-model:video="main.three" />
-          <template #fallback>
-            <div class="skeleton-loader" style="height: 300px"></div>
-          </template>
-        </Suspense>
+        <!-- Video - загружается при скролле -->
+        <div :ref="observeSection('video')">
+          <Suspense v-if="sectionsVisible.video">
+            <LazyIndexVideo v-if="main?.three" v-model:video="main.three" />
+            <template #fallback>
+              <div class="skeleton-loader" style="height: 300px"></div>
+            </template>
+          </Suspense>
+          <div v-else class="skeleton-loader" style="height: 300px"></div>
+        </div>
 
-        <Suspense>
-          <LazyIndexSystem />
-          <template #fallback>
-            <div class="skeleton-loader" style="height: 400px"></div>
-          </template>
-        </Suspense>
+        <!-- System - загружается при скролле -->
+        <div :ref="observeSection('system')">
+          <Suspense v-if="sectionsVisible.system">
+            <LazyIndexSystem />
+            <template #fallback>
+              <div class="skeleton-loader" style="height: 400px"></div>
+            </template>
+          </Suspense>
+          <div v-else class="skeleton-loader" style="height: 400px"></div>
+        </div>
 
-        <Suspense>
-          <LazyIndexNews />
-          <template #fallback>
-            <div class="skeleton-loader" style="height: 200px"></div>
-          </template>
-        </Suspense>
+        <!-- News - загружается при скролле -->
+        <div :ref="observeSection('news')">
+          <Suspense v-if="sectionsVisible.news">
+            <LazyIndexNews />
+            <template #fallback>
+              <div class="skeleton-loader" style="height: 200px"></div>
+            </template>
+          </Suspense>
+          <div v-else class="skeleton-loader" style="height: 200px"></div>
+        </div>
 
         <div class="index-calk">
           <span
@@ -301,21 +345,29 @@ useHead({
           <nuxt-link to="/calculator">Перейти к расчёту</nuxt-link>
         </div>
 
+        <!-- Work - загружается при скролле -->
         <ClientOnly>
-          <Suspense>
-            <LazyIndexWork />
+          <div :ref="observeSection('work')">
+            <Suspense v-if="sectionsVisible.work">
+              <LazyIndexWork />
+              <template #fallback>
+                <div class="skeleton-loader" style="height: 300px"></div>
+              </template>
+            </Suspense>
+            <div v-else class="skeleton-loader" style="height: 300px"></div>
+          </div>
+        </ClientOnly>
+
+        <!-- Reviews - загружается при скролле -->
+        <div :ref="observeSection('reviews')">
+          <Suspense v-if="sectionsVisible.reviews">
+            <LazyIndexReviews />
             <template #fallback>
               <div class="skeleton-loader" style="height: 300px"></div>
             </template>
           </Suspense>
-        </ClientOnly>
-
-        <Suspense>
-          <LazyIndexReviews />
-          <template #fallback>
-            <div class="skeleton-loader" style="height: 300px"></div>
-          </template>
-        </Suspense>
+          <div v-else class="skeleton-loader" style="height: 300px"></div>
+        </div>
       </div>
     </div>
   </div>

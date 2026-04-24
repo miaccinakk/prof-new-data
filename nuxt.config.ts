@@ -6,9 +6,10 @@ export default defineNuxtConfig({
       prefetchLinks: false,
     },
   },
-  // Сжатие payload для уменьшения размера
+  // Оптимизация производительности
   experimental: {
     renderJsonPayloads: true,
+    treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
   },
   app: {
     head: {
@@ -237,18 +238,36 @@ export default defineNuxtConfig({
     },
     build: {
       // Оптимизация размера бандлов
+      target: 'esnext', // Современный JS для меньшего размера
       rollupOptions: {
         output: {
-          manualChunks: {
-            // Выделяем тяжёлые библиотеки в отдельные чанки
-            'vendor-vue': ['vue', 'vue-router', 'pinia'],
-            'vendor-swiper': ['swiper'],
-            'vendor-element': ['element-plus'],
+          manualChunks(id) {
+            // Более гранулярное разбиение чанков
+            if (id.includes('node_modules')) {
+              if (id.includes('element-plus')) {
+                return 'vendor-element';
+              }
+              if (id.includes('swiper')) {
+                return 'vendor-swiper';
+              }
+              if (id.includes('vue') || id.includes('pinia') || id.includes('@vue')) {
+                return 'vendor-vue';
+              }
+              if (id.includes('plyr')) {
+                return 'vendor-plyr';
+              }
+              // Остальные зависимости в общий vendor
+              return 'vendor';
+            }
           },
         },
       },
       // Увеличиваем лимит для предупреждений о размере чанков
       chunkSizeWarningLimit: 500,
+    },
+    // Оптимизация зависимостей
+    optimizeDeps: {
+      include: ['vue', 'vue-router', 'pinia'],
     },
   },
 });
