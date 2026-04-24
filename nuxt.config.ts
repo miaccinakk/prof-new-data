@@ -239,13 +239,6 @@ export default defineNuxtConfig({
     build: {
       // Оптимизация размера бандлов
       target: 'esnext', // Современный JS для меньшего размера
-      minify: 'terser', // Лучшая минификация
-      terserOptions: {
-        compress: {
-          drop_console: true, // Удаляем console.log в продакшене
-          drop_debugger: true,
-        },
-      },
       rollupOptions: {
         output: {
           manualChunks(id) {
