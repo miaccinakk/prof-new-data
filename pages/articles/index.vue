@@ -7,10 +7,10 @@ const sortPage = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(28);
 const seoTitle = ref(
-  "Статьи по монтажу систем отопления, водоснабжения и канализации."
+  "Статьи по монтажу систем отопления, водоснабжения и канализации.",
 );
 const seoDescription = ref(
-  "У нас вы узнаете особенности устройства тёплых полов, котельных, систем водоснабжения и канализации."
+  "У нас вы узнаете особенности устройства тёплых полов, котельных, систем водоснабжения и канализации.",
 );
 const seoTImg = ref("https://profiterm.by/profiterm.webp");
 
@@ -28,15 +28,15 @@ const { data: news, refresh } = await useFetch("/api/news", {
 });
 // Создаём отсортированные массивы
 const level1 = computed(
-  () => news.value?.result.filter((item) => item.level === 1) || []
+  () => news.value?.result.filter((item) => item.level === 1) || [],
 );
 const level2And3 = computed(
   () =>
     news.value?.result.filter((item) => item.level === 2 || item.level === 3) ||
-    []
+    [],
 );
 const otherLevels = computed(
-  () => news.value?.result.filter((item) => item.level > 3) || []
+  () => news.value?.result.filter((item) => item.level > 3) || [],
 );
 
 const handleCurrentChange = (val) => {
@@ -134,7 +134,14 @@ useHead({
                     v-for="imgurl in item.img"
                     :key="imgurl"
                     :src="imgurl.url"
+                    width="400"
+                    height="400"
+                    sizes="570px"
+                    loading="lazy"
+                    decoding="async"
                     format="webp"
+                    fit="cover"
+                    quality="80"
                     :alt="item.title"
                   />
                   <div class="article-block-top-desc">
@@ -158,8 +165,14 @@ useHead({
                     v-for="imgurl in item.img"
                     :key="imgurl"
                     :src="imgurl.url"
+                    width="370"
+                    height="250"
+                    sizes="300px"
                     loading="lazy"
+                    decoding="async"
                     format="webp"
+                    fit="cover"
+                    quality="80"
                     :alt="item.title"
                   />
                   <div class="article-block-top-right-desc">
@@ -184,8 +197,14 @@ useHead({
                     v-for="imgurl in item.img"
                     :key="imgurl"
                     :src="imgurl.url"
+                    width="400"
+                    height="400"
+                    sizes="570px"
                     loading="lazy"
+                    decoding="async"
                     format="webp"
+                    fit="cover"
+                    quality="80"
                     :alt="item.title"
                   />
                 </div>
