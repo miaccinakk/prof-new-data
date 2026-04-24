@@ -1,5 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // Отключаем prefetch ссылок - предотвращает двойную загрузку payload
+  router: {
+    options: {
+      prefetchLinks: false,
+    },
+  },
+  // Сжатие payload для уменьшения размера
+  experimental: {
+    renderJsonPayloads: true,
+  },
   app: {
     head: {
       htmlAttrs: {

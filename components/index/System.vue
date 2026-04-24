@@ -6,6 +6,8 @@ const isWidth = ref("left");
 const activeName = ref("first0");
 const infoNone = ref(true);
 const loadedVideos = ref({}); // Отслеживание загруженных видео
+const isComponentVisible = ref(false); // Компонент виден на экране
+const systemRef = ref(null); // Ссылка на контейнер для IntersectionObserver
 
 const { data: system } = await useFetch("/api/system/", {
   method: "POST",
@@ -47,14 +49,37 @@ const loadVideo = async (tabKey) => {
   }
 };
 
-// Загружаем первое видео сразу при монтировании
-onMounted(() => {
-  loadedVideos.value["first0"] = true;
+// Загружаем первое видео только когда компонент становится видимым
+onMounted(async () => {
+  // Ждём nextTick чтобы ref был доступен после ClientOnly
+  await nextTick();
+  
+  // Используем IntersectionObserver для ленивой загрузки
+  if (typeof IntersectionObserver !== 'undefined' && systemRef.value) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isComponentVisible.value) {
+            isComponentVisible.value = true;
+            loadedVideos.value["first0"] = true;
+            observer.disconnect(); // Отключаем после первого показа
+          }
+        });
+      },
+      { rootMargin: '50px', threshold: 0.1 } // Загружаем когда 10% компонента видно
+    );
+    observer.observe(systemRef.value);
+  } else {
+    // Fallback для SSR или старых браузеров - загружаем с задержкой
+    setTimeout(() => {
+      loadedVideos.value["first0"] = true;
+    }, 3000);
+  }
 });
 </script>
 
 <template>
-  <div>
+  <div ref="systemRef">
     <div class="columns is-multiline">
       <div class="column is-12">
         <h4 class="index-h4">Инженерные Системы</h4>
@@ -89,6 +114,7 @@ onMounted(() => {
                     loop
                     webkit-playsinline
                     playsinline
+                    preload="none"
                     :poster="itemvideo.img"
                     type="video/webm"
                     :src="itemvideo.url"
