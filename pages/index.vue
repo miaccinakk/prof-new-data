@@ -53,7 +53,7 @@ const { data: main, pending } = await useLazyFetch("/api/main/", {
     "Content-Type": "application/json; charset=UTF-8",
   },
   key: 'index-main',  // Уникальный ключ для дедупликации запросов
-  getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
+  getCachedData: (key, nuxtApp) => nuxtApp.payload?.data?.[key] || nuxtApp.static?.data?.[key],
 });
 
 // Watch for data changes to set descGal
