@@ -166,13 +166,10 @@ export default defineNuxtConfig({
       "yandex-metrika-module-nuxt3",
       {
         id: "74350936",
-        webvisor: false,        // Отключаем webvisor - значительно уменьшает JS
-        defer: true,            // Отложенная загрузка
-        clickmap: false,        // Отключаем карту кликов
+        webvisor: false,
+        clickmap: false,
         trackLinks: true,
         accurateTrackBounce: true,
-        ecommerce: false,       // Отключаем ecommerce если не используется
-        trackHash: false,       // Отключаем трекинг хэшей
       },
     ],
   ],
