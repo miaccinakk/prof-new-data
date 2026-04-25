@@ -169,8 +169,8 @@ useHead({
             </div>
             <div v-if="item.video" class="project-video">
               <ProjectVideo
-                v-model:VideoObject="item.video"
-                v-model:visiblePlyr="visiblePlyr"
+                :VideoObject="item.video"
+                :visiblePlyr="visiblePlyr"
               />
             </div>
           </div>

@@ -1,6 +1,4 @@
 <script setup>
-import { nextTick } from 'vue';
-
 const props = defineProps({
   visiblePlyr: {
     type: Boolean,
@@ -14,11 +12,14 @@ const props = defineProps({
 
 const visible = ref(false);
 const playerInstance = ref(null);
-const objectVideo = computed(() => props.VideoObject);
+const playerReady = ref(false);
+
+// Уникальный ID для плеера
+const playerId = computed(() => "project-video-" + props.VideoObject);
 
 // Загрузка Plyr CSS
 const loadPlyrStyles = () => {
-  if (!document.querySelector('link[href*="plyr"]')) {
+  if (typeof document !== 'undefined' && !document.querySelector('link[href*="plyr"]')) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
@@ -28,53 +29,59 @@ const loadPlyrStyles = () => {
 
 // Инициализация плеера
 const initPlyr = async () => {
+  if (!props.VideoObject || playerReady.value) return;
+  
+  // Ждем пока элемент появится в DOM
   await nextTick();
   
-  const playerId = "#y" + objectVideo.value;
-  const playerElement = document.querySelector(playerId);
-  
-  if (!playerElement) {
+  const element = document.getElementById(playerId.value);
+  if (!element) {
+    // Повторная попытка через небольшую задержку
+    setTimeout(() => initPlyr(), 200);
     return;
   }
   
-  // Уничтожаем предыдущий экземпляр если есть
+  // Уничтожаем предыдущий экземпляр
   if (playerInstance.value) {
     try {
       playerInstance.value.destroy();
     } catch (e) {
       // ignore
     }
+    playerInstance.value = null;
   }
   
   loadPlyrStyles();
-  const Plyr = await import("plyr");
-  playerInstance.value = new Plyr.default(playerId);
+  
+  try {
+    const Plyr = await import("plyr");
+    playerInstance.value = new Plyr.default("#" + playerId.value, {
+      youtube: {
+        noCookie: true,
+        rel: 0,
+        showinfo: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+      },
+    });
+    playerReady.value = true;
+  } catch (e) {
+    // Plyr initialization error - silently ignore
+  }
 };
 
-// Инициализация при изменении visiblePlyr
+// Watch для visiblePlyr
 watch(
   () => props.visiblePlyr,
   async (newVal) => {
-    if (newVal) {
+    if (newVal && props.VideoObject) {
       visible.value = true;
       await nextTick();
-      await initPlyr();
+      initPlyr();
     }
   },
   { immediate: true }
 );
-
-// Инициализация при монтировании если visiblePlyr уже true
-onMounted(async () => {
-  if (props.visiblePlyr && objectVideo.value) {
-    visible.value = true;
-    await nextTick();
-    // Небольшая задержка для гарантии отрисовки DOM
-    setTimeout(async () => {
-      await initPlyr();
-    }, 100);
-  }
-});
 
 // Очистка при размонтировании
 onBeforeUnmount(() => {
@@ -87,14 +94,41 @@ onBeforeUnmount(() => {
   }
 });
 </script>
+
 <template>
   <ClientOnly>
-    <div v-if="visible" class="video-item-project">
+    <div v-if="visible && VideoObject" class="video-item-project">
       <div
-        :id="'y' + objectVideo"
+        :id="playerId"
         data-plyr-provider="youtube"
-        :data-plyr-embed-id="objectVideo"
+        :data-plyr-embed-id="VideoObject"
       ></div>
     </div>
   </ClientOnly>
 </template>
+
+<style scoped lang="scss">
+.video-item-project {
+  width: 100%;
+  height: 100%;
+  
+  :deep(.plyr) {
+    width: 100%;
+    height: 100%;
+  }
+  
+  :deep(.plyr__video-wrapper) {
+    height: 100%;
+  }
+  
+  :deep(.plyr__video-embed) {
+    height: 100%;
+    padding-bottom: 0 !important;
+  }
+  
+  :deep(.plyr__video-embed iframe) {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
