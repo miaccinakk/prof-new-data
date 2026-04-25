@@ -31,24 +31,24 @@ const filteredArticles = computed(() => {
 <template>
   <section v-if="filteredArticles.length > 0" class="related-section" aria-label="Другие статьи">
     <h3 class="related-title">Читайте также</h3>
-    <div class="related-articles-grid">
+    <div class="related-carousel">
       <nuxt-link
         v-for="item in filteredArticles"
         :key="item._id"
         :to="`/article/${item.kirilica}`"
-        class="related-article"
+        class="related-card"
       >
-        <div class="related-article-img">
-          <NuxtImg
-            v-if="item.img?.[0]?.url"
-            :src="item.img[0].url"
-            :alt="item.title"
-            sizes="sm:150px md:200px lg:280px"
-            loading="lazy"
-            format="webp"
-          />
-        </div>
-        <div class="related-article-content">
+        <NuxtImg
+          v-if="item.img?.[0]?.url"
+          :src="item.img[0].url"
+          :alt="item.title"
+          sizes="sm:300px md:280px lg:320px"
+          loading="lazy"
+          format="webp"
+          class="related-card-img"
+        />
+        <div class="related-card-overlay"></div>
+        <div class="related-card-content">
           <strong>{{ item.title }}</strong>
           <span v-if="item.subtitle">{{ item.subtitle }}</span>
         </div>
@@ -78,46 +78,67 @@ const filteredArticles = computed(() => {
   margin: 0 0 $spacing-xl;
 }
 
-.related-articles-grid {
+.related-carousel {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $spacing-lg;
 }
 
-.related-article {
-  display: flex;
-  flex-direction: column;
+.related-card {
+  position: relative;
+  display: block;
   text-decoration: none;
-  color: $color-text-dark;
   border-radius: $border-radius-lg;
   overflow: hidden;
-  background: $color-bg-gray;
+  aspect-ratio: 4 / 3;
   @include transition;
 
   &:hover {
-    box-shadow: $shadow-md;
-    transform: translateY(-2px);
-  }
+    box-shadow: $shadow-lg;
+    transform: translateY(-3px);
 
-  &-img {
-    height: 140px;
-    overflow: hidden;
-
-    img {
-      @include img-cover;
+    .related-card-img {
+      transform: scale(1.05);
     }
   }
 
+  &-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include transition;
+  }
+
+  &-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+  }
+
   &-content {
-    padding: $spacing-md;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-lg;
+    color: #fff;
+    z-index: 1;
 
     strong {
       display: block;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       line-height: 1.4;
       margin: 0 0 $spacing-xs;
-      color: $color-text-dark;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -127,8 +148,9 @@ const filteredArticles = computed(() => {
     span {
       display: block;
       font-size: 13px;
-      color: $color-text-medium;
       line-height: 1.4;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -161,7 +183,7 @@ const filteredArticles = computed(() => {
   }
 }
 
-// Mobile Styles
+// Mobile Styles - CSS Carousel
 @media (max-width: 768px) {
   .related-section {
     margin: $spacing-lg 0 0;
@@ -173,34 +195,35 @@ const filteredArticles = computed(() => {
     margin: 0 0 $spacing-lg;
   }
 
-  .related-articles-grid {
-    grid-template-columns: 1fr;
+  .related-carousel {
+    display: flex;
     gap: $spacing-md;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 calc(-1 * $spacing-md);
+    padding: 0 $spacing-md;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
-  .related-article {
-    flex-direction: row;
-
-    &-img {
-      width: 100px;
-      min-width: 100px;
-      height: 80px;
-    }
+  .related-card {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    aspect-ratio: 16 / 10;
 
     &-content {
-      padding: $spacing-sm $spacing-md;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: $spacing-md;
 
       strong {
-        font-size: 14px;
-        -webkit-line-clamp: 2;
+        font-size: 15px;
       }
 
       span {
         font-size: 12px;
-        -webkit-line-clamp: 1;
       }
     }
   }
