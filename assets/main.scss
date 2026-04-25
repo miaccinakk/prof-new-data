@@ -3,6 +3,134 @@
   font-family: $font-family-main !important;
 }
 
+// ============================================
+// Critical Bulma Styles (inline for FCP)
+// Full Bulma loads async via plugin
+// ============================================
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+  
+  &:last-child {
+    margin-bottom: -0.75rem;
+  }
+  
+  &.is-centered {
+    justify-content: center;
+  }
+  
+  &.is-vcentered {
+    align-items: center;
+  }
+  
+  &.is-multiline {
+    flex-wrap: wrap;
+  }
+}
+
+.column {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+  
+  &.is-12 {
+    flex: none;
+    width: 100%;
+  }
+  
+  &.is-6 {
+    flex: none;
+    width: 50%;
+  }
+  
+  &.is-4 {
+    flex: none;
+    width: 33.3333%;
+  }
+  
+  &.is-3 {
+    flex: none;
+    width: 25%;
+  }
+  
+  &.is-8 {
+    flex: none;
+    width: 66.6666%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .column {
+    &.is-12-mobile {
+      flex: none;
+      width: 100%;
+    }
+    
+    &.is-6-mobile {
+      flex: none;
+      width: 50%;
+    }
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .column {
+    &.is-12-tablet {
+      flex: none;
+      width: 100%;
+    }
+    
+    &.is-6-tablet {
+      flex: none;
+      width: 50%;
+    }
+    
+    &.is-4-tablet {
+      flex: none;
+      width: 33.3333%;
+    }
+    
+    &.is-3-tablet {
+      flex: none;
+      width: 25%;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .column {
+    &.is-12-desktop {
+      flex: none;
+      width: 100%;
+    }
+    
+    &.is-6-desktop {
+      flex: none;
+      width: 50%;
+    }
+    
+    &.is-4-desktop {
+      flex: none;
+      width: 33.3333%;
+    }
+    
+    &.is-3-desktop {
+      flex: none;
+      width: 25%;
+    }
+    
+    &.is-8-desktop {
+      flex: none;
+      width: 66.6666%;
+    }
+  }
+}
+
 // Fallback font с корректировкой метрик для предотвращения CLS при загрузке Caveat
 @font-face {
   font-family: "Caveat-fallback";

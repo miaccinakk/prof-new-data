@@ -10,20 +10,26 @@ export default defineNuxtConfig({
   experimental: {
     renderJsonPayloads: true,
     treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
-    // Инлайним критические CSS в HTML (до 10KB)
+    // Инлайним критические CSS в HTML
     inlineSSRStyles: (id?: string) => {
-      // Инлайним основные стили, но не тяжелые библиотеки
       if (!id) return true;
-      // Не инлайним Element Plus и Swiper - они загрузятся асинхронно
+      // Не инлайним тяжелые библиотеки - они загрузятся асинхронно
       if (
         id.includes("element-plus") ||
         id.includes("swiper") ||
-        id.includes("plyr")
+        id.includes("plyr") ||
+        id.includes("bulma")
       ) {
         return false;
       }
       return true;
     },
+    // Отложенная гидрация для улучшения TBT
+    componentIslands: true,
+  },
+  // Оптимизация features
+  features: {
+    inlineStyles: true, // Инлайн критические стили
   },
   app: {
     head: {
@@ -108,8 +114,7 @@ export default defineNuxtConfig({
   css: [
     // Основные стили - критичные для первого рендера
     "@/assets/main.scss",
-    "@/node_modules/bulma/css/bulma.css",
-    // Element Plus и Plyr CSS загружаются асинхронно через плагин
+    // Bulma загружается асинхронно через плагин для уменьшения блокирующего CSS
   ],
   elementPlus: {
     importStyle: "css", // Загружаем CSS только для используемых компонентов
@@ -179,11 +184,12 @@ export default defineNuxtConfig({
       "yandex-metrika-module-nuxt3",
       {
         id: "74350936",
-        webvisor: true,
+        webvisor: false, // Отключаем webvisor - значительно уменьшает нагрузку
         defer: true, // Отложенная загрузка
-        clickmap: false, // Отключаем карту кликов (уменьшает нагрузку)
+        clickmap: false, // Отключаем карту кликов
         trackLinks: true,
         accurateTrackBounce: true,
+        noscript: false, // Не добавляем noscript версию
       },
     ],
   ],
@@ -192,6 +198,7 @@ export default defineNuxtConfig({
     enabled: true,
     debug: false,
     loadScript: true,
+    defer: true, // Отложенная загрузка GTM
   },
   site: {
     url: "https://profiterm.by",
@@ -311,29 +318,40 @@ export default defineNuxtConfig({
     build: {
       // Оптимизация размера бандлов
       target: "esnext", // Современный JS для меньшего размера
+      modulePreload: {
+        polyfill: false, // Не добавляем полифил для modulepreload
+      },
       rollupOptions: {
         output: {
           manualChunks(id) {
-            // Более гранулярное разбиение чанков
+            // Более гранулярное разбиение чанков для лучшего кэширования
             if (id.includes("node_modules")) {
+              // Element Plus - отдельный большой чанк
               if (id.includes("element-plus")) {
                 return "vendor-element";
               }
+              // Swiper - отдельный чанк (загружается только на страницах с каруселями)
               if (id.includes("swiper")) {
                 return "vendor-swiper";
               }
-              if (
-                id.includes("vue") ||
-                id.includes("pinia") ||
-                id.includes("@vue")
-              ) {
+              // Vue runtime - критический, кэшируется надолго
+              if (id.includes("vue") || id.includes("@vue")) {
                 return "vendor-vue";
               }
+              // Pinia - state management
+              if (id.includes("pinia")) {
+                return "vendor-pinia";
+              }
+              // Plyr - видеоплеер (загружается только на страницах с видео)
               if (id.includes("plyr")) {
                 return "vendor-plyr";
               }
-              // Остальные зависимости в общий vendor
-              return "vendor";
+              // VueUse - утилиты
+              if (id.includes("@vueuse")) {
+                return "vendor-vueuse";
+              }
+              // Остальные мелкие зависимости
+              return "vendor-misc";
             }
           },
         },
@@ -342,8 +360,10 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 500,
       // Разбиваем CSS на чанки - загружается только нужный для страницы
       cssCodeSplit: true,
-      // Минификация CSS
-      cssMinify: "esbuild",
+      // Минификация CSS через lightningcss (быстрее и меньше)
+      cssMinify: "lightningcss",
+      // Минификация JS
+      minify: "esbuild",
     },
     // Оптимизация зависимостей
     optimizeDeps: {
