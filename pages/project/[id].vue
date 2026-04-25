@@ -41,7 +41,7 @@ useSeoMeta({
   // Основные мета-теги
   title: seoTitle.value,
   description: seoDescription.value,
-  
+
   // Open Graph для социальных сетей
   ogType: "article",
   ogTitle: seoTitle.value,
@@ -53,17 +53,18 @@ useSeoMeta({
   ogUrl: `https://profiterm.by/project/${route.params.id}`,
   ogSiteName: "Профитерм - Инженерные системы",
   ogLocale: "ru_RU",
-  
+
   // Twitter Cards
   twitterCard: "summary_large_image",
   twitterTitle: seoTitle.value,
   twitterDescription: seoDescription.value,
   twitterImage: seoTImg.value,
-  
+
   // Дополнительные мета-теги для SEO
   author: "Профитерм",
-  robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-  
+  robots:
+    "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+
   // Геолокация для локального SEO
   "geo.region": "BY",
   "geo.placename": "Беларусь",
@@ -71,8 +72,8 @@ useSeoMeta({
 
 // Собираем все изображения для галереи
 const allImages = [
-  ...(project[0]?.img || []).map((img: { url: string }) => img.url),
-  ...(project[0]?.galery || []).map((img: { url: string }) => img.url),
+  ...(project[0]?.img || []).map((img) => img.url),
+  ...(project[0]?.galery || []).map((img) => img.url),
 ];
 
 // Расширенные структурированные данные для SEO
@@ -82,9 +83,9 @@ useHead({
     // Указываем язык контента
     { name: "content-language", content: "ru" },
     // Ключевые слова для страницы
-    { 
-      name: "keywords", 
-      content: `${project[0]?.title}, инженерные системы, отопление, водоснабжение, канализация, Профитерм, Беларусь, ${project[0]?.preview}` 
+    {
+      name: "keywords",
+      content: `${project[0]?.title}, инженерные системы, отопление, водоснабжение, канализация, Профитерм, Беларусь, ${project[0]?.preview}`,
     },
   ],
   link: [
@@ -172,7 +173,7 @@ useHead({
         "@type": "ImageGallery",
         name: `Галерея проекта: ${project[0]?.title}`,
         description: project[0]?.preview,
-        image: allImages.map((url: string, index: number) => ({
+        image: allImages.map((url, index) => ({
           "@type": "ImageObject",
           url: url,
           name: `${project[0]?.title} - фото ${index + 1}`,
@@ -216,7 +217,8 @@ useHead({
         "@type": "LocalBusiness",
         "@id": "https://profiterm.by/#organization",
         name: "Профитерм",
-        description: "Инженерные системы: отопление, водоснабжение, канализация в Беларуси",
+        description:
+          "Инженерные системы: отопление, водоснабжение, канализация в Беларуси",
         url: "https://profiterm.by",
         logo: "https://profiterm.by/profiterm.webp",
         image: "https://profiterm.by/profiterm.webp",
@@ -259,7 +261,7 @@ useHead({
               <Breadcrumb :links="breadcrumbLinks" />
             </nav>
           </ClientOnly>
-          
+
           <header class="project-header">
             <div class="columns">
               <div class="column is-8">
@@ -270,14 +272,16 @@ useHead({
 
           <section class="project-block" aria-label="Информация о проекте">
             <div class="project-item">
-              <p class="project-block-city" itemprop="description">{{ item.preview }}</p>
-              
+              <p class="project-block-city" itemprop="description">
+                {{ item.preview }}
+              </p>
+
               <!-- Галерея изображений -->
-              <figure class="columns is-multiline" role="group" aria-label="Галерея фотографий проекта">
+              <div class="columns is-multiline">
                 <div class="column is-6">
                   <div class="project-galeery">
                     <NuxtImg
-                      v-for="(imgurl, imgIdx) in item.img"
+                      v-for="imgurl in item.img"
                       :key="imgurl.url"
                       :src="imgurl.url"
                       :alt="`${item.title} - главное фото проекта инженерных систем ${item.preview}`"
@@ -291,6 +295,7 @@ useHead({
                     />
                   </div>
                 </div>
+
                 <div class="column is-6">
                   <div class="columns is-multiline mobail-colums-gal">
                     <div
@@ -311,31 +316,35 @@ useHead({
                     </div>
                   </div>
                 </div>
-              </figure>
+              </div>
             </div>
-            
+
             <!-- Видео проекта -->
-            <aside v-if="item.video" class="project-video" aria-label="Видео проекта">
+            <aside
+              v-if="item.video"
+              class="project-video"
+              aria-label="Видео проекта"
+            >
               <ProjectVideo
                 :VideoObject="item.video"
                 :visiblePlyr="visiblePlyr"
               />
             </aside>
           </section>
-          
+
           <!-- Описание проекта -->
           <section class="columns" aria-label="Подробное описание проекта">
             <div class="column is-12">
-              <div 
-                class="project-block-desc" 
+              <div
+                class="project-block-desc"
                 v-html="item.description"
                 itemprop="articleBody"
               ></div>
             </div>
           </section>
-          
+
           <!-- Отзывы -->
-          <section aria-label="Отзывы о проекте">
+          <section aria-label="Отзыв">
             <ProjectReviews :params="route.params.id" />
           </section>
         </div>

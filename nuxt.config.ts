@@ -15,7 +15,11 @@ export default defineNuxtConfig({
       // Инлайним основные стили, но не тяжелые библиотеки
       if (!id) return true;
       // Не инлайним Element Plus и Swiper - они загрузятся асинхронно
-      if (id.includes('element-plus') || id.includes('swiper') || id.includes('plyr')) {
+      if (
+        id.includes("element-plus") ||
+        id.includes("swiper") ||
+        id.includes("plyr")
+      ) {
         return false;
       }
       return true;
@@ -73,7 +77,7 @@ export default defineNuxtConfig({
           crossorigin: "anonymous",
         },
         {
-          rel: "preconnect", 
+          rel: "preconnect",
           href: "https://fonts.googleapis.com",
         },
       ],
@@ -159,12 +163,12 @@ export default defineNuxtConfig({
           Montserrat: [400, 500, 600, 700], // Только используемые веса
           Caveat: [400, 700], // Только используемые веса
         },
-        display: "optional", // Не меняем шрифт после загрузки - предотвращает CLS
+        display: "swap", // Не меняем шрифт после загрузки - предотвращает CLS
         preconnect: true,
         preload: true,
         download: true,
         inject: true,
-        subsets: ["latin", "cyrillic"], // Только нужные подмножества
+        // subsets: ["latin", "cyrillic"], // Только нужные подмножества
       },
     ],
     [
@@ -335,7 +339,7 @@ export default defineNuxtConfig({
       // Разбиваем CSS на чанки - загружается только нужный для страницы
       cssCodeSplit: true,
       // Минификация CSS
-      cssMinify: 'lightningcss',
+      cssMinify: "esbuild",
     },
     // Оптимизация зависимостей
     optimizeDeps: {
