@@ -3,30 +3,39 @@
 const { data: categories } = await useFetch("/api/category/", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=UTF-8" },
+  body: {},
 });
 
 // Получаем проекты
-const { data: projects } = await useFetch("/api/project/", {
+const { data: projects } = await useFetch("/api/projectindex", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=UTF-8" },
+  body: { skip: 0, limit: 1000 },
 });
 
 // Получаем статьи
 const { data: articles } = await useFetch("/api/news/", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=UTF-8" },
+  body: {},
 });
 
 // Группируем проекты по категориям
 const projectsByCategory = computed(() => {
-  if (!projects.value || !categories.value) return {};
+  const projectList = Array.isArray(projects.value) ? projects.value : [];
+  const categoryList = Array.isArray(categories.value) ? categories.value : [];
+  
+  if (!projectList.length || !categoryList.length) return {};
   
   const grouped = {};
-  categories.value.forEach((cat) => {
-    grouped[cat.kirilica] = {
-      name: cat.name,
-      projects: projects.value.filter((p) => p.category === cat.kirilica),
-    };
+  categoryList.forEach((cat) => {
+    const catProjects = projectList.filter((p) => p.category === cat.kirilica);
+    if (catProjects.length > 0) {
+      grouped[cat.kirilica] = {
+        name: cat.name,
+        projects: catProjects,
+      };
+    }
   });
   return grouped;
 });
@@ -72,7 +81,7 @@ useHead({
         </section>
 
         <!-- Категории работ -->
-        <section class="sitemap-section">
+        <section class="sitemap-section" v-if="categories?.length">
           <h2 class="sitemap-section-title">Категории работ</h2>
           <ul class="sitemap-list">
             <li v-for="cat in categories" :key="cat._id">
@@ -82,7 +91,7 @@ useHead({
         </section>
 
         <!-- Проекты по категориям -->
-        <section class="sitemap-section sitemap-section--wide">
+        <section class="sitemap-section sitemap-section--wide" v-if="Object.keys(projectsByCategory).length">
           <h2 class="sitemap-section-title">Проекты</h2>
           <div class="sitemap-projects">
             <div 
@@ -101,7 +110,7 @@ useHead({
         </section>
 
         <!-- Статьи -->
-        <section class="sitemap-section sitemap-section--wide">
+        <section class="sitemap-section sitemap-section--wide" v-if="articles?.length">
           <h2 class="sitemap-section-title">Статьи</h2>
           <ul class="sitemap-list sitemap-list--articles">
             <li v-for="article in articles" :key="article._id">
