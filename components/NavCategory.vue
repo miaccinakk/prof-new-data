@@ -51,6 +51,12 @@ watchEffect(() => {
   }
 });
 
+// Add canonical URL for catalog pages
+const canonicalUrl = computed(() => {
+  const basePath = route.params.id ? `/catalog/${route.params.id}` : "/catalog";
+  return `https://profiterm.by${basePath}`;
+});
+
 // Обновление мета-данных
 useSeoMeta({
   title: seoTitle.value,
@@ -63,12 +69,6 @@ useSeoMeta({
   twitterTitle: seoTitle.value,
   twitterDescription: seoDescription.value,
   twitterImage: seoTImg.value,
-});
-
-// Add canonical URL for catalog pages
-const canonicalUrl = computed(() => {
-  const basePath = route.params.id ? `/catalog/${route.params.id}` : "/catalog";
-  return `https://profiterm.by${basePath}`;
 });
 
 useHead({
