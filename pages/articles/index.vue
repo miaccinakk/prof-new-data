@@ -69,7 +69,11 @@ useSeoMeta({
   description: seoDescription.value,
   ogDescription: seoDescription.value,
   ogImage: seoTImg.value,
+  ogUrl: "https://profiterm.by/articles",
   twitterCard: "summary_large_image",
+  twitterTitle: seoTitle.value,
+  twitterDescription: seoDescription.value,
+  twitterImage: seoTImg.value,
 });
 
 // Add canonical URL and JSON-LD structured data
