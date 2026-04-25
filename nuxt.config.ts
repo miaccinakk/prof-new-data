@@ -11,6 +11,18 @@ export default defineNuxtConfig({
     renderJsonPayloads: true,
     treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
     inlineSSRStyles: true, // Инлайним критические CSS в HTML
+    componentIslands: true, // Изолированные компоненты для лучшей гидратации
+  },
+  
+  // Оптимизация загрузки компонентов
+  components: {
+    dirs: [
+      {
+        path: '~/components',
+        pathPrefix: false,
+        // Ленивая загрузка неиспользуемых на первом экране компонентов
+      },
+    ],
   },
   app: {
     head: {
@@ -88,7 +100,7 @@ export default defineNuxtConfig({
   ],
   elementPlus: {
     importStyle: false, // Отключаем автоматический импорт стилей - загрузим вручную
-    // Включаем только используемые компоненты
+    // Включаем только используемые компоненты (tree-shaking)
     components: [
       'ElBreadcrumb',
       'ElBreadcrumbItem', 
@@ -112,6 +124,8 @@ export default defineNuxtConfig({
       'ElMessage',
       'ElNotification',
     ],
+    // Отключаем глобальные директивы и плагины для уменьшения bundle
+    directives: [],
   },
   // Настройки Swiper - импортируем только нужные модули
   swiper: {
@@ -152,11 +166,13 @@ export default defineNuxtConfig({
       "yandex-metrika-module-nuxt3",
       {
         id: "74350936",
-        webvisor: true,
-        defer: true,           // Отложенная загрузка
-        clickmap: false,       // Отключаем карту кликов (уменьшает нагрузку)
+        webvisor: false,        // Отключаем webvisor - значительно уменьшает JS
+        defer: true,            // Отложенная загрузка
+        clickmap: false,        // Отключаем карту кликов
         trackLinks: true,
         accurateTrackBounce: true,
+        ecommerce: false,       // Отключаем ecommerce если не используется
+        trackHash: false,       // Отключаем трекинг хэшей
       },
     ],
   ],
@@ -165,6 +181,7 @@ export default defineNuxtConfig({
     defer: true,           // Отложенная загрузка GTM
     compatibility: false,  // Отключаем совместимость со старыми браузерами
     loadScript: true,
+    nonce: false,          // Отключаем nonce для ускорения
   },
   site: {
     url: "https://profiterm.by",
@@ -312,10 +329,15 @@ export default defineNuxtConfig({
       // Объединяем CSS в один файл для уменьшения количества запросов
       cssCodeSplit: false,
     },
-    // Оптимизация зависимостей
+    // Оптимизация зависимостей - pre-bundle для быстрой загрузки
     optimizeDeps: {
       include: ['vue', 'vue-router', 'pinia'],
       exclude: ['@element-plus/icons-vue'], // Исключаем неиспользуемые иконки
+    },
+    // Минификация с terser для лучшего сжатия
+    esbuild: {
+      drop: ['console', 'debugger'], // Убираем console.log в production
+      legalComments: 'none', // Убираем комментарии
     },
     // Удаляем неиспользуемые локали Element Plus
     resolve: {
