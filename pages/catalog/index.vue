@@ -1,15 +1,15 @@
 <script setup>
 const route = useRoute();
 const router = useRouter();
-const sortPage = ref(0);
-const currentPage = ref(1);
-const pageSize = ref(6);
+const pageSize = 6;
 const description = ref("");
 
-if (router.currentRoute.value.query.page != undefined) {
-  currentPage.value = parseInt(router.currentRoute.value.query.page);
-  sortPage.value = currentPage.value * pageSize.value - pageSize.value;
-}
+// Вычисляем начальную страницу из query параметра
+const initialPage = parseInt(route.query.page) || 1;
+const currentPage = ref(initialPage);
+const sortPage = computed(() => {
+  return currentPage.value === 1 ? 0 : (currentPage.value - 1) * pageSize;
+});
 
 const { data: project, refresh } = await useFetch("/api/projectindex", {
   method: "POST",
@@ -18,23 +18,19 @@ const { data: project, refresh } = await useFetch("/api/projectindex", {
   },
   body: computed(() => ({
     sortPage: sortPage.value,
-    pageSize: pageSize.value,
+    pageSize: pageSize,
   })),
+  watch: [sortPage],
 });
-const handleCurrentChange = (val) => {
-  if (val == 1) {
-    sortPage.value = 0;
-  } else {
-    sortPage.value = val * pageSize.value - pageSize.value;
-  }
+
+const handleCurrentChange = async (val) => {
   currentPage.value = val;
   router.replace({
     name: "catalog",
     query: {
-      page: currentPage.value != 1 ? currentPage.value : undefined,
+      page: val !== 1 ? val : undefined,
     },
   });
-  // refresh();
   scrollToTop();
 };
 const catDescription = (item) => {
@@ -55,7 +51,7 @@ const scrollToTop = () => {
         >
           <div
             class="column is-4"
-            v-for="item in project.result"
+            v-for="item in project?.result"
             :key="item._id"
           >
             <div
@@ -86,6 +82,7 @@ const scrollToTop = () => {
           </div>
         </div>
         <el-pagination
+          v-if="project?.count"
           class="pagination-list"
           background
           layout="prev, pager, next"
