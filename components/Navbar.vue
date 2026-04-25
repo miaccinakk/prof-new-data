@@ -36,7 +36,7 @@ mainData.fetchData();
           <nuxt-link to="/">
             <img
               src="/logotip.png"
-              alt="Профитерм — инженерные системы отопления и водоснабжения"
+              alt="Логотип компании Профитерм"
               width="160"
               height="48"
           /></nuxt-link>

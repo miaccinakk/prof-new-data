@@ -1,27 +1,27 @@
 <script setup>
 const route = useRoute();
-const router = useRouter();
-const visiblePlyr = ref(false);
+
+const { data: project } = await useAsyncData("project", () =>
+  $fetch("/api/projectitem/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: route.params.id,
+  }),
+);
+
+const item = computed(() => project.value?.[0]);
 const breadcrumbLinks = ref([]);
-const seoTitle = ref("");
-const seoTImg = ref("");
-const seoDescription = ref("");
-const error = ref(null);
 
-const project = await $fetch("/api/projectitem/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json; charset=UTF-8",
-  },
-  body: route.params.id,
-});
+const allImages = computed(() => [
+  ...(item.value?.img || []).map((img) => img.url),
+  ...(item.value?.galery || []).map((img) => img.url),
+]);
 
-seoTitle.value = project[0]?.seo_title;
-seoDescription.value = project[0]?.seo_description;
-seoTImg.value = project[0].img[0].url;
 watchEffect(() => {
-  if (project && project.length > 0) {
-    const item = project[0];
+  if (project.value && project.value.length > 0) {
+    const item = project.value[0];
     breadcrumbLinks.value = [
       { label: "Главная", to: "/" },
       { label: "Раздел", to: `/catalog/${item.category}` },
@@ -30,193 +30,184 @@ watchEffect(() => {
   }
 });
 
-onMounted(async () => {
-  setTimeout(() => {
-    visiblePlyr.value = true;
-  }, 1000); // Устанавливайте нужную вам задержку (в миллисекундах)
-});
-
-// Полная SEO оптимизация
 useSeoMeta({
-  // Основные мета-теги
-  title: seoTitle.value,
-  description: seoDescription.value,
+  title: () => item.value?.seo_title,
+  description: () => item.value?.seo_description,
 
-  // Open Graph для социальных сетей
   ogType: "article",
-  ogTitle: seoTitle.value,
-  ogDescription: seoDescription.value,
-  ogImage: seoTImg.value,
+  ogTitle: () => item.value?.seo_title,
+  ogDescription: () => item.value?.seo_description,
+  ogImage: () => item.value?.img?.[0]?.url,
   ogImageWidth: "1200",
   ogImageHeight: "630",
-  ogImageAlt: project[0]?.title,
-  ogUrl: `https://profiterm.by/project/${route.params.id}`,
+  ogImageAlt: () => item.value?.title,
+  ogUrl: () => `https://profiterm.by/project/${route.params.id}`,
   ogSiteName: "Профитерм - Инженерные системы",
   ogLocale: "ru_RU",
 
-  // Twitter Cards
   twitterCard: "summary_large_image",
-  twitterTitle: seoTitle.value,
-  twitterDescription: seoDescription.value,
-  twitterImage: seoTImg.value,
+  twitterTitle: () => item.value?.seo_title,
+  twitterDescription: () => item.value?.seo_description,
+  twitterImage: () => item.value?.img?.[0]?.url,
 
-  // Дополнительные мета-теги для SEO
   author: "Профитерм",
-  robots:
-    "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
 
-  // Геолокация для локального SEO
   "geo.region": "BY",
   "geo.placename": "Беларусь",
 });
 
-// Собираем все изображения для галереи
-const allImages = [
-  ...(project[0]?.img || []).map((img) => img.url),
-  ...(project[0]?.galery || []).map((img) => img.url),
-];
-
-// Расширенные структурированные данные для SEO
 useHead({
-  // Дополнительные мета-теги
-  meta: [
-    // Указываем язык контента
-    { name: "content-language", content: "ru" },
-    // Ключевые слова для страницы
-    {
-      name: "keywords",
-      content: `${project[0]?.title}, инженерные системы, отопление, водоснабжение, канализация, Профитерм, Беларусь, ${project[0]?.preview}`,
-    },
-  ],
+  meta: [{ name: "content-language", content: "ru" }],
+
   link: [
     {
       rel: "canonical",
-      href: `https://profiterm.by/project/${route.params.id}`,
+      href: () => `https://profiterm.by/project/${route.params.id}`,
     },
-    // Альтернативные языковые версии (если есть)
     {
       rel: "alternate",
       hreflang: "ru",
-      href: `https://profiterm.by/project/${route.params.id}`,
+      href: () => `https://profiterm.by/project/${route.params.id}`,
     },
   ],
   script: [
-    // Schema.org - Проект как Product/Service
     {
       type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: project[0]?.title,
-        description: project[0]?.seo_description || project[0]?.preview,
-        image: allImages,
-        brand: {
-          "@type": "Brand",
-          name: "Профитерм",
-        },
-        offers: {
-          "@type": "Offer",
-          availability: "https://schema.org/InStock",
-          priceCurrency: "BYN",
-          seller: {
+      children: () =>
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: item.value?.title,
+          description: item.value?.seo_description || item.value?.preview,
+          image: allImages.value,
+          brand: {
+            "@type": "Brand",
+            name: "Профитерм",
+          },
+          offers: {
+            "@type": "Offer",
+            availability: "https://schema.org/InStock",
+            seller: {
+              "@type": "Organization",
+              name: "Профитерм",
+            },
+          },
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "5",
+            reviewCount: "1",
+          },
+          author: {
             "@type": "Organization",
             name: "Профитерм",
           },
-        },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "5",
-          reviewCount: "1",
-        },
-      }),
+          publisher: {
+            "@type": "Organization",
+            name: "Профитерм",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://profiterm.by/profiterm.webp",
+            },
+          },
+          datePublished: item.value?.createdAt,
+          dateModified: item.value?.updatedAt,
+        }),
     },
-    // Schema.org - ImageGallery для изображений
     {
       type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "ImageGallery",
-        name: `Галерея проекта: ${project[0]?.title}`,
-        description: project[0]?.preview,
-        image: allImages.map((url, index) => ({
-          "@type": "ImageObject",
-          url: url,
-          name: `${project[0]?.title} - фото ${index + 1}`,
-          description: `Фотография проекта ${project[0]?.title}`,
-        })),
-      }),
+      children: () =>
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          name: `Галерея проекта: ${item.value?.title}`,
+          description: item.value?.preview,
+          image: allImages.value.map((url, index) => ({
+            "@type": "ImageObject",
+            url,
+            name: `${item.value?.title} - фото ${index + 1}`,
+            description: `Фотография проекта ${item.value?.title}`,
+          })),
+        }),
     },
-    // Schema.org - BreadcrumbList для навигации
     {
       type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Главная",
-            item: "https://profiterm.by/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Каталог проектов",
-            item: "https://profiterm.by/catalog",
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: project[0]?.title,
-            item: `https://profiterm.by/project/${route.params.id}`,
-          },
-        ],
-      }),
+      children: () =>
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Главная",
+              item: "https://profiterm.by/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Каталог проектов",
+              item: "https://profiterm.by/catalog",
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: item.value?.title,
+              item: `https://profiterm.by/project/${route.params.id}`,
+            },
+          ],
+        }),
     },
-    // Schema.org - LocalBusiness для локального SEO
     {
       type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": "https://profiterm.by/#organization",
-        name: "Профитерм",
-        description:
-          "Инженерные системы: отопление, водоснабжение, канализация в Беларуси",
-        url: "https://profiterm.by",
-        logo: "https://profiterm.by/profiterm.webp",
-        image: "https://profiterm.by/profiterm.webp",
-        telephone: "+375 (29) 123-45-67",
-        address: {
-          "@type": "PostalAddress",
-          addressCountry: "BY",
-          addressLocality: "Минск",
-        },
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: "53.9",
-          longitude: "27.5667",
-        },
-        areaServed: {
-          "@type": "Country",
-          name: "Беларусь",
-        },
-        priceRange: "$$",
-        openingHoursSpecification: {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: "09:00",
-          closes: "18:00",
-        },
-      }),
+      children: () =>
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://profiterm.by/#organization",
+          name: "Профитерм",
+          description:
+            "Инженерные системы: отопление, водоснабжение, канализация в Беларуси",
+          url: "https://profiterm.by",
+          logo: "https://profiterm.by/profiterm.webp",
+          image: "https://profiterm.by/profiterm.webp",
+          telephone: "+375 (29) 123-45-67",
+          address: {
+            "@type": "PostalAddress",
+            addressCountry: "BY",
+            addressLocality: "Минск",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: "53.9",
+            longitude: "27.5667",
+          },
+          areaServed: {
+            "@type": "Country",
+            name: "Беларусь",
+          },
+          priceRange: "$$",
+          openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "09:00",
+            closes: "18:00",
+          },
+        }),
     },
   ],
+});
+
+const visiblePlyr = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    visiblePlyr.value = true;
+  }, 1000);
 });
 </script>
 
 <template>
-  <main class="bd-docs-main" itemscope itemtype="https://schema.org/Article">
+  <main class="bd-docs-main" itemscope itemtype="https://schema.org/Service">
     <div class="container">
       <article class="content">
         <div v-if="error" role="alert">{{ error.message }}</div>

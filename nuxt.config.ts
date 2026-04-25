@@ -151,6 +151,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt-modules/cache",
     "nuxt-icons",
+    "@zadigetvoltaire/nuxt-gtm",
     // "formidable",
     "@nuxtjs/seo",
     "nuxt-icon",
@@ -185,8 +186,8 @@ export default defineNuxtConfig({
   ],
   gtm: {
     id: "GTM-MBLWTCQ",
-    defer: true, // Отложенная загрузка GTM
-    compatibility: false, // Отключаем совместимость со старыми браузерами
+    enabled: true,
+    debug: false,
     loadScript: true,
   },
   site: {
