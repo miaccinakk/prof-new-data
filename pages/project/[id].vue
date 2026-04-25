@@ -228,9 +228,9 @@ onMounted(() => {
 
           <section class="project-block" aria-label="Информация о проекте">
             <div class="project-item">
-              <p class="project-block-city" itemprop="description">
-                {{ item.preview }}
-              </p>
+              <h2 class="project-block-city" itemprop="location">
+                Реализация проекта в {{ item.preview }}
+              </h2>
 
               <!-- Галерея изображений -->
               <div class="columns is-multiline">
