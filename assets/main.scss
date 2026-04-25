@@ -3,6 +3,16 @@
   font-family: $font-family-main !important;
 }
 
+// Fallback font с корректировкой метрик для предотвращения CLS при загрузке Caveat
+@font-face {
+  font-family: "Caveat-fallback";
+  src: local("Comic Sans MS"), local("Brush Script MT");
+  size-adjust: 110%;
+  ascent-override: 90%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
 html {
   background-color: transparent !important;
   overflow: visible !important;
