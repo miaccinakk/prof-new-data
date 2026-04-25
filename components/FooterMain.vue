@@ -36,18 +36,37 @@ const navLinks = [
         <div class="footer-content">
           <!-- Левая колонка - О компании -->
           <div class="footer-col footer-about">
+            <!-- Логотип и название -->
+            <div class="footer-brand">
+              <img src="/logotip.png" alt="Профитерм" class="footer-logo" width="32" height="32" />
+              <span class="footer-brand-name">ПРОФИТЕРМ</span>
+            </div>
+
+            <!-- Контакты с иконками -->
+            <div class="footer-contacts">
+              <a v-if="phone" :href="`tel:+37529` + phone" class="footer-contact-item">
+                <Icon name="solar:phone-linear" class="contact-icon" />
+                <span>{{ phone }}</span>
+              </a>
+              <a v-if="dopphone" :href="`tel:+37529` + dopphone" class="footer-contact-item">
+                <Icon name="solar:phone-linear" class="contact-icon" />
+                <span>{{ dopphone }}</span>
+              </a>
+              <a v-if="email" :href="`mailto:` + email" class="footer-contact-item">
+                <Icon name="solar:letter-linear" class="contact-icon" />
+                <span>{{ email }}</span>
+              </a>
+            </div>
+
+            <!-- Подзаголовок -->
+            <p class="footer-tagline">Работаем по всей Беларуси</p>
+
+            <!-- Описание -->
             <p class="footer-desc">
               Проектирование, монтаж систем отопления, водоснабжения, канализации.
             </p>
-            <div class="footer-contacts">
-              <p v-if="phone">
-                <a :href="`tel:+37529` + phone" class="f-phone">{{ phone }}</a>
-              </p>
-              <p v-if="dopphone">
-                <a :href="`tel:+37529` + dopphone" class="f-phone">{{ dopphone }}</a>
-              </p>
-              <p v-if="email" class="f-email">{{ email }}</p>
-            </div>
+
+            <!-- Соцсети -->
             <div class="social-links">
               <a href="https://www.instagram.com/profiterm.by/" target="_blank" aria-label="Instagram">
                 <Icon name="hugeicons:instagram" />
@@ -106,30 +125,67 @@ const navLinks = [
   max-width: 400px;
 }
 
-.footer-desc {
-  margin: 0 0 $spacing-md !important;
-  line-height: 1.5;
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.footer-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.footer-brand-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: $color-text-gray;
+  letter-spacing: 0.02em;
 }
 
 .footer-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
   margin-bottom: $spacing-md;
-
-  p {
-    margin: 0 0 $spacing-xs !important;
-  }
 }
 
-.f-phone {
+.footer-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
   color: $color-text-gray;
+  text-decoration: none;
   font-weight: 500;
+  @include transition;
 
   &:hover {
     color: $color-primary;
   }
+
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: $color-text-muted;
+  }
 }
 
-.f-email {
-  color: $color-text-gray;
+.footer-tagline {
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-primary;
+  margin: 0 0 $spacing-xs !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.footer-desc {
+  margin: 0 0 $spacing-md !important;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
 .social-links {
@@ -220,9 +276,18 @@ const navLinks = [
   }
 
   .footer-desc,
-  .footer-contacts p,
+  .footer-contact-item,
   .footer-nav-list li a {
     font-size: 13px;
+  }
+
+  .footer-contact-item .contact-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .footer-tagline {
+    font-size: 12px;
   }
 
   .footer-nav {
