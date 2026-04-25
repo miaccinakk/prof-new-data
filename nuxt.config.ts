@@ -10,7 +10,16 @@ export default defineNuxtConfig({
   experimental: {
     renderJsonPayloads: true,
     treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
-    inlineSSRStyles: true, // Инлайним критические CSS в HTML
+    // Инлайним критические CSS в HTML (до 10KB)
+    inlineSSRStyles: (id?: string) => {
+      // Инлайним основные стили, но не тяжелые библиотеки
+      if (!id) return true;
+      // Не инлайним Element Plus и Swiper - они загрузятся асинхронно
+      if (id.includes('element-plus') || id.includes('swiper') || id.includes('plyr')) {
+        return false;
+      }
+      return true;
+    },
   },
   app: {
     head: {
@@ -90,14 +99,13 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    // Element Plus - один объединённый файл вместо отдельных чанков
-    "element-plus/dist/index.css",
+    // Основные стили - критичные для первого рендера
     "@/assets/main.scss",
     "@/node_modules/bulma/css/bulma.css",
-    // Plyr CSS загружается динамически в ModalVideo.vue
+    // Element Plus и Plyr CSS загружаются асинхронно через плагин
   ],
   elementPlus: {
-    importStyle: false, // Отключаем автоматический импорт стилей - загрузим вручную
+    importStyle: "css", // Загружаем CSS только для используемых компонентов
     // Включаем только используемые компоненты
     components: [
       "ElBreadcrumb",
@@ -324,8 +332,10 @@ export default defineNuxtConfig({
       },
       // Увеличиваем лимит для предупреждений о размере чанков
       chunkSizeWarningLimit: 500,
-      // Объединяем CSS в один файл для уменьшения количества запросов
-      cssCodeSplit: false,
+      // Разбиваем CSS на чанки - загружается только нужный для страницы
+      cssCodeSplit: true,
+      // Минификация CSS
+      cssMinify: 'lightningcss',
     },
     // Оптимизация зависимостей
     optimizeDeps: {
