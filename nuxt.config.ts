@@ -37,6 +37,9 @@ export default defineNuxtConfig({
       meta: [
         { name: "robots", content: "index, follow" },
         { property: "og:site_name", content: "Профитерм" },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: "ru_RU" },
+        { name: "twitter:site", content: "@profiterm" },
         {
           hid: "viewport",
           name: "viewport",

@@ -164,7 +164,11 @@ useSeoMeta({
   description: seoDescription.value,
   ogDescription: seoDescription.value,
   ogImage: "https://profiterm.by/profiterm.webp",
+  ogUrl: "https://profiterm.by/",
   twitterCard: "summary_large_image",
+  twitterTitle: seoTitle.value,
+  twitterDescription: seoDescription.value,
+  twitterImage: "https://profiterm.by/profiterm.webp",
   canonical: "https://profiterm.by/",
 });
 
@@ -221,7 +225,7 @@ useHead({
         image: "https://profiterm.by/profiterm.webp",
         url: "https://profiterm.by",
         description:
-          "Проектирование, монтаж систем отопления, водоснабжения, канализации в Беларуси",
+          "Прое��тирование, монтаж систем отопления, водоснабжения, канализации в Беларуси",
         address: {
           "@type": "PostalAddress",
           addressCountry: "BY",
