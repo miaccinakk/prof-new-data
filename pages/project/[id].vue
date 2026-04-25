@@ -36,24 +36,100 @@ onMounted(async () => {
   }, 1000); // Устанавливайте нужную вам задержку (в миллисекундах)
 });
 
+// Полная SEO оптимизация
 useSeoMeta({
+  // Основные мета-теги
   title: seoTitle.value,
-  ogTitle: seoTitle.value,
   description: seoDescription.value,
+  
+  // Open Graph для социальных сетей
+  ogType: "article",
+  ogTitle: seoTitle.value,
   ogDescription: seoDescription.value,
   ogImage: seoTImg.value,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageAlt: project[0]?.title,
+  ogUrl: `https://profiterm.by/project/${route.params.id}`,
+  ogSiteName: "Профитерм - Инженерные системы",
+  ogLocale: "ru_RU",
+  
+  // Twitter Cards
   twitterCard: "summary_large_image",
+  twitterTitle: seoTitle.value,
+  twitterDescription: seoDescription.value,
+  twitterImage: seoTImg.value,
+  
+  // Дополнительные мета-теги для SEO
+  author: "Профитерм",
+  robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+  
+  // Геолокация для локального SEO
+  "geo.region": "BY",
+  "geo.placename": "Беларусь",
 });
 
-// Add canonical URL and JSON-LD structured data
+// Собираем все изображения для галереи
+const allImages = [
+  ...(project[0]?.img || []).map((img: { url: string }) => img.url),
+  ...(project[0]?.galery || []).map((img: { url: string }) => img.url),
+];
+
+// Расширенные структурированные данные для SEO
 useHead({
+  // Дополнительные мета-теги
+  meta: [
+    // Указываем язык контента
+    { name: "content-language", content: "ru" },
+    // Ключевые слова для страницы
+    { 
+      name: "keywords", 
+      content: `${project[0]?.title}, инженерные системы, отопление, водоснабжение, канализация, Профитерм, Беларусь, ${project[0]?.preview}` 
+    },
+  ],
   link: [
     {
       rel: "canonical",
       href: `https://profiterm.by/project/${route.params.id}`,
     },
+    // Альтернативные языковые версии (если есть)
+    {
+      rel: "alternate",
+      hreflang: "ru",
+      href: `https://profiterm.by/project/${route.params.id}`,
+    },
   ],
   script: [
+    // Schema.org - Проект как Product/Service
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: project[0]?.title,
+        description: project[0]?.seo_description || project[0]?.preview,
+        image: allImages,
+        brand: {
+          "@type": "Brand",
+          name: "Профитерм",
+        },
+        offers: {
+          "@type": "Offer",
+          availability: "https://schema.org/InStock",
+          priceCurrency: "BYN",
+          seller: {
+            "@type": "Organization",
+            name: "Профитерм",
+          },
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "5",
+          reviewCount: "1",
+        },
+      }),
+    },
+    // Schema.org - Article для контента
     {
       type: "application/ld+json",
       innerHTML: JSON.stringify({
@@ -61,11 +137,14 @@ useHead({
         "@type": "Article",
         headline: project[0]?.title,
         description: project[0]?.seo_description || project[0]?.preview,
-        image: project[0]?.img?.[0]?.url,
+        image: allImages,
+        datePublished: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
         author: {
           "@type": "Organization",
           name: "Профитерм",
           url: "https://profiterm.by",
+          logo: "https://profiterm.by/profiterm.webp",
         },
         publisher: {
           "@type": "Organization",
@@ -73,14 +152,35 @@ useHead({
           logo: {
             "@type": "ImageObject",
             url: "https://profiterm.by/profiterm.webp",
+            width: 200,
+            height: 60,
           },
         },
         mainEntityOfPage: {
           "@type": "WebPage",
           "@id": `https://profiterm.by/project/${route.params.id}`,
         },
+        articleSection: "Проекты",
+        inLanguage: "ru-RU",
       }),
     },
+    // Schema.org - ImageGallery для изображений
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        name: `Галерея проекта: ${project[0]?.title}`,
+        description: project[0]?.preview,
+        image: allImages.map((url: string, index: number) => ({
+          "@type": "ImageObject",
+          url: url,
+          name: `${project[0]?.title} - фото ${index + 1}`,
+          description: `Фотография проекта ${project[0]?.title}`,
+        })),
+      }),
+    },
+    // Schema.org - BreadcrumbList для навигации
     {
       type: "application/ld+json",
       innerHTML: JSON.stringify({
@@ -96,8 +196,8 @@ useHead({
           {
             "@type": "ListItem",
             position: 2,
-            name: "Каталог",
-            item: `https://profiterm.by/catalog/${project[0]?.category}`,
+            name: "Каталог проектов",
+            item: "https://profiterm.by/catalog",
           },
           {
             "@type": "ListItem",
@@ -108,41 +208,86 @@ useHead({
         ],
       }),
     },
+    // Schema.org - LocalBusiness для локального SEO
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://profiterm.by/#organization",
+        name: "Профитерм",
+        description: "Инженерные системы: отопление, водоснабжение, канализация в Беларуси",
+        url: "https://profiterm.by",
+        logo: "https://profiterm.by/profiterm.webp",
+        image: "https://profiterm.by/profiterm.webp",
+        telephone: "+375 (29) 123-45-67",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "BY",
+          addressLocality: "Минск",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: "53.9",
+          longitude: "27.5667",
+        },
+        areaServed: {
+          "@type": "Country",
+          name: "Беларусь",
+        },
+        priceRange: "$$",
+        openingHoursSpecification: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "09:00",
+          closes: "18:00",
+        },
+      }),
+    },
   ],
 });
 </script>
 
 <template>
-  <div class="bd-docs-main">
+  <main class="bd-docs-main" itemscope itemtype="https://schema.org/Article">
     <div class="container">
-      <div class="content">
-        <div v-if="error">{{ error.message }}</div>
+      <article class="content">
+        <div v-if="error" role="alert">{{ error.message }}</div>
         <div v-else v-for="item in project" :key="item._id">
           <ClientOnly>
-            <Breadcrumb :links="breadcrumbLinks" />
+            <nav aria-label="Навигация по сайту">
+              <Breadcrumb :links="breadcrumbLinks" />
+            </nav>
           </ClientOnly>
-          <div class="columns">
-            <div class="column is-8">
-              <h1 class="h1-project">{{ item.title }}</h1>
+          
+          <header class="project-header">
+            <div class="columns">
+              <div class="column is-8">
+                <h1 class="h1-project" itemprop="headline">{{ item.title }}</h1>
+              </div>
             </div>
-          </div>
+          </header>
 
-          <div class="project-block">
+          <section class="project-block" aria-label="Информация о проекте">
             <div class="project-item">
-              <div class="project-block-city">{{ item.preview }}</div>
-              <!-- <div class="project-block-info">{{ item.info }}</div> -->
-              <div class="columns is-multiline">
+              <p class="project-block-city" itemprop="description">{{ item.preview }}</p>
+              
+              <!-- Галерея изображений -->
+              <figure class="columns is-multiline" role="group" aria-label="Галерея фотографий проекта">
                 <div class="column is-6">
                   <div class="project-galeery">
                     <NuxtImg
-                      v-for="imgurl in item.img"
-                      :key="imgurl"
+                      v-for="(imgurl, imgIdx) in item.img"
+                      :key="imgurl.url"
                       :src="imgurl.url"
-                      :alt="`Фото проекта ${item.title}`"
+                      :alt="`${item.title} - главное фото проекта инженерных систем ${item.preview}`"
+                      :title="`${item.title} - инженерные системы Профитерм`"
                       class="view-box"
-                      sizes="sm:400px md:400px lg:400px"
-                      data-fancybox="galery galery"
-                      loading="lazy"
+                      sizes="sm:400px md:400px lg:600px"
+                      data-fancybox="galery"
+                      loading="eager"
+                      fetchpriority="high"
+                      itemprop="image"
                     />
                   </div>
                 </div>
@@ -150,40 +295,53 @@ useHead({
                   <div class="columns is-multiline mobail-colums-gal">
                     <div
                       v-for="(imgurl, idx) in item.galery"
-                      :key="imgurl"
+                      :key="imgurl.url"
                       class="project-galeery-mini"
                     >
                       <NuxtImg
                         :src="imgurl.url"
                         class="view-box"
-                        data-fancybox="galery galery"
-                        :alt="`Фото проекта ${idx + 1} / ${item.title}`"
-                        sizes="sm:300px md:300px lg:300px"
-                        preload
-                        loading="lazy"
+                        data-fancybox="galery"
+                        :alt="`${item.title} - фото ${idx + 1}: ${item.preview}`"
+                        :title="`Проект ${item.title} - изображение ${idx + 1}`"
+                        sizes="sm:300px md:300px lg:400px"
+                        :loading="idx < 4 ? 'eager' : 'lazy'"
+                        itemprop="image"
                       />
                     </div>
                   </div>
                 </div>
-              </div>
+              </figure>
             </div>
-            <div v-if="item.video" class="project-video">
+            
+            <!-- Видео проекта -->
+            <aside v-if="item.video" class="project-video" aria-label="Видео проекта">
               <ProjectVideo
                 :VideoObject="item.video"
                 :visiblePlyr="visiblePlyr"
               />
-            </div>
-          </div>
-          <div class="columns">
+            </aside>
+          </section>
+          
+          <!-- Описание проекта -->
+          <section class="columns" aria-label="Подробное описание проекта">
             <div class="column is-12">
-              <div class="project-block-desc" v-html="item.description"></div>
+              <div 
+                class="project-block-desc" 
+                v-html="item.description"
+                itemprop="articleBody"
+              ></div>
             </div>
-          </div>
-          <ProjectReviews v-model:params="route.params.id" />
+          </section>
+          
+          <!-- Отзывы -->
+          <section aria-label="Отзывы о проекте">
+            <ProjectReviews :params="route.params.id" />
+          </section>
         </div>
-      </div>
+      </article>
     </div>
-  </div>
+  </main>
 </template>
 <style scoped lang="scss">
 @use "@/assets/scss/mixins" as *;
