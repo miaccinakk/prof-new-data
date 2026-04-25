@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   experimental: {
     renderJsonPayloads: true,
     treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
+    inlineSSRStyles: true, // Инлайним критические CSS в HTML
   },
   app: {
     head: {
@@ -79,13 +80,14 @@ export default defineNuxtConfig({
     },
   },
   css: [
+    // Element Plus - один объединённый файл вместо отдельных чанков
+    "element-plus/dist/index.css",
     "@/assets/main.scss",
     "@/node_modules/bulma/css/bulma.css",
     // Plyr CSS загружается динамически в ModalVideo.vue
-    // "element-plus/dist/index.css",
   ],
   elementPlus: {
-    importStyle: "scss",
+    importStyle: false, // Отключаем автоматический импорт стилей - загрузим вручную
     // Включаем только используемые компоненты
     components: [
       'ElBreadcrumb',
@@ -115,6 +117,8 @@ export default defineNuxtConfig({
   swiper: {
     modules: ['autoplay', 'navigation', 'pagination', 'effect-creative'],
     styleLang: 'css',
+    // Отключаем автоматический импорт стилей - загружаем асинхронно
+    bundled: true,
   },
   modules: [
     "nuxt-server-utils",
@@ -266,6 +270,8 @@ export default defineNuxtConfig({
   // devtools: { enabled: true },
   vite: {
     css: {
+      // Объединяем CSS в меньшее количество файлов
+      devSourcemap: false,
       preprocessorOptions: {
         scss: {
           additionalData: `
@@ -303,6 +309,8 @@ export default defineNuxtConfig({
       },
       // Увеличиваем лимит для предупреждений о размере чанков
       chunkSizeWarningLimit: 500,
+      // Объединяем CSS в один файл для уменьшения количества запросов
+      cssCodeSplit: false,
     },
     // Оптимизация зависимостей
     optimizeDeps: {
