@@ -117,7 +117,7 @@ export default defineNuxtConfig({
     // Bulma загружается асинхронно через плагин для уменьшения блокирующего CSS
   ],
   elementPlus: {
-    importStyle: "css", // Загружаем CSS только для используемых компонентов
+    importStyle: false, // Отключаем автоматический импорт CSS - загружаем асинхронно
     // Включаем только используемые компоненты
     components: [
       "ElBreadcrumb",
@@ -147,8 +147,8 @@ export default defineNuxtConfig({
   swiper: {
     modules: ["autoplay", "navigation", "pagination", "effect-creative"],
     styleLang: "css",
-    // Отключаем автоматический импорт стилей - загружаем асинхронно
-    bundled: true,
+    // Отключаем bundled стили - загружаем асинхронно через плагин
+    bundled: false,
   },
   modules: [
     "nuxt-server-utils",
