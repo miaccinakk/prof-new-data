@@ -36,23 +36,23 @@ const filteredProjects = computed(() => {
 <template>
   <section v-if="filteredProjects.length > 0" class="related-section" aria-label="Другие проекты">
     <h3 class="related-title">Другие проекты</h3>
-    <div class="related-grid">
+    <div class="related-carousel">
       <nuxt-link
         v-for="item in filteredProjects"
         :key="item._id"
         :to="`/project/${item.kirilica}`"
         class="related-card"
       >
-        <div class="related-card-img">
-          <NuxtImg
-            v-if="item.img?.[0]?.url"
-            :src="item.img[0].url"
-            :alt="item.title"
-            sizes="sm:150px md:200px lg:280px"
-            loading="lazy"
-            format="webp"
-          />
-        </div>
+        <NuxtImg
+          v-if="item.img?.[0]?.url"
+          :src="item.img[0].url"
+          :alt="item.title"
+          sizes="sm:300px md:280px lg:320px"
+          loading="lazy"
+          format="webp"
+          class="related-card-img"
+        />
+        <div class="related-card-overlay"></div>
         <div class="related-card-content">
           <strong>{{ item.title }}</strong>
           <span>{{ item.preview }}</span>
@@ -83,53 +83,75 @@ const filteredProjects = computed(() => {
   margin: 0 0 $spacing-xl;
 }
 
-.related-grid {
+.related-carousel {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $spacing-lg;
 }
 
 .related-card {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: block;
   text-decoration: none;
-  color: $color-text-dark;
   border-radius: $border-radius-lg;
   overflow: hidden;
-  background: $color-bg-gray;
+  aspect-ratio: 4 / 3;
   @include transition;
 
   &:hover {
-    box-shadow: $shadow-md;
-    transform: translateY(-2px);
-  }
+    box-shadow: $shadow-lg;
+    transform: translateY(-3px);
 
-  &-img {
-    height: 160px;
-    overflow: hidden;
-
-    img {
-      @include img-cover;
+    .related-card-img {
+      transform: scale(1.05);
     }
   }
 
+  &-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include transition;
+  }
+
+  &-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+  }
+
   &-content {
-    padding: $spacing-md;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-lg;
+    color: #fff;
+    z-index: 1;
 
     strong {
       display: block;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       line-height: 1.4;
       margin: 0 0 $spacing-xs;
-      color: $color-text-dark;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     span {
       display: block;
       font-size: 13px;
-      color: $color-text-medium;
       line-height: 1.4;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
   }
 }
@@ -158,7 +180,7 @@ const filteredProjects = computed(() => {
   }
 }
 
-// Mobile Styles
+// Mobile Styles - CSS Carousel
 @media (max-width: 768px) {
   .related-section {
     margin: $spacing-xl 0 0;
@@ -170,36 +192,35 @@ const filteredProjects = computed(() => {
     margin: 0 0 $spacing-lg;
   }
 
-  .related-grid {
-    grid-template-columns: 1fr;
+  .related-carousel {
+    display: flex;
     gap: $spacing-md;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 calc(-1 * $spacing-md);
+    padding: 0 $spacing-md;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .related-card {
-    flex-direction: row;
-
-    &-img {
-      width: 120px;
-      min-width: 120px;
-      height: 100px;
-    }
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    aspect-ratio: 16 / 10;
 
     &-content {
-      padding: $spacing-sm $spacing-md;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: $spacing-md;
 
       strong {
-        font-size: 14px;
+        font-size: 15px;
       }
 
       span {
         font-size: 12px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
       }
     }
   }
