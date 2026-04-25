@@ -57,6 +57,16 @@ export default defineNuxtConfig({
           href: "https://www.googletagmanager.com",
           crossorigin: "anonymous",
         },
+        // Preconnect to Google Fonts for faster font loading
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: "anonymous",
+        },
+        {
+          rel: "preconnect", 
+          href: "https://fonts.googleapis.com",
+        },
       ],
     },
   },
@@ -141,11 +151,12 @@ export default defineNuxtConfig({
           Montserrat: [400, 500, 600, 700], // Только используемые веса
           Caveat: [400, 700], // Только используемые веса
         },
-        display: "swap", // Показываем fallback шрифт пока загружается
+        display: "optional", // Не меняем шрифт после загрузки - предотвращает CLS
         preconnect: true,
         preload: true,
         download: true,
         inject: true,
+        subsets: ["latin", "cyrillic"], // Только нужные подмножества
       },
     ],
     [
