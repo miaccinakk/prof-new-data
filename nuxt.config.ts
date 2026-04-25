@@ -89,6 +89,14 @@ export default defineNuxtConfig({
           rel: "preconnect",
           href: "https://fonts.googleapis.com",
         },
+        // Preload critical fonts to avoid render-blocking
+        {
+          rel: "preload",
+          href: "https://fonts.gstatic.com/s/montserrat/v29/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossorigin: "anonymous",
+        },
       ],
     },
   },
@@ -323,18 +331,28 @@ export default defineNuxtConfig({
       },
       rollupOptions: {
         output: {
+          // Объединяем все CSS Element Plus в один файл
+          assetFileNames: (assetInfo) => {
+            // Группируем CSS файлы Element Plus
+            if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+              if (assetInfo.name.includes('el-') || assetInfo.name.includes('element')) {
+                return 'assets/element-plus.[hash].css';
+              }
+            }
+            return 'assets/[name].[hash][extname]';
+          },
           manualChunks(id) {
             // Более гранулярное разбиение чанков для лучшего кэширования
             if (id.includes("node_modules")) {
-              // Element Plus - отдельный большой чанк
+              // Element Plus - все в один чанк (включая CSS)
               if (id.includes("element-plus")) {
                 return "vendor-element";
               }
-              // Swiper - отдельный чанк (загружается только на страницах с каруселями)
+              // Swiper - отдельный чанк
               if (id.includes("swiper")) {
                 return "vendor-swiper";
               }
-              // Vue runtime - критический, кэшируется надолго
+              // Vue runtime - критический
               if (id.includes("vue") || id.includes("@vue")) {
                 return "vendor-vue";
               }
@@ -342,7 +360,7 @@ export default defineNuxtConfig({
               if (id.includes("pinia")) {
                 return "vendor-pinia";
               }
-              // Plyr - видеоплеер (загружается только на страницах с видео)
+              // Plyr - видеоплеер
               if (id.includes("plyr")) {
                 return "vendor-plyr";
               }
@@ -358,8 +376,8 @@ export default defineNuxtConfig({
       },
       // Увеличиваем лимит для предупреждений о размере чанков
       chunkSizeWarningLimit: 500,
-      // Разбиваем CSS на чанки - загружается только нужный для страницы
-      cssCodeSplit: true,
+      // Объединяем CSS в один файл для уменьшения количества запросов
+      cssCodeSplit: false,
       // Минификация CSS через lightningcss (быстрее и меньше)
       cssMinify: "lightningcss",
       // Минификация JS
