@@ -207,7 +207,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="bd-docs-main" itemscope itemtype="https://schema.org/Service">
+  <main class="bd-docs-main">
     <div class="container">
       <article class="content">
         <div v-if="error" role="alert">{{ error.message }}</div>
@@ -221,14 +221,14 @@ onMounted(() => {
           <header class="project-header">
             <div class="columns">
               <div class="column is-8">
-                <h1 class="h1-project" itemprop="headline">{{ item.title }}</h1>
+                <h1 class="h1-project">{{ item.title }}</h1>
               </div>
             </div>
           </header>
 
           <section class="project-block" aria-label="Информация о проекте">
             <div class="project-item">
-              <h2 class="project-block-city" itemprop="location">
+              <h2 class="project-block-city">
                 Реализация проекта в {{ item.preview }}
               </h2>
 
@@ -247,7 +247,6 @@ onMounted(() => {
                       data-fancybox="galery"
                       loading="eager"
                       fetchpriority="high"
-                      itemprop="image"
                     />
                   </div>
                 </div>
@@ -267,7 +266,6 @@ onMounted(() => {
                         :title="`Проект ${item.title} - изображение ${idx + 1}`"
                         sizes="sm:300px md:300px lg:400px"
                         :loading="idx < 4 ? 'eager' : 'lazy'"
-                        itemprop="image"
                       />
                     </div>
                   </div>
@@ -294,7 +292,6 @@ onMounted(() => {
               <div
                 class="project-block-desc"
                 v-html="item.description"
-                itemprop="articleBody"
               ></div>
             </div>
           </section>
