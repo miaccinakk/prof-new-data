@@ -39,26 +39,27 @@
   padding: 0.75rem;
 }
 
-// На мобильных все колонки по умолчанию 100%
+// Мобильные классы (только когда явно указаны)
 @media screen and (max-width: 768px) {
   .column {
-    flex: none;
-    width: 100%;
-    
     // Специфичные мобильные классы
     &.is-12-mobile {
+      flex: none;
       width: 100%;
     }
     
     &.is-6-mobile {
+      flex: none;
       width: 50%;
     }
     
     &.is-4-mobile {
+      flex: none;
       width: 33.3333%;
     }
     
     &.is-3-mobile {
+      flex: none;
       width: 25%;
     }
   }
