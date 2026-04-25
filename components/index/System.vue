@@ -152,9 +152,24 @@ onMounted(async () => {
     width: 0;
   }
 
+  // Фиксированный layout: 40% список / 60% видео
+  :deep(.el-tabs--left) {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
   :deep(.el-tabs__header) {
-    width: 35%;
+    flex: 0 0 40%;
+    width: 40%;
+    max-width: 40%;
     margin-right: 0px !important;
+  }
+
+  :deep(.el-tabs__content) {
+    flex: 0 0 60%;
+    width: 60%;
+    max-width: 60%;
   }
 
   :deep(.el-tabs) {
@@ -213,8 +228,7 @@ onMounted(async () => {
   :deep(.el-tab-pane) {
     padding: 0px 0% 0 10%;
     overflow: visible;
-    float: left;
-    width: 65%;
+    width: 100%;
   }
 
   video {
