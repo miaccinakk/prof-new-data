@@ -20,7 +20,7 @@ const sliseDesc = (item) => {
 
 <template>
   <div class="project-reviews" v-if="reviews && reviews.length > 0">
-    <h2 class="rev-h4">Отзывы о проекте</h2>
+    <h2 class="rev-h4">Отзыв</h2>
     <div v-for="item in reviews" :key="item._id" class="index-rew-block">
       <div class="index-rew-block-img">
         <NuxtImg

@@ -21,10 +21,10 @@ watchEffect(() => {
 
 const monDataNav = computed(() => mainData.getMain);
 const phone = computed(() =>
-  monDataNav.value.length > 0 ? monDataNav.value[0]?.phone : ""
+  monDataNav.value.length > 0 ? monDataNav.value[0]?.phone : "",
 );
 const dopphone = computed(() =>
-  monDataNav.value.length > 0 ? monDataNav.value[0]?.dopphone : ""
+  monDataNav.value.length > 0 ? monDataNav.value[0]?.dopphone : "",
 );
 mainData.fetchData();
 </script>
@@ -33,7 +33,13 @@ mainData.fetchData();
     <div class="container">
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand-header">
-          <nuxt-link to="/"><img src="/logotip.png" /></nuxt-link>
+          <nuxt-link to="/">
+            <img
+              src="/logotip.png"
+              alt="Профитерм — инженерные системы отопления и водоснабжения"
+              width="160"
+              height="48"
+          /></nuxt-link>
         </div>
         <div class="navbar-menu">
           <div class="navbar-start">

@@ -4,6 +4,7 @@ useHead({
     {
       src: "https://www.googletagmanager.com/gtag/js?id=AW-815779075",
       async: true,
+      tagPosition: "head",
     },
     {
       children: `
@@ -12,6 +13,7 @@ useHead({
         gtag('js', new Date());
         gtag('config', 'AW-815779075');
       `,
+      tagPosition: "head",
     },
   ],
 });

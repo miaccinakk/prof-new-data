@@ -34,13 +34,13 @@ export default defineNuxtConfig({
         "Проектирование, монтаж систем отопления, водоснабжения, канализации",
       titleTemplate: "%s",
       charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1",
       meta: [
+        { name: "robots", content: "index, follow" },
         { property: "og:site_name", content: "Профитерм" },
         {
           hid: "viewport",
           name: "viewport",
-          content: "width=device-width, initial-scale=1, maximum-scale=1",
+          content: "width=device-width, initial-scale=1",
         },
         // Phone Number Detection
         {

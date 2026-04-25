@@ -130,41 +130,6 @@ useHead({
         },
       }),
     },
-    // Schema.org - Article для контента
-    {
-      type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: project[0]?.title,
-        description: project[0]?.seo_description || project[0]?.preview,
-        image: allImages,
-        datePublished: new Date().toISOString(),
-        dateModified: new Date().toISOString(),
-        author: {
-          "@type": "Organization",
-          name: "Профитерм",
-          url: "https://profiterm.by",
-          logo: "https://profiterm.by/profiterm.webp",
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Профитерм",
-          logo: {
-            "@type": "ImageObject",
-            url: "https://profiterm.by/profiterm.webp",
-            width: 200,
-            height: 60,
-          },
-        },
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": `https://profiterm.by/project/${route.params.id}`,
-        },
-        articleSection: "Проекты",
-        inLanguage: "ru-RU",
-      }),
-    },
     // Schema.org - ImageGallery для изображений
     {
       type: "application/ld+json",
