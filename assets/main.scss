@@ -37,48 +37,65 @@
   flex-grow: 1;
   flex-shrink: 1;
   padding: 0.75rem;
-  
-  &.is-12 {
-    flex: none;
-    width: 100%;
-  }
-  
-  &.is-6 {
-    flex: none;
-    width: 50%;
-  }
-  
-  &.is-4 {
-    flex: none;
-    width: 33.3333%;
-  }
-  
-  &.is-3 {
-    flex: none;
-    width: 25%;
-  }
-  
-  &.is-8 {
-    flex: none;
-    width: 66.6666%;
-  }
 }
 
+// На мобильных все колонки по умолчанию 100%
 @media screen and (max-width: 768px) {
   .column {
+    flex: none;
+    width: 100%;
+    
+    // Специфичные мобильные классы
     &.is-12-mobile {
-      flex: none;
       width: 100%;
     }
     
     &.is-6-mobile {
-      flex: none;
       width: 50%;
+    }
+    
+    &.is-4-mobile {
+      width: 33.3333%;
+    }
+    
+    &.is-3-mobile {
+      width: 25%;
     }
   }
 }
 
+// На планшетах и выше применяем фиксированные ширины
 @media screen and (min-width: 769px) {
+  .column {
+    &.is-12 {
+      flex: none;
+      width: 100%;
+    }
+    
+    &.is-6 {
+      flex: none;
+      width: 50%;
+    }
+    
+    &.is-4 {
+      flex: none;
+      width: 33.3333%;
+    }
+    
+    &.is-3 {
+      flex: none;
+      width: 25%;
+    }
+    
+    &.is-8 {
+      flex: none;
+      width: 66.6666%;
+    }
+  }
+}
+
+// Tablet-specific overrides
+@media screen and (min-width: 769px) and (max-width: 1023px) {
   .column {
     &.is-12-tablet {
       flex: none;
