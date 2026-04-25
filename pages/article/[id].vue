@@ -213,6 +213,9 @@ const openGallery = () => {
             </div>
           </div>
         </div>
+
+        <!-- Другие статьи -->
+        <RelatedArticles :current-id="route.params.id" />
       </div>
     </div>
     <ClientOnly>

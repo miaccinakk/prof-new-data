@@ -300,6 +300,12 @@ onMounted(() => {
           <section aria-label="Отзыв">
             <ProjectReviews :params="route.params.id" />
           </section>
+
+          <!-- Другие проекты -->
+          <RelatedProjects 
+            :current-id="route.params.id" 
+            :category="item.category" 
+          />
         </div>
       </article>
     </div>
