@@ -369,6 +369,14 @@ onMounted(() => {
   margin: $spacing-xl 0 0 0;
 }
 
+.project-block-city {
+  margin: $spacing-sm 0 $spacing-lg;
+  font-size: 18px;
+  font-weight: 400;
+  color: $color-text-medium;
+  letter-spacing: 0.02em;
+}
+
 .mobail-colums-gal {
   max-height: 444px;
   overflow: hidden;
