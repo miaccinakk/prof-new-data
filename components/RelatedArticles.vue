@@ -90,7 +90,7 @@ const filteredArticles = computed(() => {
   text-decoration: none;
   border-radius: $border-radius-lg;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   @include transition;
 
   &:hover {
@@ -187,7 +187,7 @@ const filteredArticles = computed(() => {
 @media (max-width: 768px) {
   .related-section {
     margin: $spacing-lg 0 0;
-    padding: $spacing-lg 0 0;
+    padding: $spacing-lg $spacing-lg 0;
   }
 
   .related-title {
@@ -202,8 +202,8 @@ const filteredArticles = computed(() => {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    margin: 0 calc(-1 * $spacing-md);
-    padding: 0 $spacing-md;
+    margin: 0 calc(-1 * $spacing-lg);
+    padding: 0 $spacing-lg;
 
     &::-webkit-scrollbar {
       display: none;
@@ -213,7 +213,7 @@ const filteredArticles = computed(() => {
   .related-card {
     flex: 0 0 85%;
     scroll-snap-align: start;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
 
     &-content {
       padding: $spacing-md;
