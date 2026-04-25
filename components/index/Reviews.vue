@@ -422,42 +422,70 @@ const sortedReviews = computed(() => {
     font-size: 13px !important;
   }
 
+  // Мобильная версия: колонка (фото сверху, потом текст)
   .index-rew-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: auto;
+
     &-img {
-      float: left;
-      width: 150px;
-      height: 210px;
+      float: none;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: $spacing-md;
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
     }
 
     &-desc {
-      margin: 0 0 0 165px;
-      padding: 0 0px 0 0;
-      height: 210px;
+      margin: 0;
+      padding: 0;
+      height: auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       > strong {
         font-size: 15px;
-        margin: 0 0 $spacing-xs;
+        margin: 0 0 $spacing-sm;
+        text-align: center;
       }
 
       > div {
         font-size: 13px;
-        height: 83px;
+        line-height: 1.5;
+        height: auto;
+        max-height: 80px;
         overflow: hidden;
-        display: inline-block;
+        display: block;
+        text-align: center;
       }
     }
   }
 
   .button-rew-index {
-    margin: 3px 0 0;
+    margin: $spacing-sm auto 0;
     font-size: 12px !important;
   }
 
   .reviews-slide {
-    margin: 0 0 0px;
+    margin: 0 0 40px;
 
     :deep(.swiper-slide) {
-      height: 220px;
+      height: auto;
+      min-height: 280px;
+      padding: $spacing-md;
     }
   }
 

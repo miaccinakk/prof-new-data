@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   experimental: {
     renderJsonPayloads: true,
     treeshakeClientOnly: true, // Tree-shake ClientOnly компоненты
+    inlineSSRStyles: true, // Инлайним критические CSS в HTML
   },
   app: {
     head: {
@@ -79,13 +80,14 @@ export default defineNuxtConfig({
     },
   },
   css: [
+    // Element Plus - один объединённый файл вместо отдельных чанков
+    "element-plus/dist/index.css",
     "@/assets/main.scss",
     "@/node_modules/bulma/css/bulma.css",
     // Plyr CSS загружается динамически в ModalVideo.vue
-    // "element-plus/dist/index.css",
   ],
   elementPlus: {
-    importStyle: "css",
+    importStyle: false, // Отключаем автоматический импорт стилей - загрузим вручную
     // Включаем только используемые компоненты
     components: [
       "ElBreadcrumb",
@@ -115,6 +117,8 @@ export default defineNuxtConfig({
   swiper: {
     modules: ["autoplay", "navigation", "pagination", "effect-creative"],
     styleLang: "css",
+    // Отключаем автоматический импорт стилей - загружаем асинхронно
+    bundled: true,
   },
   modules: [
     "nuxt-server-utils",
@@ -134,9 +138,12 @@ export default defineNuxtConfig({
       "@nuxtjs/google-fonts",
       {
         families: {
-          Montserrat: [100, 300, 400, 500, 600, 700, 800],
-          Caveat: [100, 300, 400, 500, 600, 700, 800],
+          Montserrat: [400, 500, 600, 700], // Только используемые веса
+          Caveat: [400, 700], // Только используемые веса
         },
+        display: "swap", // Показываем fallback шрифт пока загружается
+        preconnect: true,
+        preload: true,
         download: true,
         inject: true,
       },
@@ -146,11 +153,18 @@ export default defineNuxtConfig({
       {
         id: "74350936",
         webvisor: true,
+        defer: true, // Отложенная загрузка
+        clickmap: false, // Отключаем карту кликов (уменьшает нагрузку)
+        trackLinks: true,
+        accurateTrackBounce: true,
       },
     ],
   ],
   gtm: {
     id: "GTM-MBLWTCQ",
+    defer: true, // Отложенная загрузка GTM
+    compatibility: false, // Отключаем совместимость со старыми браузерами
+    loadScript: true,
   },
   site: {
     url: "https://profiterm.by",
@@ -256,6 +270,8 @@ export default defineNuxtConfig({
   // devtools: { enabled: true },
   vite: {
     css: {
+      // Объединяем CSS в меньшее количество файлов
+      devSourcemap: false,
       preprocessorOptions: {
         scss: {
           additionalData: `
@@ -297,6 +313,8 @@ export default defineNuxtConfig({
       },
       // Увеличиваем лимит для предупреждений о размере чанков
       chunkSizeWarningLimit: 500,
+      // Объединяем CSS в один файл для уменьшения количества запросов
+      cssCodeSplit: false,
     },
     // Оптимизация зависимостей
     optimizeDeps: {
